@@ -26,16 +26,11 @@ services:
       context: ./api
       target: prod
     container_name: abatimentos-api-prod
+    restart: always
     ports:
-      - "3333:3333"
+      - "3333"
     env_file:
       - ./api/.env
-    environment:
-      - NODE_ENV=${NODE_ENV}
-      - CHOKIDAR_USEPOLLING=true
-    volumes:
-      - ./api:/usr/src/app
-      - /usr/src/app/node_modules
     depends_on:
       postgres:
         condition: service_healthy
@@ -62,6 +57,7 @@ services:
       - "80:80"
       - "443:443"
     depends_on:
+    - api
     - web
     networks:
       - app-network
