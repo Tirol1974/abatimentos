@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../prisma/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Account {
+  id Int @id @default(autoincrement())
+
+  name String
+  email String @unique
+  password String
+  first_login Boolean @default(true)
+
+  accountInfo AccountInfo[]
+  account_roles AccountRoles[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@map("account")
+}
+
+model AccountInfo {
+  id Int @id @default(autoincrement())
+
+  cnpj String
+  account Account @relation(references: [id], fields: [account_id])
+  account_id Int
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@map("account_info")
+}
+
+model Role {
+  id Int @id @default(autoincrement())
+
+  name String
+  slug String @unique
+
+  account_roles AccountRoles[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@map("roles")
+}
+
+model AccountRoles {
+  id Int @id @default(autoincrement())
+
+  account Account @relation(references: [id], fields: [account_id])
+  role Role @relation(references: [id], fields: [role_id])
+
+  account_id Int
+  role_id Int
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@unique([account_id, role_id])
+
+  @@map("account_roles")
+}
