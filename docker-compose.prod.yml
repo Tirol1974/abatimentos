@@ -48,6 +48,7 @@ services:
       - ./web/.env
     networks:
       - app-network
+      - reverse-proxy
   nginx:
     image: nginx:alpine
     volumes:
@@ -61,6 +62,7 @@ services:
     - web
     networks:
       - app-network
+      - reverse-proxy
 
 volumes:
   postgres_data:
@@ -68,3 +70,5 @@ volumes:
 networks:
   app-network:
     driver: bridge
+  reverse-proxy:
+    external: true
