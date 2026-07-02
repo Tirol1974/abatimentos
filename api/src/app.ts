@@ -16,7 +16,7 @@ import fastifyCookie from '@fastify/cookie';
 import * as dotenv from "dotenv";
 import { ApiError } from './utils/ApiError.js';
 
-dotenv.config({ path: ".env.development" });
+dotenv.config({ path: ".env" });
 
 export class App {
   app: FastifyInstance;
