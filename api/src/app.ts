@@ -102,7 +102,8 @@ export class App {
     });
 
     await this.app.register(fastifySwaggerUi, {
-      routePrefix: "/docs"
+      routePrefix: "/docs",
+      indexPrefix: '/api'
     });
   }
 
