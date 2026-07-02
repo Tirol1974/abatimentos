@@ -43,4 +43,4 @@ RUN pnpm install
 
 EXPOSE 3333
 
-CMD ["sh", "-c", "pnpm dlx prisma migrate deploy && node dist/src/server.js"]
+CMD ["sh", "-c", "pnpm dlx prisma migrate deploy && pnpm dlx prisma generate && pnpm dlx prisma db seed && node dist/src/server.js"]
