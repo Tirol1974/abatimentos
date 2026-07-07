@@ -14,6 +14,12 @@ import { useEffect, useMemo, useState } from "react";
 import { TotalAbatimentosSelecionados } from "../../../components/ui/totalAbatimentosSelecionados";
 import { TotalAbatimentosSelecionadosPorNf } from "../../../components/ui/totalAbatimentosSelecionadosPorNf";
 import { Titulo } from "../../../components/ui/titulo";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { FolderArchive, Settings, User, Users } from "lucide-react";
+import { Item } from "@/components/ui/item";
+import Link from "next/link";
+import { useSignedAccount } from "../../../../store/signedAccount";
+import { ApiErrorData } from "@/components/forms/SignIn";
 
 type NfType = {
   numero: string;
@@ -33,14 +39,21 @@ type NfType = {
 };
 
 export type TitulosType = {
-  numero: number;
-  parcelas: {
-    id: number,
-    validade: string;
-    descricao: string;
-    valor: number;
-  }[];
-};
+  id: string,
+  bukrs: string,
+  belnr: string,
+  gjahr: number,
+  buzei: number,
+  kunnr: string,
+  budat: string,
+  zfbdt: string,
+  zbd1t: number,
+  dmbtr: number,
+  wrbtr: number,
+  xblnr: string,
+  zuonr: string,
+  sgtxt: string
+}
 
 export type ParcelaType = {
   id: number,
@@ -50,6 +63,10 @@ export type ParcelaType = {
   valor: number;
 }
 
+type FetchTitlesSuccessApiResponse = {
+  titles: TitulosType[]
+}
+
 export default function Dashboardpage() {
   const [total, setTotal] = useState(0);
   const [totalSelecionadoParaAbater, setTotalSelecionadoParaAbater] = useState(0);
@@ -57,19 +74,43 @@ export default function Dashboardpage() {
   const [titulos, setTitulos] = useState<TitulosType[]>([]);
   const [nfsSelected, setNfsSelected] = useState<NfType[]>([]);
   const [parcelas, setParcelas] = useState<ParcelaType[]>([]);
+  const [apiError, setApiError] = useState<ApiErrorData>({
+    message: "",
+    status: ""
+  });
+
+  const {
+    account
+  } = useSignedAccount();
   
   useEffect(() => {
-    async function loadAbatimentos() {
-      setTitulos(TitulosData.titulos);
+    async function loadTitulos() {
+      const request = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/titles`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include',
+        }
+      );
+      const data = await request.json();
 
-      let somaTotal = nfs.reduce((prev, nf) => {
-        return prev + nf.valorLiquido;
-      }, 0);
+      if (!request.ok) {
+        setApiError(data as ApiErrorData);
 
-      setTotal(somaTotal);
+        return;
+      }
+
+      const {
+        titles
+      } = data as FetchTitlesSuccessApiResponse;
+
+      setTitulos(titles);
     }
 
-    loadAbatimentos();
+    loadTitulos();
   }, []);
 
   const selectNfs = (nf: NfType) => {
@@ -157,7 +198,7 @@ export default function Dashboardpage() {
           <Card className="h-max">
             <CardContent className="flex flex-col gap-3">
               <span className="font-medium text-lg">NFs de Devolução Lançadas</span>
-              <Field orientation="horizontal" className="mb-3 self-start md:max-w-96">
+              <Field orientation="horizontal" className="mb-3 self-start md:w-96">
                 <Input type="search" placeholder="Buscar NF de referencia..." />
                 <Button>Buscar</Button>
               </Field>
@@ -183,9 +224,8 @@ export default function Dashboardpage() {
                 <span className="font-medium text-lg">Saldo devedor - Titulos</span>
                 {titulos.map((titulo) => (
                   <Titulo
-                    key={titulo.numero}
                     titulo={titulo}
-                    selectParcelas={selectParcelas}
+                    selectParcelas={() => {}}
                   />
                 ))}
               </CardContent>
@@ -194,5 +234,46 @@ export default function Dashboardpage() {
         </div>
       </div>
     </div>
+  );
+}
+
+const AdminMenu = () => {
+  return (
+    <>
+      <Link href="/accounts" className="md:min-w-52 h-52">
+        <Item
+          variant={'outline'}
+          className="flex flex-col items-center justify-center h-full"
+        >
+          <Users />
+          <span>Contas</span>
+        </Item>
+      </Link>
+      <Link href="/settings" className="md:min-w-52 h-52">
+        <Item
+          variant={'outline'}
+          className="flex flex-col items-center justify-center h-full"
+        >
+          <Settings />
+          <span>Configuração</span>
+        </Item>
+      </Link>
+    </>
+  );
+}
+
+const ClientMenu = () => {
+  return (
+    <>
+      <Link href="/accounts" className="md:min-w-52 h-52">
+        <Item
+          variant={'outline'}
+          className="flex flex-col items-center justify-center h-full"
+        >
+          <Users />
+          <span>Abatimentos</span>
+        </Item>
+      </Link>
+    </>
   );
 }

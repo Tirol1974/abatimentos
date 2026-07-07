@@ -11,7 +11,7 @@ import {
   AlertTitle,
 } from "../ui/alert";
 
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ApiErrorData } from "./SignIn";
 import { useRouter } from "next/navigation";
 import { useSignedAccount } from "../../../store/signedAccount";
@@ -26,17 +26,7 @@ const createAccountSchema = z.object({
 
 type CreateAccountFormData = z.infer<typeof createAccountSchema>;
 
-type CreateAccountAPIResponse = {
-  account: {
-    id: number,
-    name: string,
-    email: string,
-    created_at: Date,
-    updated_at: Date
-  }
-}
-
-type AccountRoleType = {
+export type AccountRoleType = {
   id: number
   name: string
   slug: string
@@ -45,10 +35,12 @@ type AccountRoleType = {
 }
 
 type CreateAccountFormProps = {
-  setOpen: Dispatch<SetStateAction<boolean>>
+  onOpenChange: () => void;
 }
 
-export const CreateAccountForm = () => {
+export const CreateAccountForm = ({
+  onOpenChange
+}: CreateAccountFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [roles, setRoles] = useState<AccountRoleType[]>([]);
   const [apiErrorFetchRoles, setApiErrorFetchRoles] = useState<ApiErrorData>({
@@ -59,13 +51,6 @@ export const CreateAccountForm = () => {
     message: "",
     status: ""
   });
-
-  const router = useRouter();
-
-  const {
-    setUpdateAccountsList,
-    updateAccountsList
-  } = useSignedAccount();
 
   const form = useFormContext<CreateAccountFormData>();
 
@@ -116,6 +101,8 @@ export const CreateAccountForm = () => {
       }
 
       toast.success("Conta criada com sucesso");
+
+      onOpenChange();
     } catch (error) {
       console.log(error);
     }
@@ -203,7 +190,10 @@ export const CreateAccountForm = () => {
                 <FieldLabel htmlFor="form-role">
                   Perfil
                 </FieldLabel>
-                <Select>
+                <Select
+                  value={field.value}
+                  onValueChange={field.onChange}
+                >
                   <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="Seleciona o perfil da conta" />
                   </SelectTrigger>

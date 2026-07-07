@@ -16,8 +16,10 @@ import { ApiErrorData } from '../forms/SignIn';
 import { useRouter } from 'next/navigation';
 import { Separator } from './separator';
 import Link from 'next/link';
+import { maskCNPJ } from '@/lib/utils';
 
 export const Navbar = () => {
+  const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState<ApiErrorData>({
     message: "",
     status: ""
@@ -31,6 +33,7 @@ export const Navbar = () => {
   const router = useRouter();
 
   const onLogout = async () => {
+      setLoading(true);
       try {
         const request = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/auth/sign-out`, {
@@ -44,12 +47,14 @@ export const Navbar = () => {
   
         if (!request.ok) {
           const data = await request.json() as ApiErrorData;
+
+          setLoading(false);
   
           setApiError(data);
         }
 
         logout();
-  
+        
         return router.replace("/sign-in");
       } catch (error) {
         console.log(error);
@@ -57,18 +62,20 @@ export const Navbar = () => {
     }
   
   return (
-    <header className="flex items-center justify-center mb-10 border border-l-0 border-r-0 border-t-0">
+    <header className="flex items-center justify-center border border-l-0 border-r-0 border-t-0">
       <div className="container p-3 flex justify-between items-center">
         <div>
-          <Link href="/dashboard">
+          <Link href="/">
             <span className="text-3xl font-medium">Abatimentos</span>
           </Link>
         </div>
         <div className='hidden md:flex md:gap-2'>
-          <Link href="/accounts" className='flex items-center gap-2'>
-            <Users />
-            Contas
-          </Link>
+          {account?.role == "admin" && (
+            <Link href="/accounts" className='flex items-center gap-2'>
+              <Users />
+              Contas
+            </Link>
+          )}
         </div>
         <div className='block md:hidden'>
           <Drawer direction='right'>
@@ -86,6 +93,7 @@ export const Navbar = () => {
                 "
               >
                 <span className='font-md text-lg'>{account?.name}</span>
+                {account?.cnpj && <span className='text-sm'>Cliente {maskCNPJ(account.cnpj)}</span>}
                 <Button
                   size='sm'
                   variant='destructive'
@@ -109,13 +117,20 @@ export const Navbar = () => {
             md:justify-between
           "
         >
-          <span className='font-md'>{account?.name}</span>
-          <Button
-            size='sm'
-            variant='destructive'
-            className="self-start hover:cursor-pointer"
-            onClick={() => onLogout()}
-          >Sair</Button>
+          {loading ? (
+            <span>Saindo...</span>
+          ) : (
+            <>
+              <span className='font-lg'>{account?.name}</span>
+              {account?.cnpj && <span className='text-sm'>Cliente {maskCNPJ(account.cnpj)}</span>}
+              <Button
+                size='sm'
+                variant='destructive'
+                className="self-start hover:cursor-pointer"
+                onClick={() => onLogout()}
+              >Sair</Button>
+            </>
+          )}
         </div>
       </div>
     </header>

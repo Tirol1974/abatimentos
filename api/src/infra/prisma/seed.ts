@@ -4,7 +4,7 @@ import { hash } from 'bcryptjs';
 async function main() {
 
   let admin_password_hashed = await hash("Admin@123456789_2026", 12);
-  let operator_password_hashed = await hash("Operator@123456789_2026", 12);
+  let client_password_hashed = await hash("Cliente@123456789_2026", 12);
 
   const admin_account = await prisma.account.upsert({
     where: { email: 'admin@tirol.com.br' },
@@ -16,13 +16,13 @@ async function main() {
     }
   });
 
-  const operator_account = await prisma.account.upsert({
-    where: { email: 'operator@tirol.com.br' },
+  const client_account = await prisma.account.upsert({
+    where: { email: 'cliente@tirol.com.br' },
     update: {},
     create: {
-      name: 'Operator T.I',
-      email: 'operator@tirol.com.br',
-      password: operator_password_hashed
+      name: 'Cliente T.I',
+      email: 'cliente@tirol.com.br',
+      password: client_password_hashed
     }
   });
 
@@ -35,12 +35,12 @@ async function main() {
     },
   });
 
-  const operator_role = await prisma.role.upsert({
-    where: { slug: 'operator' },
+  const client_role = await prisma.role.upsert({
+    where: { slug: 'cliente' },
     update: {},
     create: {
-      name: 'Operator',
-      slug: 'operator',
+      name: 'Cliente',
+      slug: 'cliente',
     },
   });
 
@@ -61,14 +61,14 @@ async function main() {
   await prisma.accountRoles.upsert({
     where: {
       account_id_role_id: {
-        account_id: operator_account.id,
-        role_id: operator_role.id,
+        account_id: client_account.id,
+        role_id: client_role.id,
       }
     },
     update: {},
     create: {
-      account_id: operator_account.id,
-      role_id: operator_role.id
+      account_id: client_account.id,
+      role_id: client_role.id
     }
   });
 }

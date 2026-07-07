@@ -14,12 +14,6 @@ export class ListCNPJSService {
 
     const accountCNPJs = await this.accountInfoRepository.listAccountInfo();
 
-    let cnpjs: string[] = [];
-
-    accountCNPJs.map((cnpj) => {
-      cnpjs.push(cnpj.cnpj);
-    });
-
-    return cnpjs;
+    return accountCNPJs;
   }
 }

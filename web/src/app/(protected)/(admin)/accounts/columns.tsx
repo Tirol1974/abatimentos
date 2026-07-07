@@ -12,6 +12,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { formatDate, formatDateTime } from "@/lib/date";
+import Link from "next/link";
+import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 export type Account = {
   id: string
@@ -88,14 +90,26 @@ export const account_collumns: ColumnDef<Account>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Ações</DropdownMenuLabel>
-            <DropdownMenuItem>
-              <UserPen />
-              Editar conta
-            </DropdownMenuItem>
-            <DropdownMenuItem variant="destructive">
-              <Trash />
-              Deletar
-            </DropdownMenuItem>
+            <Link href={`/accounts/edit/${row.original.id}`}>
+              <DropdownMenuItem>
+                <UserPen />
+                Editar conta
+              </DropdownMenuItem>
+            </Link>
+            <Dialog>
+              <DialogTrigger>
+                <DropdownMenuItem variant="destructive">
+                  <Trash />
+                  Deletar
+                </DropdownMenuItem>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Deseja deletar essa conta?</DialogTitle>
+                  <DialogClose asChild></DialogClose>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
           </DropdownMenuContent>
         </DropdownMenu>
       )

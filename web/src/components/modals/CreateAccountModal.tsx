@@ -17,16 +17,23 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Spinner } from '../ui/spinner';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 const createAccountSchema = z.object({
   name: z.string(),
   email: z.email("Insira um e-mail valido"),
-  role: z.enum(["admin", "operator"], "Insira uma função valida")
+  role: z.enum(["admin", "operator", ""], "Insira uma função valida")
 });
 
 type CreateAccountFormData = z.infer<typeof createAccountSchema>;
 
-export const CreateAccountModal = () => {
+type CreateAccountModalProps = {
+  toggleUpdateAccountsList: () => void;
+}
+
+export const CreateAccountModal = ({
+  toggleUpdateAccountsList
+}: CreateAccountModalProps) => {
   const [open, setOpen] = useState(false);
 
   const form = useForm<CreateAccountFormData>({
@@ -37,6 +44,11 @@ export const CreateAccountModal = () => {
       role: 'operator'
     }
   });
+
+  const onOpenChange = () => {
+    toggleUpdateAccountsList();
+    setOpen(false);
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen} >
@@ -51,7 +63,7 @@ export const CreateAccountModal = () => {
           </DialogDescription>
         </DialogHeader>
         <FormProvider {...form}>
-          <CreateAccountForm />
+          <CreateAccountForm onOpenChange={onOpenChange} />
         </FormProvider>
         <DialogFooter>
           <DialogClose asChild disabled={form.formState.isSubmitting}>

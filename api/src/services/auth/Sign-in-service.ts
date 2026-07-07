@@ -44,6 +44,7 @@ export class SignInService {
       name: account.name,
       email: account.email,
       role: accountRole.role.slug,
+      cnpj: "",
       first_login: accountRole.account.first_login,
       created_at: account.created_at,
       updated_at: account.updated_at

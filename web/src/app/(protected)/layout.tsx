@@ -12,7 +12,7 @@ export default async function ProtectedLayout({ children }: { children: React.Re
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />
-      <div>
+      <div className="p-3">
         {children}
       </div>
     </div>

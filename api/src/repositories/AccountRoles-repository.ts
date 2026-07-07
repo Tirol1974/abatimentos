@@ -5,6 +5,7 @@ import { ApiError } from "../utils/ApiError.js";
 
 export class AccountRoleRepository {
   public account_id: number = 0;
+  public account_role_id: number = 0;
   public role_id: number = 0;
   private readonly roleRepository: RoleRepository;
   
@@ -41,5 +42,20 @@ export class AccountRoleRepository {
 
   public async list() {
 
+  }
+  
+  public async update() {
+    return await this.prismaClient.accountRoles.update({
+      where: {
+        id: this.account_role_id,
+      },
+      data: {
+        role_id: this.role_id
+      },
+      include: {
+        role: true,
+        account: true,
+      }
+    });
   }
 }

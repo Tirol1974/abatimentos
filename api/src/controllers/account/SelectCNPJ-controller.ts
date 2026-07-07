@@ -25,15 +25,15 @@ export class SelectCNPJController {
     this.selectCNPJService.cnpj = cnpj;
     this.selectCNPJService.account_id = request.user.sub;
 
-    const accountInfo = await this.selectCNPJService.execute();
+    const account = await this.selectCNPJService.execute();
 
-    if (!accountInfo) {
+    if (!account) {
       throw new ApiError("Conta não encontrada", 500);
     }
 
     const token = request.server.jwt.sign({
       sub: request.user.sub,
-      cnpj: accountInfo.cnpj,
+      cnpj: account.cnpj,
       role: request.user.role
     }, {
       expiresIn: '1h'
@@ -51,7 +51,7 @@ export class SelectCNPJController {
     });
 
     return reply.code(200).send({
-      accountInfo,
+      account,
     });
   }
 }

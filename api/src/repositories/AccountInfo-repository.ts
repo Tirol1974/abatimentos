@@ -36,19 +36,15 @@ export class AccountInfoRepository {
   }
 
   public async selectAccountInfoByIDAndCNPJ() {
-    const accountInfo = await this.prismaClient.accountInfo.findFirst({
+    const accountInfo = await this.prismaClient.accountInfo.findUnique({
       where: {
-        account_id: this.account_id,
-        cnpj: this.cnpjs[0]!
+        account_id_cnpj: {
+          account_id: this.account_id,
+          cnpj: this.cnpjs[0]!
+        }
       },
       include: {
-        account: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-          }
-        },
+        account: true,
       }
     });
 

@@ -80,8 +80,8 @@ export const ChangePasswordForm = () => {
         setApiError(data);
       }
 
-      if (account?.role == "admin") {
-        return router.replace("/dashboard");
+      if (account!.role == "admin") {
+        return router.replace("/");
       } else {
         return router.replace("/select-cnpj");
       }

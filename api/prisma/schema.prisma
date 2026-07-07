@@ -36,6 +36,8 @@ model AccountInfo {
   account Account @relation(references: [id], fields: [account_id])
   account_id Int
 
+  @@unique([account_id, cnpj])
+
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 

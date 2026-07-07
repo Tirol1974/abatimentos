@@ -6,6 +6,7 @@ export type SignedAccount = {
   name: string;
   email: string;
   role: string;
+  cnpj: string;
   first_login: boolean;
 }
 

@@ -26,7 +26,7 @@ const signInSchema = z.object({
 
 type SignInFormData = z.infer<typeof signInSchema>;
 
-type SignInAPIResponse = {
+export type SignInAPIResponse = {
   account: SignedAccount
 }
 
@@ -86,7 +86,7 @@ export const SignInForm = () => {
       }
 
       if (account.role == "admin") {
-        return router.replace("/dashboard");
+        return router.replace("/");
       } else {
         return router.replace("/select-cnpj");
       }

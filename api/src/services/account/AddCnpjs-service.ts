@@ -1,4 +1,5 @@
 import { AccountInfoRepository } from "../../repositories/AccountInfo-repository.js";
+import { ApiError } from "../../utils/ApiError.js";
 
 export class AccountAddCnpjsService {
   public cnpjs: string[] = [];
@@ -14,7 +15,11 @@ export class AccountAddCnpjsService {
     this.accountInfoRepository.cnpjs = this.cnpjs;
     this.accountInfoRepository.account_id = this.account_id;
 
-    console.log(this.cnpjs);
+    const cnpj_exists = await this.accountInfoRepository.selectAccountInfoByIDAndCNPJ();
+
+    if (cnpj_exists) {
+      throw new ApiError("Esse CNPJ já foi cadastrado", 404);
+    }
 
     const account = await this.accountInfoRepository.create();
 

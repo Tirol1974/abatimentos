@@ -1,18 +1,35 @@
-import { Geist, Geist_Mono } from "next/font/google"
+import localFont from 'next/font/local'
 
 import "./globals.css"
-import { cn } from "../lib/utils"
 import { ThemeProvider } from "next-themes"
 import { Toaster } from "@/components/ui/sonner"
+import { getAuthenticatedAccount } from '@/lib/auth';
+import { redirect } from 'next/navigation';
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'})
+const customFont = localFont({
+  src: [
+    {
+      path: "../fonts/StagSansRegular.ttf",
+      weight: "400",
+    },
+    {
+      path: "../fonts/StagSansMedium.ttf",
+      weight: "500",
+    },
+    {
+      path: "../fonts/StagSansSemiBold.ttf",
+      weight: "600",
+    },
+    {
+      path: "../fonts/StagSansBold.ttf",
+      weight: "700",
+    },
+  ],
+  variable: '--font-stag',
+  display: 'swap'
+});
 
-const fontMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-})
-
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
@@ -21,10 +38,9 @@ export default function RootLayout({
     <html
       lang="pt-br"
       suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, "font-sans", geist.variable)}
     >
-      <body>
-        <main className="container flex flex-col m-auto">
+      <body className={`${customFont.variable} font-sans`}>
+        <main className="container flex flex-col m-auto p-3">
           <ThemeProvider>
             {children}
             <Toaster position="top-center" />

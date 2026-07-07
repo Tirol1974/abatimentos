@@ -101,4 +101,14 @@ export class AccountRepository {
 
     return accounts;
   }
+
+  public async update() {
+    return await this.prismaClient.account.update({
+      where: { id: this.account_id },
+      data: {
+        name: this.name,
+        email: this.email,
+      }
+    })
+  }
 }

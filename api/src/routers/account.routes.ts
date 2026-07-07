@@ -7,9 +7,11 @@ import { z } from 'zod';
 import { CreateAccountController, type CreateAccountRequest } from "../controllers/account/Create-controller.js";
 import { AccountAddCnpjsController, type AccountAddCnpjsRequest } from "../controllers/account/AddCnpjs-controller.js";
 import { checkAuth } from "../middleware/jwt.js";
-import { ListCNPJSController } from "../controllers/account/ListCNPSController.js";
+import { ListCNPJSController, type ListCnpjsRequestData } from "../controllers/account/ListCNPSController.js";
 import { checkAdminAuth } from "../middleware/adminAuth.js";
 import { ListAccountsController } from "../controllers/account/List-controller.js";
+import { AccountDetailsController, type AccountDetailsControllerRequest } from "../controllers/account/Details-controller.js";
+import { AccountUpdateController, type AccountUpdateRequest } from "../controllers/account/Update-controller.js";
 
 export async function AccountRoutes(
   fastify: FastifyInstance
@@ -18,6 +20,8 @@ export async function AccountRoutes(
   const accountAddCnpjsController = new AccountAddCnpjsController();
   const listCNPJSController = new ListCNPJSController();
   const listAccountsController = new ListAccountsController();
+  const accountDetailsController = new AccountDetailsController();
+  const accountUpdateController = new AccountUpdateController();
 
   const ErrorResponseSchema = z.object({
     status: z.literal("ERROR"),
@@ -57,6 +61,42 @@ export async function AccountRoutes(
     }
   );
   
+  fastify.put(
+    "/account",
+    {
+      schema: {
+        tags: ["Contas de Acesso"],
+        description: "Endpoint responsável por atualizar uma conta",
+        body: z.object({
+          account_id: z.number(),
+          name: z.string(),
+          email: z.string(),
+          role: z.enum(["operator", "admin"])
+        }),
+        response: {
+          200: z.object({
+            account: z.object({
+              id: z.number(),
+              name: z.string(),
+              email: z.string(),
+              role: z.string(),
+              first_login: z.boolean(),
+              created_at: z.date(),
+              updated_at: z.date(),
+            }),
+          }),
+
+          400: ErrorResponseSchema,
+
+          500: ErrorResponseSchema
+        }
+      },
+    },
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      return accountUpdateController.handle(request as FastifyRequest<AccountUpdateRequest>, reply);
+    }
+  );
+  
   fastify.get(
     "/account",
     {
@@ -83,7 +123,7 @@ export async function AccountRoutes(
           500: ErrorResponseSchema
         }
       },
-      preHandler: [ checkAdminAuth ],
+      preHandler: [ checkAuth, checkAdminAuth ],
     },
     async (request: FastifyRequest, reply: FastifyReply) => {
       return listAccountsController.handle(request, reply);
@@ -127,9 +167,19 @@ export async function AccountRoutes(
             bearerAuth: []
           }
         ],
+        querystring: z.object({
+          signed: z.string(),
+          account_id: z.string().nullish()
+        }),
         response: {
           200: z.object({
-            cnpjs: z.array(z.string())
+            cnpjs: z.array(z.object({
+              id: z.number(),
+              cnpj: z.string(),
+              account_id: z.number(),
+              created_at: z.date(),
+              updated_at: z.date(),
+            }))
           }),
 
           400: ErrorResponseSchema,
@@ -140,7 +190,43 @@ export async function AccountRoutes(
       preHandler: [ checkAuth ],
     },
     async (request: FastifyRequest, reply: FastifyReply) => {
-      return listCNPJSController.handle(request, reply);
+      return listCNPJSController.handle(request as FastifyRequest<ListCnpjsRequestData>, reply);
+    }
+  );
+  
+  fastify.get(
+    "/account/:account_id/details",
+    {
+      schema: {
+        tags: ["Contas de Acesso"],
+        description: "Endpoint responsável por retornar os detalhes de uma conta",
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        response: {
+          200: z.object({
+            account: z.object({
+              id: z.number(),
+              name: z.string(),
+              email: z.string(),
+              role: z.string(),
+              first_login: z.boolean(),
+              created_at: z.date(),
+              updated_at: z.date(),
+            }),
+          }),
+
+          400: ErrorResponseSchema,
+
+          500: ErrorResponseSchema
+        }
+      },
+      preHandler: [ checkAuth, checkAdminAuth ],
+    },
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      return accountDetailsController.handle(request as FastifyRequest<AccountDetailsControllerRequest>, reply);
     }
   );
 }
