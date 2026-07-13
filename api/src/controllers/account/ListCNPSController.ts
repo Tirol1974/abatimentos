@@ -1,5 +1,5 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import { ListCNPJSService } from "../../services/account/ListCNPJS-service.js";
+import { ListCnpjsService } from "../../services/account/ListCNPJS-service.js";
 
 type ListCnpjsProps = {
   signed: string,
@@ -11,25 +11,16 @@ export type ListCnpjsRequestData = {
 }
 
 export class ListCNPJSController {
-  private readonly listCNPJSService: ListCNPJSService;
+  private readonly listCnpjsService: ListCnpjsService;
   
   constructor() {
-    this.listCNPJSService = new ListCNPJSService();
+    this.listCnpjsService = new ListCnpjsService();
   }
 
   public async handle(request: FastifyRequest<ListCnpjsRequestData>, reply: FastifyReply) {
-    const {
-      signed,
-      account_id
-    } = request.query;
+    this.listCnpjsService.cnpj_root = request.user.cnpj_root;
 
-    if (signed == 'true') {
-      this.listCNPJSService.account_id = request.user.sub;
-    } else {
-      this.listCNPJSService.account_id = Number(account_id);
-    }
-
-    const cnpjs = await this.listCNPJSService.execute();
+    const cnpjs = await this.listCnpjsService.execute();
 
     return reply.code(200).send({
       cnpjs,

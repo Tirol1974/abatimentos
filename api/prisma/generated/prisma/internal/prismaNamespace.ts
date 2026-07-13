@@ -385,7 +385,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Account: 'Account',
-  AccountInfo: 'AccountInfo',
+  Settings: 'Settings',
   Role: 'Role',
   AccountRoles: 'AccountRoles'
 } as const
@@ -403,7 +403,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "account" | "accountInfo" | "role" | "accountRoles"
+    modelProps: "account" | "settings" | "role" | "accountRoles"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -481,77 +481,77 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    AccountInfo: {
-      payload: Prisma.$AccountInfoPayload<ExtArgs>
-      fields: Prisma.AccountInfoFieldRefs
+    Settings: {
+      payload: Prisma.$SettingsPayload<ExtArgs>
+      fields: Prisma.SettingsFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.AccountInfoFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountInfoPayload> | null
+          args: Prisma.SettingsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingsPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.AccountInfoFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountInfoPayload>
+          args: Prisma.SettingsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingsPayload>
         }
         findFirst: {
-          args: Prisma.AccountInfoFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountInfoPayload> | null
+          args: Prisma.SettingsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingsPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.AccountInfoFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountInfoPayload>
+          args: Prisma.SettingsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingsPayload>
         }
         findMany: {
-          args: Prisma.AccountInfoFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountInfoPayload>[]
+          args: Prisma.SettingsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingsPayload>[]
         }
         create: {
-          args: Prisma.AccountInfoCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountInfoPayload>
+          args: Prisma.SettingsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingsPayload>
         }
         createMany: {
-          args: Prisma.AccountInfoCreateManyArgs<ExtArgs>
+          args: Prisma.SettingsCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.AccountInfoCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountInfoPayload>[]
+          args: Prisma.SettingsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingsPayload>[]
         }
         delete: {
-          args: Prisma.AccountInfoDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountInfoPayload>
+          args: Prisma.SettingsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingsPayload>
         }
         update: {
-          args: Prisma.AccountInfoUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountInfoPayload>
+          args: Prisma.SettingsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingsPayload>
         }
         deleteMany: {
-          args: Prisma.AccountInfoDeleteManyArgs<ExtArgs>
+          args: Prisma.SettingsDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.AccountInfoUpdateManyArgs<ExtArgs>
+          args: Prisma.SettingsUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.AccountInfoUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountInfoPayload>[]
+          args: Prisma.SettingsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingsPayload>[]
         }
         upsert: {
-          args: Prisma.AccountInfoUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccountInfoPayload>
+          args: Prisma.SettingsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingsPayload>
         }
         aggregate: {
-          args: Prisma.AccountInfoAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateAccountInfo>
+          args: Prisma.SettingsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSettings>
         }
         groupBy: {
-          args: Prisma.AccountInfoGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AccountInfoGroupByOutputType>[]
+          args: Prisma.SettingsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SettingsGroupByOutputType>[]
         }
         count: {
-          args: Prisma.AccountInfoCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AccountInfoCountAggregateOutputType> | number
+          args: Prisma.SettingsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SettingsCountAggregateOutputType> | number
         }
       }
     }
@@ -747,6 +747,7 @@ export const AccountScalarFieldEnum = {
   name: 'name',
   email: 'email',
   password: 'password',
+  cnpj_root: 'cnpj_root',
   first_login: 'first_login',
   created_at: 'created_at',
   updated_at: 'updated_at'
@@ -755,15 +756,14 @@ export const AccountScalarFieldEnum = {
 export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
 
 
-export const AccountInfoScalarFieldEnum = {
+export const SettingsScalarFieldEnum = {
   id: 'id',
-  cnpj: 'cnpj',
-  account_id: 'account_id',
+  validity_days: 'validity_days',
   created_at: 'created_at',
   updated_at: 'updated_at'
 } as const
 
-export type AccountInfoScalarFieldEnum = (typeof AccountInfoScalarFieldEnum)[keyof typeof AccountInfoScalarFieldEnum]
+export type SettingsScalarFieldEnum = (typeof SettingsScalarFieldEnum)[keyof typeof SettingsScalarFieldEnum]
 
 
 export const RoleScalarFieldEnum = {
@@ -983,7 +983,7 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   account?: Prisma.AccountOmit
-  accountInfo?: Prisma.AccountInfoOmit
+  settings?: Prisma.SettingsOmit
   role?: Prisma.RoleOmit
   accountRoles?: Prisma.AccountRolesOmit
 }

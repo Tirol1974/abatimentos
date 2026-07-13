@@ -5,6 +5,7 @@ import type { PrismaTransactionClient } from "./index.js";
 export class AccountRepository {
   public account_id: number = 0;
   public name: string = "";
+  public cnpj_root: string = "";
   public email: string = "";
   public password: string = "";
   
@@ -19,12 +20,14 @@ export class AccountRepository {
       data: {
         name: this.name,
         email: this.email,
+        cnpj_root: this.cnpj_root,
         password: hashed_password
       },
       select: {
         id: true,
         name: true,
         email: true,
+        cnpj_root: true,
         created_at: true,
         updated_at: true,
       }
@@ -91,8 +94,13 @@ export class AccountRepository {
     const accounts = await this.prismaClient.accountRoles.findMany({
       include: {
         account: {
-          include: {
-            accountInfo: true
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            cnpj_root: true,
+            created_at: true,
+            updated_at: true,
           }
         },
         role: true,
@@ -108,6 +116,7 @@ export class AccountRepository {
       data: {
         name: this.name,
         email: this.email,
+        cnpj_root: this.cnpj_root,
       }
     })
   }

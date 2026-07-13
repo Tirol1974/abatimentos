@@ -11,6 +11,7 @@ import { useState } from 'react';
 import { ApiErrorData } from '@/components/forms/SignIn';
 import { toast } from 'sonner';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { BreadLinks } from '@/components/navigations/bread-links';
 
 const changeValidityDays = z.object({
   days: z.number(),
@@ -54,8 +55,21 @@ export default function SettingsPage() {
   }
   
   return (
-    <div className='flex flex-col gap-3'>
-      <span className="text-lg font-md">Configurações</span>
+    <div className='flex flex-col gap-5 px-3'>
+      <BreadLinks
+        links={[
+          {
+            actual: false,
+            address: '/',
+            name: 'Home'
+          },
+          {
+            actual: true,
+            address: '/settings',
+            name: 'Configurações'
+          },
+        ]}
+      />
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className='flex gap-2 max-w-96'
@@ -76,7 +90,7 @@ export default function SettingsPage() {
             </Field>
           )}
         />
-        <Button className='self-end' variant={'ghost'} type='submit'>
+        <Button className='self-end' type='submit'>
           <Save />
         </Button>
       </form>

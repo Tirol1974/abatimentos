@@ -15,6 +15,7 @@ export class ListAccountsService {
       name: data.account.name,
       email: data.account.email,
       role: data.role.slug,
+      cnpj_root: data.account.cnpj_root,
       created_at: data.created_at,
       updated_at: data.updated_at
     }));

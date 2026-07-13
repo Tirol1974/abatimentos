@@ -2,13 +2,15 @@
 
 import { CreateAccountModal } from "@/components/modals/CreateAccountModal";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
-import { User } from "lucide-react";
+import { AlertCircleIcon, User } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Account, account_collumns } from "./columns";
 import { ApiErrorData } from "@/components/forms/SignIn";
 import { AccountsDataTable } from "./data-table";
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "sonner";
+import { BreadLinks } from "@/components/navigations/bread-links";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export default function AccountsPage() {
   const [loading, setLoading] = useState(true);
@@ -37,18 +39,18 @@ export default function AccountsPage() {
           credentials: 'include',
         }
       );
+      const data = await request.json();
 
       if (!request.ok) {
         setLoading(false);
 
-        const data = await request.json() as ApiErrorData;
 
-        setApiError(data);
+        setApiError(data as ApiErrorData);
       }
 
-      const response = await request.json() as Account[];
+      setAccounts(data as Account[]);
 
-      setAccounts(response);
+      console.log(data);
 
       setLoading(false);
     }
@@ -68,8 +70,31 @@ export default function AccountsPage() {
     );
   } else {
     return (
-      <div className="flex flex-col p-3">
+      <div className="flex flex-col gap-5 px-3">
+        <BreadLinks
+          links={[
+            {
+              actual: false,
+              address: '/',
+              name: 'Home'
+            },
+            {
+              actual: true,
+              address: '/accounts',
+              name: 'Contas'
+            },
+          ]}
+        />
         <div className="flex flex-col gap-3">
+          {apiError.message != "" && (
+            <Alert variant="destructive" className="max-w-md mb-3">
+              <AlertCircleIcon />
+              <AlertTitle>Mensagem da API</AlertTitle>
+              <AlertDescription>
+                {apiError.message}
+              </AlertDescription>
+            </Alert>
+          )}
           {accounts.length == 0 && (
             <Empty>
               <EmptyHeader>

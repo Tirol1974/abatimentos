@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  Home,
   MenuIcon,
   Users
 } from 'lucide-react';
@@ -17,6 +18,7 @@ import { useRouter } from 'next/navigation';
 import { Separator } from './separator';
 import Link from 'next/link';
 import { maskCNPJ } from '@/lib/utils';
+import Image from 'next/image';
 
 export const Navbar = () => {
   const [loading, setLoading] = useState(false);
@@ -54,6 +56,8 @@ export const Navbar = () => {
         }
 
         logout();
+
+        setLoading(false);
         
         return router.replace("/sign-in");
       } catch (error) {
@@ -66,48 +70,52 @@ export const Navbar = () => {
       <div className="container p-3 flex justify-between items-center">
         <div>
           <Link href="/">
-            <span className="text-3xl font-medium">Abatimentos</span>
+            <Image
+              width={100}
+              height={100}
+              src="/images/logo_tirol.png"
+              alt='Logo portal'
+            />
           </Link>
         </div>
-        <div className='hidden md:flex md:gap-2'>
-          {account?.role == "admin" && (
-            <Link href="/accounts" className='flex items-center gap-2'>
-              <Users />
-              Contas
-            </Link>
-          )}
-        </div>
+        
         <div className='block md:hidden'>
-          <Drawer direction='right'>
-            <DrawerTrigger>
-              <MenuIcon />
-            </DrawerTrigger>
-            <DrawerContent className="p-3">
-              <div
-                className="
-                  flex
-                  flex-col
-                  flex-1
-                  items-center
-                  gap-5
-                "
-              >
-                <span className='font-md text-lg'>{account?.name}</span>
-                {account?.cnpj && <span className='text-sm'>Cliente {maskCNPJ(account.cnpj)}</span>}
-                <Button
-                  size='sm'
-                  variant='destructive'
-                  className="hover:cursor-pointer"
-                  onClick={() => onLogout()}
-                >Sair</Button>
-                <Separator />
-                <Link href="/accounts" className="flex gap-2 items-center">
-                  <Users />
-                  Contas
-                </Link>
-              </div>
-            </DrawerContent>
-          </Drawer>
+          {account && (
+            <Drawer direction='right'>
+              <DrawerTrigger>
+                <MenuIcon />
+              </DrawerTrigger>
+              <DrawerContent className="p-3">
+                <div
+                  className="
+                    flex
+                    flex-col
+                    flex-1
+                    items-center
+                    gap-5
+                  "
+                >
+                  <span className='font-md text-lg'>{account?.name}</span>
+                  {account?.cnpj && <span className='text-sm'>Cliente {maskCNPJ(account.cnpj)}</span>}
+                  <Button
+                    size='sm'
+                    variant='destructive'
+                    className="hover:cursor-pointer"
+                    onClick={() => onLogout()}
+                  >Sair</Button>
+                  <Separator />
+                  <Link href="/" className="flex gap-2 items-center border-l-0 border-r-0 border-t-0 border w-full justify-center pb-5">
+                    <Home />
+                    Home
+                  </Link>
+                  <Link href="/accounts" className="flex gap-2 items-center border-l-0 border-r-0 border-t-0 border w-full justify-center pb-5">
+                    <Users />
+                    Contas
+                  </Link>
+                </div>
+              </DrawerContent>
+            </Drawer>
+          )}
         </div>
         <div
           className="
@@ -121,14 +129,18 @@ export const Navbar = () => {
             <span>Saindo...</span>
           ) : (
             <>
-              <span className='font-lg'>{account?.name}</span>
-              {account?.cnpj && <span className='text-sm'>Cliente {maskCNPJ(account.cnpj)}</span>}
-              <Button
-                size='sm'
-                variant='destructive'
-                className="self-start hover:cursor-pointer"
-                onClick={() => onLogout()}
-              >Sair</Button>
+              {account && (
+                <>
+                  <span className='font-lg'>{account?.name}</span>
+                  {account?.cnpj && <span className='text-sm'>Cliente {maskCNPJ(account.cnpj)}</span>}
+                  <Button
+                    size='sm'
+                    variant='destructive'
+                    className="self-start hover:cursor-pointer"
+                    onClick={() => onLogout()}
+                  >Sair</Button>
+                </>
+              )}
             </>
           )}
         </div>

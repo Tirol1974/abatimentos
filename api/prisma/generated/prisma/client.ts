@@ -47,10 +47,10 @@ export { Prisma }
  */
 export type Account = Prisma.AccountModel
 /**
- * Model AccountInfo
+ * Model Settings
  * 
  */
-export type AccountInfo = Prisma.AccountInfoModel
+export type Settings = Prisma.SettingsModel
 /**
  * Model Role
  * 

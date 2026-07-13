@@ -12,7 +12,7 @@ export const TotalAbatimentosSelecionados = ({
   return (
     <Card className="flex-1">
       <CardHeader>
-        <CardTitle className="text-2xl">Total em abatimentos selecionados</CardTitle>
+        <CardTitle className="text-2xl">Total selecionado para abater as NFs</CardTitle>
       </CardHeader>
       <CardContent className="flex gap-3 items-center">
         <span className={`font-medium ${totalSelecionado < total ? "text-red-700" : totalSelecionado == 0 ? "text-red-700" : "text-green-700"}`}>R$ {totalSelecionado}</span>

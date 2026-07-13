@@ -10,7 +10,7 @@ export const TotalAbatimentosSelecionadosPorNf = ({
   return (
     <Card className="flex-1">
       <CardHeader>
-        <CardTitle className="text-2xl">Total em abatimentos por NF de Devolução Selecionada</CardTitle>
+        <CardTitle className="text-2xl">Total selecionado em NFs</CardTitle>
       </CardHeader>
       <CardContent className="flex gap-3 items-center">
         <span className={`font-medium`}>R$ {total ?? 0}</span>

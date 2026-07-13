@@ -1,19 +1,40 @@
-import { AccountInfoRepository } from "../../repositories/AccountInfo-repository.js";
+import { ApiError } from "../../utils/ApiError.js";
 
-export class ListCNPJSService {
-  public account_id: number = 0;
+export type SapClientProps = {
+  kunnr1: string,
+  stcd1: string,
+}
 
-  private readonly accountInfoRepository: AccountInfoRepository;
-  
+type SapSuccessApiResponse = SapClientProps[]
+
+export class ListCnpjsService {  
+  public cnpj_root: string = "";
+  private readonly basicS4Auth: string = "";
+
   constructor() {
-    this.accountInfoRepository = new AccountInfoRepository();
+    this.basicS4Auth = Buffer.from(`${process.env.SAP_USER}:${process.env.SAP_USER_PWD}`).toString('base64');
   }
 
   public async execute() {
-    this.accountInfoRepository.account_id = this.account_id;
+    const params = new URLSearchParams({
+      "sap-client": `${process.env.SAP_CLIENT}`,
+      "cnpj_raiz": this.cnpj_root,
+    });
 
-    const accountCNPJs = await this.accountInfoRepository.listAccountInfo();
+    const request = await fetch(`${process.env.SAP_API_URL}/cnpj/filiais?${params}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Basic ${this.basicS4Auth}`,
+      },
+    });
 
-    return accountCNPJs;
+    if (!request.ok) {
+      throw new ApiError("Houve um erro ao buscar os CNPJs do SAP", 500);
+    }
+
+    const response = await request.json() as SapSuccessApiResponse;
+
+    return response;
   }
 }

@@ -18,9 +18,9 @@ model Account {
   name String
   email String @unique
   password String
+  cnpj_root String
   first_login Boolean @default(true)
 
-  accountInfo AccountInfo[]
   account_roles AccountRoles[]
 
   created_at DateTime @default(now())
@@ -29,19 +29,15 @@ model Account {
   @@map("account")
 }
 
-model AccountInfo {
+model Settings {
   id Int @id @default(autoincrement())
 
-  cnpj String
-  account Account @relation(references: [id], fields: [account_id])
-  account_id Int
-
-  @@unique([account_id, cnpj])
+  validity_days Int @default(5)
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 
-  @@map("account_info")
+  @@map("settings")
 }
 
 model Role {

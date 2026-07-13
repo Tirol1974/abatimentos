@@ -8,6 +8,7 @@ import { SendEmailService } from "../email/send-email-service.js";
 export class CreateAccountService {
   public name: string = "";
   public email: string = "";
+  public cnpj_root: string = "";
   public role: string = "";
   private password: string = "";
 
@@ -24,6 +25,7 @@ export class CreateAccountService {
   public async execute() {
     this.accountRepository.name = this.name;
     this.accountRepository.email = this.email;
+    this.accountRepository.cnpj_root = this.cnpj_root;
 
     const accountExists = await this.accountRepository.findByEmail();
 
@@ -56,7 +58,7 @@ export class CreateAccountService {
     sendEmailService.from = process.env.MAIL_FROM!;
     sendEmailService.subject = "Abatimentos Tirol - Criação de Conta";
     sendEmailService.to = this.email;
-    sendEmailService.html = `<p>A sua senha inicial para acessar sua conta no portal de abatimentos Tirol é <strong>${this.password}</strong></p>`;
+    sendEmailService.html = `<p>A sua senha inicial para acessar sua conta no portal de abatimentos Tirol é <strong>${this.password}</strong> <br/><br> Você vai acessar usando seu e-mail da Tirol e essa senha que você recebeu <br/><br> Acesse o portal atravez do link: <a href="https://abatimentos.tirol.com.br">Portal de Abatimentos Tirol</a></p>`;
 
     await sendEmailService.execute();
 

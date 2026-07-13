@@ -4,13 +4,13 @@ declare module "@fastify/jwt" {
   interface FastifyJWT {
     payload: {
       sub: number;
-      cnpj: string;
+      cnpj_root: string;
       role: string;
     };
 
     user: {
       sub: number;
-      cnpj: string;
+      cnpj_root: string;
       role: string;
     };
   }

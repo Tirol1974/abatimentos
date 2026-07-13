@@ -1,17 +1,10 @@
 "use client";
 
 import { ApiErrorData } from "@/components/forms/ChangePasswordForm";
-import { CnpjTabContent } from "@/components/tabs/account/cnpjs/cnpjs";
+import { BreadLinks } from "@/components/navigations/bread-links";
 import { InfoTabContent } from "@/components/tabs/account/edit/info";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Field, FieldContent, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import { Spinner } from "@/components/ui/spinner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { formatDateTime } from "@/lib/date";
-import { FolderArchive, Save, User, UserPen } from "lucide-react";
+import { User } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
@@ -19,8 +12,9 @@ export type AccountType = {
   id: number
   name: string
   email: string
-  role: "admin" | "operator"
+  role: "admin" | "cliente"
   first_login: boolean
+  cnpj_root: string
   created_at: Date
   updated_at: Date
 }
@@ -95,22 +89,34 @@ export default function AccountEditPage() {
   }, [ updateAccountData, account ]);
 
   return (
-    <div className="px-3 flex flex-col gap-3">
+    <div className="px-3 flex flex-col gap-5">
+      <BreadLinks
+        links={[
+          {
+            actual: false,
+            address: '/',
+            name: 'Home'
+          },
+          {
+            actual: false,
+            address: '/accounts',
+            name: 'Contas'
+          },
+          {
+            actual: true,
+            address: '/accounts/edit',
+            name: 'Editando conta de usuário'
+          },
+        ]}
+      />
       <Tabs defaultValue="info">
         <TabsList variant="line">
           <TabsTrigger value="info">
             <User />
             Informações
           </TabsTrigger>
-          <TabsTrigger value="cnpjs">
-            <FolderArchive />
-            CNPJs
-          </TabsTrigger>
         </TabsList>
         {updateContent}
-        <TabsContent value="cnpjs" className="py-3">
-          <CnpjTabContent account_id={Number(id)} />
-        </TabsContent>
       </Tabs>
     </div>
   );

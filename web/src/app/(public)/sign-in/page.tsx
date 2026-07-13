@@ -1,10 +1,20 @@
 "use client";
 
+import { useEffect } from "react";
+import { useSignedAccount } from "../../../../store/signedAccount";
 import { SignInForm } from "../../../components/forms/SignIn";
 
 export default function SignInPage() {
+  const {
+    logout
+  } = useSignedAccount();
+
+  useEffect(() => {
+    logout();
+  }, []);
+
   return (
-    <div className="flex md:flex-1 p-3 md:items-center md:justify-center">
+    <div className="flex w-screen justify-center p-3">
       <SignInForm />
     </div>
   );

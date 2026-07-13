@@ -3,8 +3,19 @@ import localFont from 'next/font/local'
 import "./globals.css"
 import { ThemeProvider } from "next-themes"
 import { Toaster } from "@/components/ui/sonner"
-import { getAuthenticatedAccount } from '@/lib/auth';
-import { redirect } from 'next/navigation';
+import { Metadata } from 'next';
+import { Navbar } from '@/components/ui/navbar';
+
+export const metadata: Metadata = {
+  title: {
+    default: "Tirol - Portal Abatimentos",
+    template: `%s - Tirol - Portal Abatimentos`,
+  },
+  description: "Portal para solicitação de abatimentos na Tirol",
+  icons: {
+    icon: "/favicon.ico",
+  },
+};
 
 const customFont = localFont({
   src: [
@@ -29,6 +40,8 @@ const customFont = localFont({
   display: 'swap'
 });
 
+
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -40,8 +53,9 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className={`${customFont.variable} font-sans`}>
-        <main className="container flex flex-col m-auto p-3">
+        <main className="container flex flex-col h-screen m-auto p-3">
           <ThemeProvider>
+            <Navbar />
             {children}
             <Toaster position="top-center" />
           </ThemeProvider>

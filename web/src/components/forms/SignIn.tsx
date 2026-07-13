@@ -18,6 +18,7 @@ import {
 } from "../ui/alert";
 import { SignedAccount, useSignedAccount } from '../../../store/signedAccount';
 import { Separator } from '../ui/separator';
+import Image from 'next/image';
 
 const signInSchema = z.object({
   email: z.email("Insira um e-mail valido"),
@@ -85,20 +86,23 @@ export const SignInForm = () => {
         return router.replace("/change-password");
       }
 
-      if (account.role == "admin") {
-        return router.replace("/");
-      } else {
-        return router.replace("/select-cnpj");
-      }
+      return router.replace("/");
     } catch (error) {
       console.log(error);
     }
   }
 
   return (
-    <Card className="flex-1 max-w-112.5 md:m-auto">
-      <CardHeader>
-        <CardTitle className='text-center'>Tirol Abatimentos</CardTitle>
+    <Card className="md:m-auto max-w-100 flex-1">
+      <CardHeader className='flex items-center justify-center'>
+        <CardTitle>
+          <Image
+            width={100}
+            height={100}
+            src="/images/logo_tirol_abatimentos.png"
+            alt='Logo portal'
+          />
+        </CardTitle>
       </CardHeader>
       <Separator />
       <CardContent>

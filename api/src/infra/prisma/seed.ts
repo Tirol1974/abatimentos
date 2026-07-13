@@ -11,6 +11,7 @@ async function main() {
     update: {},
     create: {
       name: 'Admin T.I',
+      cnpj_root: '',
       email: 'admin@tirol.com.br',
       password: admin_password_hashed
     }
@@ -21,6 +22,7 @@ async function main() {
     update: {},
     create: {
       name: 'Cliente T.I',
+      cnpj_root: '',
       email: 'cliente@tirol.com.br',
       password: client_password_hashed
     }

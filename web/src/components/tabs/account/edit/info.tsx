@@ -10,7 +10,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { formatDateTime } from "@/lib/date";
 import { AlertCircleIcon, Save } from "lucide-react";
 import * as z from 'zod';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from "sonner";
 import { ApiErrorData } from "@/components/forms/ChangePasswordForm";
@@ -19,6 +19,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AccountRoleType } from "@/components/forms/CreateAccountForm";
 import { Button } from "@/components/ui/button";
+import { maskCNPJRoot } from "@/lib/utils";
 
 type InfoTabContentProps = {
   account: AccountType
@@ -30,7 +31,8 @@ const updateAccountSchema = z.object({
   account_id: z.number(),
   name: z.string(),
   email: z.email("Insira um e-mail valido"),
-  role: z.enum(["admin", "operator"], "Insira uma função valida")
+  cnpj_root: z.string().min(10, "A raiz precisa ter 10 caracteres").max(10, "A raiz precisa ter 10 caracteres"),
+  role: z.enum(["admin", "cliente"], "Insira uma função valida")
 });
 
 type UpdateAccountFormData = z.infer<typeof updateAccountSchema>;
@@ -56,6 +58,7 @@ export const InfoTabContent = ({
       account_id: account.id,
       name: account.name,
       email: account.email,
+      cnpj_root: account.cnpj_root,
       role: account.role
     }
   });
@@ -88,6 +91,11 @@ export const InfoTabContent = ({
   }, []);
 
   const onSubmit = async (data: UpdateAccountFormData) => {
+    setApiError({
+      message: "",
+      status: ""
+    });
+
     try {
       const request = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/account`, {
@@ -96,7 +104,13 @@ export const InfoTabContent = ({
           "Content-Type": "application/json"
         },
         credentials: 'include',
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          account_id: data.account_id,
+          name: data.name,
+          email: data.email,
+          role: data.role,
+          cnpj_root: data.cnpj_root.replaceAll(".", ""),
+        }),
       });
 
       if (!request.ok) {
@@ -115,11 +129,16 @@ export const InfoTabContent = ({
     }
   }
 
+  const selectedRole = useWatch({
+    control: form.control,
+    name: 'role'
+  });
+
   return (
     <Card>
       <CardHeader className="flex items-center justify-between">
         <CardTitle className="text-lg">Informações de contato</CardTitle>
-        <Button type="submit" form="update-account" variant='ghost'>
+        <Button type="submit" form="update-account">
           <Save />
         </Button>
       </CardHeader>
@@ -132,7 +151,7 @@ export const InfoTabContent = ({
         ) : (
           <div className="flex flex-col gap-3">
             {apiError.message != "" && (
-              <Alert variant="destructive">
+              <Alert variant="destructive" className="break-all whitespace-pre-wrap">
                 <AlertCircleIcon />
                 <AlertTitle>Mensagem da API</AlertTitle>
                 <AlertDescription>
@@ -260,6 +279,36 @@ export const InfoTabContent = ({
                       )}
                     />
                   </FieldGroup>
+                  {selectedRole == "cliente" && (
+                    <FieldGroup className="md:max-w-96">
+                      <Controller
+                        name="cnpj_root"
+                        control={form.control}
+                        render={({ field, fieldState }) => (
+                          <Field data-invalid={fieldState.invalid}>
+                            <FieldLabel htmlFor="form-cnpj-root">
+                              Raiz do CNPJ
+                            </FieldLabel>
+                            <Input
+                              {...field}
+                              onChange={(e) => {
+                                let formatedCnpj = maskCNPJRoot(e.target.value);
+                                field.onChange(formatedCnpj);
+                              }}
+                              id="form-cnpj-root"
+                              type="text"
+                              aria-invalid={fieldState.invalid}
+                              placeholder="Digite a raiz do CNPJ desse cliente"
+                              autoComplete="off"
+                            />
+                            {fieldState.invalid && (
+                              <FieldError errors={[fieldState.error]} />
+                            )}
+                          </Field>
+                        )}
+                      />
+                    </FieldGroup>
+                  )}
                   <FieldGroup className="md:max-w-96">
                     <Field>
                       <FieldLabel>Atividade</FieldLabel>

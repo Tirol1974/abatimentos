@@ -10,7 +10,6 @@ export class MeController {
 
   public async handle(request: FastifyRequest, reply: FastifyReply) {
     this.meService.account_id = request.user.sub;
-    this.meService.cnpj = request.user.cnpj;
 
     const account = await this.meService.execute();
 

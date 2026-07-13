@@ -2,7 +2,7 @@
 
 import * as z from 'zod';
 import { AlertCircleIcon } from 'lucide-react';
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { Field, FieldError, FieldGroup, FieldLabel } from '../ui/field';
 import { Input } from '../ui/input';
 import {
@@ -17,11 +17,13 @@ import { useRouter } from "next/navigation";
 import { useSignedAccount } from "../../../store/signedAccount";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { toast } from 'sonner';
+import { maskCNPJRoot } from '@/lib/utils';
 
 const createAccountSchema = z.object({
   name: z.string(),
   email: z.email("Insira um e-mail valido"),
-  role: z.enum(["admin", "operator"], "Insira uma função valida")
+  cnpj_root: z.string().min(10, "A raiz precisa ter 10 caracteres").max(10, "A raiz precisa ter 10 caracteres"),
+  role: z.enum(["admin", "cliente"], "Insira uma função valida")
 });
 
 type CreateAccountFormData = z.infer<typeof createAccountSchema>;
@@ -91,7 +93,12 @@ export const CreateAccountForm = ({
           "Content-Type": "application/json"
         },
         credentials: 'include',
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          cnpj_root: data.cnpj_root.replaceAll(".", ""),
+          role: data.role
+        }),
       });
 
       if (!request.ok) {
@@ -107,6 +114,11 @@ export const CreateAccountForm = ({
       console.log(error);
     }
   }
+
+  const selectedRole = useWatch({
+    control: form.control,
+    name: 'role'
+  });
 
   return (
     <div>
@@ -212,6 +224,36 @@ export const CreateAccountForm = ({
             )}
           />
         </FieldGroup>
+        {selectedRole == "cliente" && (
+          <FieldGroup className="grid gap-2">
+            <Controller
+              name="cnpj_root"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="form-cnpj-root">
+                    Raiz do CNPJ
+                  </FieldLabel>
+                  <Input
+                    {...field}
+                    onChange={(e) => {
+                      let formatedCnpj = maskCNPJRoot(e.target.value);
+                      field.onChange(formatedCnpj);
+                    }}
+                    id="form-cnpj-root"
+                    type="text"
+                    aria-invalid={fieldState.invalid}
+                    placeholder="Digite a raiz do CNPJ desse cliente"
+                    autoComplete="off"
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+          </FieldGroup>
+        )}
       </form>
     </div>
   );

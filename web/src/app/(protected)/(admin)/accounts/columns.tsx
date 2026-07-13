@@ -14,12 +14,14 @@ import {
 import { formatDate, formatDateTime } from "@/lib/date";
 import Link from "next/link";
 import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { maskCNPJRoot } from "@/lib/utils";
 
 export type Account = {
   id: string
   name: string
   email: string
   role: string
+  cnpj_root: string
   created_at: Date
   updated_at: Date
 }
@@ -36,6 +38,21 @@ export const account_collumns: ColumnDef<Account>[] = [
   {
     accessorKey: "email",
     header: "E-mail",
+  },
+  {
+    accessorKey: "cnpj_role",
+    header: "Raiz do CNPJ",
+    cell: ({ row }) => { 
+      if (row.original.cnpj_root == "") {
+        return (
+          <span>Não cadastrada</span>
+        );
+      } else {
+        return (
+          <span>{maskCNPJRoot(row.original.cnpj_root)}</span>
+        );
+      }
+    }
   },
   {
     accessorKey: "role",

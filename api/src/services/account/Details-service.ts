@@ -29,6 +29,7 @@ export class AccountDetailsService {
       email: account.email,
       role: role.slug,
       first_login: account.first_login,
+      cnpj_root: account.cnpj_root,
       created_at: account.created_at,
       updated_at: account.updated_at,
     }

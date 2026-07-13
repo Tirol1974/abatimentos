@@ -5,6 +5,7 @@ type CreateAccountData = {
   name: string;
   email: string;
   role: string;
+  cnpj_root: string;
 }
 
 export type CreateAccountRequest = {
@@ -22,12 +23,14 @@ export class CreateAccountController {
     const {
       name,
       email,
-      role
+      role,
+      cnpj_root
     } = request.body;
 
     this.createAccountService.name = name;
     this.createAccountService.email = email;
     this.createAccountService.role = role;
+    this.createAccountService.cnpj_root = cnpj_root;
 
     const account = await this.createAccountService.execute();
 

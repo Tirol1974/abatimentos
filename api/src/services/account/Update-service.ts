@@ -7,6 +7,7 @@ export class AccountUpdateService {
   public account_id: number = 0;
   public name: string = "";
   public email: string = "";
+  public cnpj_root: string = "";
   public role: string = "";
 
   private readonly accountRepository: AccountRepository;
@@ -23,6 +24,7 @@ export class AccountUpdateService {
     this.accountRepository.account_id = this.account_id;
     this.accountRepository.name = this.name;
     this.accountRepository.email = this.email;
+    this.accountRepository.cnpj_root = this.cnpj_root;
 
     const accountExists = await this.accountRepository.findById();
     
@@ -61,6 +63,7 @@ export class AccountUpdateService {
       email: account.email,
       role: role.slug,
       first_login: account.first_login,
+      cnpj_root: account.cnpj_root,
       created_at: account.created_at,
       updated_at: account.updated_at,
     }

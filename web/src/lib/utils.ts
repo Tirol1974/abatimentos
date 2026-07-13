@@ -19,3 +19,21 @@ export const maskCNPJ = (value: string) => {
 
   return `${v.slice(0, 2)}.${v.slice(2, 5)}.${v.slice(5, 8)}/${v.slice(8, 12)}-${v.slice(12)}`;
 };
+
+export const maskCNPJRoot = (value: string) => {
+  const v = value
+    .toUpperCase()
+    .replace(/[^A-Z0-9]/g, "")
+    .slice(0, 8);
+
+  if (v.length <= 2) return v;
+  if (v.length <= 5) return `${v.slice(0, 2)}.${v.slice(2)}`;
+  if (v.length <= 8) return `${v.slice(0, 2)}.${v.slice(2, 5)}.${v.slice(5)}`;
+};
+
+export const valorFormatado = (value: number) => {
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(value); 
+}

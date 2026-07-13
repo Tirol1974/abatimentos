@@ -18,11 +18,13 @@ import { z } from 'zod';
 import { Spinner } from '../ui/spinner';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { Plus } from 'lucide-react';
 
 const createAccountSchema = z.object({
   name: z.string(),
   email: z.email("Insira um e-mail valido"),
-  role: z.enum(["admin", "operator", ""], "Insira uma função valida")
+  cnpj_root: z.string().min(10, "A raiz precisa ter 10 caracteres").max(10, "A raiz precisa ter 10 caracteres"),
+  role: z.enum(["admin", "cliente", ""], "Insira uma função valida")
 });
 
 type CreateAccountFormData = z.infer<typeof createAccountSchema>;
@@ -41,7 +43,8 @@ export const CreateAccountModal = ({
     defaultValues: {
       name: '',
       email: '',
-      role: 'operator'
+      cnpj_root: '',
+      role: 'cliente'
     }
   });
 
@@ -53,7 +56,9 @@ export const CreateAccountModal = ({
   return (
     <Dialog open={open} onOpenChange={setOpen} >
       <DialogTrigger asChild>
-        <Button variant="outline">Criar</Button>
+        <Button>
+          <Plus />
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>

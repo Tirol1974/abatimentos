@@ -54,7 +54,7 @@ export const AddCnpjToAccountModal = ({
   return (
     <Dialog open={open} onOpenChange={setOpen} >
       <DialogTrigger asChild>
-        <Button variant="outline">
+        <Button>
           <Plus />
         </Button>
       </DialogTrigger>

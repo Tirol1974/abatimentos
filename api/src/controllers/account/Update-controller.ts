@@ -6,6 +6,7 @@ type AccountUpdateProps = {
   name: string
   email: string
   role: string
+  cnpj_root: string
 }
 
 export type AccountUpdateRequest = {
@@ -27,15 +28,15 @@ export class AccountUpdateController {
       account_id,
       name,
       email,
-      role
+      role,
+      cnpj_root
     } = request.body;
-
-    console.log(request.body);
 
     this.accountUpdateService.account_id = account_id;
     this.accountUpdateService.name = name;
     this.accountUpdateService.email = email;
     this.accountUpdateService.role = role;
+    this.accountUpdateService.cnpj_root = cnpj_root;
 
     const account = await this.accountUpdateService.execute();
 

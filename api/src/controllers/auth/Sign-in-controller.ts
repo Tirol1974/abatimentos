@@ -30,7 +30,7 @@ export class SignInController {
 
     const token = request.server.jwt.sign({
       sub: account.id,
-      cnpj: "",
+      cnpj_root: account.cnpj_root,
       role: account.role
     }, {
       expiresIn: '1h'
