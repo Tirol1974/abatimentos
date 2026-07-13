@@ -22,8 +22,10 @@ import { Input } from "@/components/ui/input";
 import { Item, ItemContent, ItemDescription, ItemHeader, ItemMedia, ItemSeparator } from "@/components/ui/item";
 import { Spinner } from "@/components/ui/spinner";
 import { maskCNPJ, valorFormatado } from "@/lib/utils";
-import { BrushCleaning, Newspaper, Wallet } from "lucide-react";
+import { AlertCircleIcon, BrushCleaning, Newspaper, Wallet } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import { useSignedAccount } from "../../../../../store/signedAccount";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 type Resume = {
   totalAPagar: number,
@@ -71,12 +73,20 @@ export const VerbasTab = () => {
     },
     partidas: []
   })
+  const [apiErrorFetchCnpjs, setApiErrorFetchCnpjs] = useState<ApiErrorData>({
+    message: "",
+    status: ""
+  });
   const [apiError, setApiError] = useState<ApiErrorData>({
     message: "",
     status: ""
   });
 
   const anchor = useComboboxAnchor();
+
+  const {
+    account
+  } = useSignedAccount();
 
   useEffect(() => {
     async function loadCnpjs() {
@@ -193,46 +203,57 @@ export const VerbasTab = () => {
 
   return (
     <div className="flex flex-col gap-3">
-      <div>
-        {loadingCnpjs ? (
-          <div className="p-3">
-            <Spinner className="size-10" />
-          </div>
-        ) : (
-          <Field>
-            <FieldLabel>CNPJs da sua raiz</FieldLabel>
-            <Combobox
-              multiple
-              autoHighlight
-              items={cnpjs}
-              onValueChange={setSelectedCnpj}
-            >
-              <ComboboxChips ref={anchor} className="w-full">
-                <ComboboxValue>
-                  {(values: AccountCnpjs[]) => (
-                    <>
-                      {values.map((value) => (
-                        <ComboboxChip key={value.stcd1}>{value.stcd1}</ComboboxChip>
-                      ))}
-                      <ComboboxChipsInput placeholder="Pesquisar CNPJ" />
-                    </>
-                  )}
-                </ComboboxValue>
-              </ComboboxChips>
-              <ComboboxContent anchor={anchor}>
-                <ComboboxEmpty>Nenhum CNPJ encontrado no SAP</ComboboxEmpty>
-                <ComboboxList>
-                  {(item: AccountCnpjs) => (
-                    <ComboboxItem key={item.stcd1} value={item}>
-                      {maskCNPJ(item.stcd1)}
-                    </ComboboxItem>
-                  )}
-                </ComboboxList>
-              </ComboboxContent>
-            </Combobox>
-          </Field>
-        )}
-      </div>
+      {account?.cnpj_root != "" && (
+        <div className="flex flex-col gap-3">
+          {loadingCnpjs ? (
+            <div className="p-3">
+              <Spinner className="size-10" />
+            </div>
+          ) : (
+            <Field>
+              <FieldLabel>CNPJs da sua raiz</FieldLabel>
+              <Combobox
+                multiple
+                autoHighlight
+                items={cnpjs}
+                onValueChange={setSelectedCnpj}
+              >
+                <ComboboxChips ref={anchor} className="w-full">
+                  <ComboboxValue>
+                    {(values: AccountCnpjs[]) => (
+                      <>
+                        {values.map((value) => (
+                          <ComboboxChip key={value.stcd1}>{value.stcd1}</ComboboxChip>
+                        ))}
+                        <ComboboxChipsInput placeholder="Pesquisar CNPJ" />
+                      </>
+                    )}
+                  </ComboboxValue>
+                </ComboboxChips>
+                <ComboboxContent anchor={anchor}>
+                  <ComboboxEmpty>Nenhum CNPJ encontrado no SAP</ComboboxEmpty>
+                  <ComboboxList>
+                    {(item: AccountCnpjs) => (
+                      <ComboboxItem key={item.stcd1} value={item}>
+                        {maskCNPJ(item.stcd1)}
+                      </ComboboxItem>
+                    )}
+                  </ComboboxList>
+                </ComboboxContent>
+              </Combobox>
+            </Field>
+          )}
+          {apiErrorFetchCnpjs.message != "" && (
+            <Alert variant="destructive" className="max-w-md mb-3">
+              <AlertCircleIcon />
+              <AlertTitle>Mensagem da API</AlertTitle>
+              <AlertDescription>
+                {apiErrorFetchCnpjs.message}
+              </AlertDescription>
+            </Alert>
+          )}
+        </div>
+      )}
       {selectedCnpj.length > 0 ? (
         <>
           <div

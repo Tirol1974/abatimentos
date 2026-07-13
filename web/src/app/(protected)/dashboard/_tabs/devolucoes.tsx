@@ -1,6 +1,7 @@
 "use cliente";
 
 import { ApiErrorData } from "@/components/forms/SignIn";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -24,8 +25,9 @@ import { Item, ItemContent, ItemDescription, ItemFooter, ItemHeader, ItemMedia, 
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Spinner } from "@/components/ui/spinner";
 import { maskCNPJ, valorFormatado } from "@/lib/utils";
-import { BrushCleaning, Newspaper, ShoppingCart, Wallet } from "lucide-react";
+import { AlertCircleIcon, BrushCleaning, Newspaper, ShoppingCart, Wallet } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import { useSignedAccount } from "../../../../../store/signedAccount";
 
 type Resume = {
   totalAPagar: number,
@@ -88,10 +90,18 @@ export const DevolucoesTab = () => {
     },
     partidas: []
   });
+  const [apiErrorFetchCnpjs, setApiErrorFetchCnpjs] = useState<ApiErrorData>({
+    message: "",
+    status: ""
+  });
   const [apiError, setApiError] = useState<ApiErrorData>({
     message: "",
     status: ""
   });
+
+  const {
+    account
+  } = useSignedAccount();
 
   const anchor = useComboboxAnchor();
 
@@ -110,7 +120,7 @@ export const DevolucoesTab = () => {
       const data = await request.json();
 
       if (!request.ok) {
-        setApiError(data as ApiErrorData);
+        setApiErrorFetchCnpjs(data as ApiErrorData);
 
         setLoadingCnpjs(false);
 
@@ -418,8 +428,8 @@ export const DevolucoesTab = () => {
               {filteredPartidasToPay.length > 0 && (
                 filteredPartidasToPay.map((partida) => (
                   <Field orientation={'horizontal'} key={partida.id}>
-                    <Checkbox id={`check-${partida.id}`} onCheckedChange={() => selectNfsParaAbater(partida)} />
-                    <FieldLabel htmlFor={`check-${partida.id}`}>
+                    <Checkbox id={`check-${partida.id}-saldo`} onCheckedChange={() => selectNfsParaAbater(partida)} />
+                    <FieldLabel htmlFor={`check-${partida.id}-saldo`}>
                       <Item variant={'outline'}>
                         <ItemMedia>
                           <Newspaper />
@@ -459,46 +469,57 @@ export const DevolucoesTab = () => {
 
   return (
     <div className="flex flex-col gap-3">
-      <div>
-        {loadingCnpjs ? (
-          <div className="p-3">
-            <Spinner className="size-10" />
-          </div>
-        ) : (
-          <Field>
-            <FieldLabel>CNPJs da sua raiz</FieldLabel>
-            <Combobox
-              multiple
-              autoHighlight
-              items={cnpjs}
-              onValueChange={setSelectedCnpj}
-            >
-              <ComboboxChips ref={anchor} className="w-full">
-                <ComboboxValue>
-                  {(values: AccountCnpjs[]) => (
-                    <>
-                      {values.map((value) => (
-                        <ComboboxChip key={value.stcd1}>{value.stcd1}</ComboboxChip>
-                      ))}
-                      <ComboboxChipsInput placeholder="Pesquisar CNPJ" />
-                    </>
-                  )}
-                </ComboboxValue>
-              </ComboboxChips>
-              <ComboboxContent anchor={anchor}>
-                <ComboboxEmpty>Nenhum CNPJ encontrado no SAP</ComboboxEmpty>
-                <ComboboxList>
-                  {(item: AccountCnpjs) => (
-                    <ComboboxItem key={item.stcd1} value={item}>
-                      {maskCNPJ(item.stcd1)}
-                    </ComboboxItem>
-                  )}
-                </ComboboxList>
-              </ComboboxContent>
-            </Combobox>
-          </Field>
-        )}
-      </div>
+      {account?.cnpj_root != "" && (
+        <div className="flex flex-col gap-3">
+          {loadingCnpjs ? (
+            <div className="p-3">
+              <Spinner className="size-10" />
+            </div>
+          ) : (
+            <Field>
+              <FieldLabel>CNPJs da sua raiz</FieldLabel>
+              <Combobox
+                multiple
+                autoHighlight
+                items={cnpjs}
+                onValueChange={setSelectedCnpj}
+              >
+                <ComboboxChips ref={anchor} className="w-full">
+                  <ComboboxValue>
+                    {(values: AccountCnpjs[]) => (
+                      <>
+                        {values.map((value) => (
+                          <ComboboxChip key={value.stcd1}>{value.stcd1}</ComboboxChip>
+                        ))}
+                        <ComboboxChipsInput placeholder="Pesquisar CNPJ" />
+                      </>
+                    )}
+                  </ComboboxValue>
+                </ComboboxChips>
+                <ComboboxContent anchor={anchor}>
+                  <ComboboxEmpty>Nenhum CNPJ encontrado no SAP</ComboboxEmpty>
+                  <ComboboxList>
+                    {(item: AccountCnpjs) => (
+                      <ComboboxItem key={item.stcd1} value={item}>
+                        {maskCNPJ(item.stcd1)}
+                      </ComboboxItem>
+                    )}
+                  </ComboboxList>
+                </ComboboxContent>
+              </Combobox>
+            </Field>
+          )}
+          {apiErrorFetchCnpjs.message != "" && (
+            <Alert variant="destructive" className="max-w-md mb-3">
+              <AlertCircleIcon />
+              <AlertTitle>Mensagem da API</AlertTitle>
+              <AlertDescription>
+                {apiErrorFetchCnpjs.message}
+              </AlertDescription>
+            </Alert>
+          )}
+        </div>
+      )}
       {selectedCnpj.length > 0 ? (
         <>
           <div
@@ -530,11 +551,11 @@ export const DevolucoesTab = () => {
                       </div>
                     ) : (
                       <>
-                        {sapData.partidas.length > 0 && (
+                        {filteredPartidas.length > 0 && (
                           filteredPartidas.map((partida) => (
                             <Field orientation={'horizontal'} key={partida.id}>
-                              <Checkbox id={`check-${partida.id}`} onCheckedChange={() => selectNf(partida)} />
-                              <FieldLabel htmlFor={`check-${partida.id}`}>
+                              <Checkbox id={`check-${partida.id}-abate`} onCheckedChange={() => selectNf(partida)} />
+                              <FieldLabel htmlFor={`check-${partida.id}-abate`}>
                                 <Item variant={'outline'}>
                                   <ItemMedia>
                                     <Newspaper />
@@ -551,7 +572,7 @@ export const DevolucoesTab = () => {
                             </Field>
                           ))
                         )}
-                        {sapData.partidas.length == 0 && (
+                        {filteredPartidas.length == 0 && (
                           <Empty>
                             <EmptyHeader>
                               <EmptyMedia variant="icon">
