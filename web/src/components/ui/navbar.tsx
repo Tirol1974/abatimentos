@@ -96,7 +96,7 @@ export const Navbar = () => {
                   "
                 >
                   <span className='font-md text-lg'>{account?.name}</span>
-                  {account?.cnpj && <span className='text-sm'>Cliente {maskCNPJ(account.cnpj)}</span>}
+                  {account?.cnpj_root && <span className='text-sm'>Cliente {maskCNPJ(account.cnpj_root)}</span>}
                   <Button
                     size='sm'
                     variant='destructive'
@@ -132,7 +132,7 @@ export const Navbar = () => {
               {account && (
                 <>
                   <span className='font-lg'>{account?.name}</span>
-                  {account?.cnpj && <span className='text-sm'>Cliente {maskCNPJ(account.cnpj)}</span>}
+                  {account?.cnpj_root && <span className='text-sm'>Cliente {maskCNPJ(account.cnpj_root)}</span>}
                   <Button
                     size='sm'
                     variant='destructive'
