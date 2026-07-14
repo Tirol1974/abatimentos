@@ -103,6 +103,7 @@ export class App {
 
     await this.app.register(fastifySwaggerUi, {
       routePrefix: "/docs",
+      indexPrefix: process.env.NODE_ENV == "production" ? "/api" : ""
     });
   }
 

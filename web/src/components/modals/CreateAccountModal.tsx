@@ -23,8 +23,18 @@ import { Plus } from 'lucide-react';
 const createAccountSchema = z.object({
   name: z.string(),
   email: z.email("Insira um e-mail valido"),
-  cnpj_root: z.string().min(10, "A raiz precisa ter 10 caracteres").max(10, "A raiz precisa ter 10 caracteres"),
-  role: z.enum(["admin", "cliente", ""], "Insira uma função valida")
+  cnpj_root: z.string(),
+  role: z.enum(["admin", "cliente"], "Insira uma função valida")
+}).superRefine(({ role, cnpj_root }, ctx) => {
+  if (role == "cliente") {
+    if (cnpj_root == "" || (cnpj_root.length < 10 || cnpj_root.length > 10)) {
+      ctx.addIssue({
+        code: "custom",
+        path: ['cnpj_root'],
+        message: "A raiz do CNPJ precisa ter 10 caracteres"
+      });
+    }
+  }
 });
 
 type CreateAccountFormData = z.infer<typeof createAccountSchema>;

@@ -21,7 +21,7 @@ export async function TitlesRoutes(
     "/partidas",
     {
       schema: {
-        tags: ["Títulos"],
+        tags: ["Partidas FBL5N"],
         description: "Endpoint responsável por buscar no SAP as partidas em aberto dos clientes listados",
         security: [
           {
