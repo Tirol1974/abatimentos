@@ -20,7 +20,7 @@ export const BreadLinks = ({
           <>
             <BreadcrumbItem key={link.name}>
               {link.actual ? (
-                <BreadcrumbLink>{link.name}</BreadcrumbLink>
+                <BreadcrumbPage>{link.name}</BreadcrumbPage>
               ) : (
                 <BreadcrumbLink href={link.address}>{link.name}</BreadcrumbLink>
               )}

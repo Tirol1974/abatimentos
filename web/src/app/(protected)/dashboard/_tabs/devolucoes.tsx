@@ -188,7 +188,7 @@ export const DevolucoesTab = () => {
 
       setSapData({
         resumo,
-        partidas: partidasParaReceber
+        partidas: partidasParaReceber.sort((a, b) => b.valor - a.valor),
       });
     }
 
@@ -236,7 +236,7 @@ export const DevolucoesTab = () => {
 
       setSapDataParaAbater({
         resumo,
-        partidas: partidasParaPagar
+        partidas: partidasParaPagar.sort((a, b) => a.valor - b.valor),
       });
     }
 
@@ -389,11 +389,9 @@ export const DevolucoesTab = () => {
                       <span>Parcela {partida.parcela}</span>
                     </ItemContent>
                     <ItemDescription>
-                      <ItemDescription>
                       <Badge
                         variant={partida.valor < 0 ? "default" : "secondary"}
                       >{valorFormatado(partida.valor)}</Badge>
-                    </ItemDescription>
                     </ItemDescription>
                   </Item>
                 ))}
