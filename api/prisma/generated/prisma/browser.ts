@@ -23,6 +23,11 @@ export * from './enums.js';
  */
 export type Account = Prisma.AccountModel
 /**
+ * Model LoginCode
+ * 
+ */
+export type LoginCode = Prisma.LoginCodeModel
+/**
  * Model Settings
  * 
  */
@@ -32,6 +37,11 @@ export type Settings = Prisma.SettingsModel
  * 
  */
 export type Role = Prisma.RoleModel
+/**
+ * Model Abatimento
+ * 
+ */
+export type Abatimento = Prisma.AbatimentoModel
 /**
  * Model AccountRoles
  * 

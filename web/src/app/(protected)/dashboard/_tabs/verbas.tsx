@@ -1,4 +1,4 @@
-"use cliente";
+"use client";
 
 import { ApiErrorData } from "@/components/forms/SignIn";
 import { Button } from "@/components/ui/button";

@@ -385,8 +385,10 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Account: 'Account',
+  LoginCode: 'LoginCode',
   Settings: 'Settings',
   Role: 'Role',
+  Abatimento: 'Abatimento',
   AccountRoles: 'AccountRoles'
 } as const
 
@@ -403,7 +405,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "account" | "settings" | "role" | "accountRoles"
+    modelProps: "account" | "loginCode" | "settings" | "role" | "abatimento" | "accountRoles"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -478,6 +480,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.AccountCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.AccountCountAggregateOutputType> | number
+        }
+      }
+    }
+    LoginCode: {
+      payload: Prisma.$LoginCodePayload<ExtArgs>
+      fields: Prisma.LoginCodeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LoginCodeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginCodePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LoginCodeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginCodePayload>
+        }
+        findFirst: {
+          args: Prisma.LoginCodeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginCodePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LoginCodeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginCodePayload>
+        }
+        findMany: {
+          args: Prisma.LoginCodeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginCodePayload>[]
+        }
+        create: {
+          args: Prisma.LoginCodeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginCodePayload>
+        }
+        createMany: {
+          args: Prisma.LoginCodeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.LoginCodeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginCodePayload>[]
+        }
+        delete: {
+          args: Prisma.LoginCodeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginCodePayload>
+        }
+        update: {
+          args: Prisma.LoginCodeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginCodePayload>
+        }
+        deleteMany: {
+          args: Prisma.LoginCodeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LoginCodeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.LoginCodeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginCodePayload>[]
+        }
+        upsert: {
+          args: Prisma.LoginCodeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginCodePayload>
+        }
+        aggregate: {
+          args: Prisma.LoginCodeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLoginCode>
+        }
+        groupBy: {
+          args: Prisma.LoginCodeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LoginCodeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LoginCodeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LoginCodeCountAggregateOutputType> | number
         }
       }
     }
@@ -629,6 +705,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Abatimento: {
+      payload: Prisma.$AbatimentoPayload<ExtArgs>
+      fields: Prisma.AbatimentoFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AbatimentoFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AbatimentoPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AbatimentoFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AbatimentoPayload>
+        }
+        findFirst: {
+          args: Prisma.AbatimentoFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AbatimentoPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AbatimentoFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AbatimentoPayload>
+        }
+        findMany: {
+          args: Prisma.AbatimentoFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AbatimentoPayload>[]
+        }
+        create: {
+          args: Prisma.AbatimentoCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AbatimentoPayload>
+        }
+        createMany: {
+          args: Prisma.AbatimentoCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AbatimentoCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AbatimentoPayload>[]
+        }
+        delete: {
+          args: Prisma.AbatimentoDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AbatimentoPayload>
+        }
+        update: {
+          args: Prisma.AbatimentoUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AbatimentoPayload>
+        }
+        deleteMany: {
+          args: Prisma.AbatimentoDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AbatimentoUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AbatimentoUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AbatimentoPayload>[]
+        }
+        upsert: {
+          args: Prisma.AbatimentoUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AbatimentoPayload>
+        }
+        aggregate: {
+          args: Prisma.AbatimentoAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAbatimento>
+        }
+        groupBy: {
+          args: Prisma.AbatimentoGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AbatimentoGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AbatimentoCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AbatimentoCountAggregateOutputType> | number
+        }
+      }
+    }
     AccountRoles: {
       payload: Prisma.$AccountRolesPayload<ExtArgs>
       fields: Prisma.AccountRolesFieldRefs
@@ -756,6 +906,19 @@ export const AccountScalarFieldEnum = {
 export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
 
 
+export const LoginCodeScalarFieldEnum = {
+  id: 'id',
+  code_hash: 'code_hash',
+  expires_at: 'expires_at',
+  used_at: 'used_at',
+  account_id: 'account_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type LoginCodeScalarFieldEnum = (typeof LoginCodeScalarFieldEnum)[keyof typeof LoginCodeScalarFieldEnum]
+
+
 export const SettingsScalarFieldEnum = {
   id: 'id',
   validity_days: 'validity_days',
@@ -777,6 +940,22 @@ export const RoleScalarFieldEnum = {
 export type RoleScalarFieldEnum = (typeof RoleScalarFieldEnum)[keyof typeof RoleScalarFieldEnum]
 
 
+export const AbatimentoScalarFieldEnum = {
+  id: 'id',
+  devolucoes: 'devolucoes',
+  vendas: 'vendas',
+  status: 'status',
+  boleto_path: 'boleto_path',
+  boleto_file_name: 'boleto_file_name',
+  boleto_uploaded_at: 'boleto_uploaded_at',
+  account_id: 'account_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type AbatimentoScalarFieldEnum = (typeof AbatimentoScalarFieldEnum)[keyof typeof AbatimentoScalarFieldEnum]
+
+
 export const AccountRolesScalarFieldEnum = {
   id: 'id',
   account_id: 'account_id',
@@ -796,12 +975,36 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 
@@ -856,6 +1059,34 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+/**
+ * Reference to a field of type 'AbatimentoStatus'
+ */
+export type EnumAbatimentoStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AbatimentoStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'AbatimentoStatus[]'
+ */
+export type ListEnumAbatimentoStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AbatimentoStatus[]'>
     
 
 
@@ -983,8 +1214,10 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   account?: Prisma.AccountOmit
+  loginCode?: Prisma.LoginCodeOmit
   settings?: Prisma.SettingsOmit
   role?: Prisma.RoleOmit
+  abatimento?: Prisma.AbatimentoOmit
   accountRoles?: Prisma.AccountRolesOmit
 }
 

@@ -1,5 +1,6 @@
 import { createTransport, type Transporter } from 'nodemailer';
 import { ApiError } from '../../utils/ApiError.js';
+import { renderEmailTemplate } from './render-template.js';
 
 interface NodemailerError extends Error {
   code?: string;
@@ -14,6 +15,8 @@ export class SendEmailService {
   public to: string = "";
   public subject: string = "";
   public html: string = "";
+  public template: string = "";
+  public templateData: Record<string, unknown> = {};
   private readonly transporter: Transporter;
 
   constructor() {
@@ -33,6 +36,10 @@ export class SendEmailService {
 
   public async execute() {
     try {
+      if (this.template != "") {
+        this.html = await renderEmailTemplate(this.template, this.templateData);
+      }
+
       await this.transporter.sendMail({
         from: this.from,
         to: this.to,

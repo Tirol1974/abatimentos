@@ -241,6 +241,8 @@ export type AccountWhereInput = {
   created_at?: Prisma.DateTimeFilter<"Account"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"Account"> | Date | string
   account_roles?: Prisma.AccountRolesListRelationFilter
+  abatimento?: Prisma.AbatimentoListRelationFilter
+  login_codes?: Prisma.LoginCodeListRelationFilter
 }
 
 export type AccountOrderByWithRelationInput = {
@@ -253,6 +255,8 @@ export type AccountOrderByWithRelationInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   account_roles?: Prisma.AccountRolesOrderByRelationAggregateInput
+  abatimento?: Prisma.AbatimentoOrderByRelationAggregateInput
+  login_codes?: Prisma.LoginCodeOrderByRelationAggregateInput
 }
 
 export type AccountWhereUniqueInput = Prisma.AtLeast<{
@@ -268,6 +272,8 @@ export type AccountWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeFilter<"Account"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"Account"> | Date | string
   account_roles?: Prisma.AccountRolesListRelationFilter
+  abatimento?: Prisma.AbatimentoListRelationFilter
+  login_codes?: Prisma.LoginCodeListRelationFilter
 }, "id" | "email">
 
 export type AccountOrderByWithAggregationInput = {
@@ -309,6 +315,8 @@ export type AccountCreateInput = {
   created_at?: Date | string
   updated_at?: Date | string
   account_roles?: Prisma.AccountRolesCreateNestedManyWithoutAccountInput
+  abatimento?: Prisma.AbatimentoCreateNestedManyWithoutAccountInput
+  login_codes?: Prisma.LoginCodeCreateNestedManyWithoutAccountInput
 }
 
 export type AccountUncheckedCreateInput = {
@@ -321,6 +329,8 @@ export type AccountUncheckedCreateInput = {
   created_at?: Date | string
   updated_at?: Date | string
   account_roles?: Prisma.AccountRolesUncheckedCreateNestedManyWithoutAccountInput
+  abatimento?: Prisma.AbatimentoUncheckedCreateNestedManyWithoutAccountInput
+  login_codes?: Prisma.LoginCodeUncheckedCreateNestedManyWithoutAccountInput
 }
 
 export type AccountUpdateInput = {
@@ -332,6 +342,8 @@ export type AccountUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   account_roles?: Prisma.AccountRolesUpdateManyWithoutAccountNestedInput
+  abatimento?: Prisma.AbatimentoUpdateManyWithoutAccountNestedInput
+  login_codes?: Prisma.LoginCodeUpdateManyWithoutAccountNestedInput
 }
 
 export type AccountUncheckedUpdateInput = {
@@ -344,6 +356,8 @@ export type AccountUncheckedUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   account_roles?: Prisma.AccountRolesUncheckedUpdateManyWithoutAccountNestedInput
+  abatimento?: Prisma.AbatimentoUncheckedUpdateManyWithoutAccountNestedInput
+  login_codes?: Prisma.LoginCodeUncheckedUpdateManyWithoutAccountNestedInput
 }
 
 export type AccountCreateManyInput = {
@@ -444,6 +458,34 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type AccountCreateNestedOneWithoutLogin_codesInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutLogin_codesInput, Prisma.AccountUncheckedCreateWithoutLogin_codesInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutLogin_codesInput
+  connect?: Prisma.AccountWhereUniqueInput
+}
+
+export type AccountUpdateOneRequiredWithoutLogin_codesNestedInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutLogin_codesInput, Prisma.AccountUncheckedCreateWithoutLogin_codesInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutLogin_codesInput
+  upsert?: Prisma.AccountUpsertWithoutLogin_codesInput
+  connect?: Prisma.AccountWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AccountUpdateToOneWithWhereWithoutLogin_codesInput, Prisma.AccountUpdateWithoutLogin_codesInput>, Prisma.AccountUncheckedUpdateWithoutLogin_codesInput>
+}
+
+export type AccountCreateNestedOneWithoutAbatimentoInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutAbatimentoInput, Prisma.AccountUncheckedCreateWithoutAbatimentoInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutAbatimentoInput
+  connect?: Prisma.AccountWhereUniqueInput
+}
+
+export type AccountUpdateOneRequiredWithoutAbatimentoNestedInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutAbatimentoInput, Prisma.AccountUncheckedCreateWithoutAbatimentoInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutAbatimentoInput
+  upsert?: Prisma.AccountUpsertWithoutAbatimentoInput
+  connect?: Prisma.AccountWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AccountUpdateToOneWithWhereWithoutAbatimentoInput, Prisma.AccountUpdateWithoutAbatimentoInput>, Prisma.AccountUncheckedUpdateWithoutAbatimentoInput>
+}
+
 export type AccountCreateNestedOneWithoutAccount_rolesInput = {
   create?: Prisma.XOR<Prisma.AccountCreateWithoutAccount_rolesInput, Prisma.AccountUncheckedCreateWithoutAccount_rolesInput>
   connectOrCreate?: Prisma.AccountCreateOrConnectWithoutAccount_rolesInput
@@ -458,6 +500,138 @@ export type AccountUpdateOneRequiredWithoutAccount_rolesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.AccountUpdateToOneWithWhereWithoutAccount_rolesInput, Prisma.AccountUpdateWithoutAccount_rolesInput>, Prisma.AccountUncheckedUpdateWithoutAccount_rolesInput>
 }
 
+export type AccountCreateWithoutLogin_codesInput = {
+  name: string
+  email: string
+  password: string
+  cnpj_root: string
+  first_login?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
+  account_roles?: Prisma.AccountRolesCreateNestedManyWithoutAccountInput
+  abatimento?: Prisma.AbatimentoCreateNestedManyWithoutAccountInput
+}
+
+export type AccountUncheckedCreateWithoutLogin_codesInput = {
+  id?: number
+  name: string
+  email: string
+  password: string
+  cnpj_root: string
+  first_login?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
+  account_roles?: Prisma.AccountRolesUncheckedCreateNestedManyWithoutAccountInput
+  abatimento?: Prisma.AbatimentoUncheckedCreateNestedManyWithoutAccountInput
+}
+
+export type AccountCreateOrConnectWithoutLogin_codesInput = {
+  where: Prisma.AccountWhereUniqueInput
+  create: Prisma.XOR<Prisma.AccountCreateWithoutLogin_codesInput, Prisma.AccountUncheckedCreateWithoutLogin_codesInput>
+}
+
+export type AccountUpsertWithoutLogin_codesInput = {
+  update: Prisma.XOR<Prisma.AccountUpdateWithoutLogin_codesInput, Prisma.AccountUncheckedUpdateWithoutLogin_codesInput>
+  create: Prisma.XOR<Prisma.AccountCreateWithoutLogin_codesInput, Prisma.AccountUncheckedCreateWithoutLogin_codesInput>
+  where?: Prisma.AccountWhereInput
+}
+
+export type AccountUpdateToOneWithWhereWithoutLogin_codesInput = {
+  where?: Prisma.AccountWhereInput
+  data: Prisma.XOR<Prisma.AccountUpdateWithoutLogin_codesInput, Prisma.AccountUncheckedUpdateWithoutLogin_codesInput>
+}
+
+export type AccountUpdateWithoutLogin_codesInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  cnpj_root?: Prisma.StringFieldUpdateOperationsInput | string
+  first_login?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  account_roles?: Prisma.AccountRolesUpdateManyWithoutAccountNestedInput
+  abatimento?: Prisma.AbatimentoUpdateManyWithoutAccountNestedInput
+}
+
+export type AccountUncheckedUpdateWithoutLogin_codesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  cnpj_root?: Prisma.StringFieldUpdateOperationsInput | string
+  first_login?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  account_roles?: Prisma.AccountRolesUncheckedUpdateManyWithoutAccountNestedInput
+  abatimento?: Prisma.AbatimentoUncheckedUpdateManyWithoutAccountNestedInput
+}
+
+export type AccountCreateWithoutAbatimentoInput = {
+  name: string
+  email: string
+  password: string
+  cnpj_root: string
+  first_login?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
+  account_roles?: Prisma.AccountRolesCreateNestedManyWithoutAccountInput
+  login_codes?: Prisma.LoginCodeCreateNestedManyWithoutAccountInput
+}
+
+export type AccountUncheckedCreateWithoutAbatimentoInput = {
+  id?: number
+  name: string
+  email: string
+  password: string
+  cnpj_root: string
+  first_login?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
+  account_roles?: Prisma.AccountRolesUncheckedCreateNestedManyWithoutAccountInput
+  login_codes?: Prisma.LoginCodeUncheckedCreateNestedManyWithoutAccountInput
+}
+
+export type AccountCreateOrConnectWithoutAbatimentoInput = {
+  where: Prisma.AccountWhereUniqueInput
+  create: Prisma.XOR<Prisma.AccountCreateWithoutAbatimentoInput, Prisma.AccountUncheckedCreateWithoutAbatimentoInput>
+}
+
+export type AccountUpsertWithoutAbatimentoInput = {
+  update: Prisma.XOR<Prisma.AccountUpdateWithoutAbatimentoInput, Prisma.AccountUncheckedUpdateWithoutAbatimentoInput>
+  create: Prisma.XOR<Prisma.AccountCreateWithoutAbatimentoInput, Prisma.AccountUncheckedCreateWithoutAbatimentoInput>
+  where?: Prisma.AccountWhereInput
+}
+
+export type AccountUpdateToOneWithWhereWithoutAbatimentoInput = {
+  where?: Prisma.AccountWhereInput
+  data: Prisma.XOR<Prisma.AccountUpdateWithoutAbatimentoInput, Prisma.AccountUncheckedUpdateWithoutAbatimentoInput>
+}
+
+export type AccountUpdateWithoutAbatimentoInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  cnpj_root?: Prisma.StringFieldUpdateOperationsInput | string
+  first_login?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  account_roles?: Prisma.AccountRolesUpdateManyWithoutAccountNestedInput
+  login_codes?: Prisma.LoginCodeUpdateManyWithoutAccountNestedInput
+}
+
+export type AccountUncheckedUpdateWithoutAbatimentoInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  cnpj_root?: Prisma.StringFieldUpdateOperationsInput | string
+  first_login?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  account_roles?: Prisma.AccountRolesUncheckedUpdateManyWithoutAccountNestedInput
+  login_codes?: Prisma.LoginCodeUncheckedUpdateManyWithoutAccountNestedInput
+}
+
 export type AccountCreateWithoutAccount_rolesInput = {
   name: string
   email: string
@@ -466,6 +640,8 @@ export type AccountCreateWithoutAccount_rolesInput = {
   first_login?: boolean
   created_at?: Date | string
   updated_at?: Date | string
+  abatimento?: Prisma.AbatimentoCreateNestedManyWithoutAccountInput
+  login_codes?: Prisma.LoginCodeCreateNestedManyWithoutAccountInput
 }
 
 export type AccountUncheckedCreateWithoutAccount_rolesInput = {
@@ -477,6 +653,8 @@ export type AccountUncheckedCreateWithoutAccount_rolesInput = {
   first_login?: boolean
   created_at?: Date | string
   updated_at?: Date | string
+  abatimento?: Prisma.AbatimentoUncheckedCreateNestedManyWithoutAccountInput
+  login_codes?: Prisma.LoginCodeUncheckedCreateNestedManyWithoutAccountInput
 }
 
 export type AccountCreateOrConnectWithoutAccount_rolesInput = {
@@ -503,6 +681,8 @@ export type AccountUpdateWithoutAccount_rolesInput = {
   first_login?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  abatimento?: Prisma.AbatimentoUpdateManyWithoutAccountNestedInput
+  login_codes?: Prisma.LoginCodeUpdateManyWithoutAccountNestedInput
 }
 
 export type AccountUncheckedUpdateWithoutAccount_rolesInput = {
@@ -514,6 +694,8 @@ export type AccountUncheckedUpdateWithoutAccount_rolesInput = {
   first_login?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  abatimento?: Prisma.AbatimentoUncheckedUpdateManyWithoutAccountNestedInput
+  login_codes?: Prisma.LoginCodeUncheckedUpdateManyWithoutAccountNestedInput
 }
 
 
@@ -523,10 +705,14 @@ export type AccountUncheckedUpdateWithoutAccount_rolesInput = {
 
 export type AccountCountOutputType = {
   account_roles: number
+  abatimento: number
+  login_codes: number
 }
 
 export type AccountCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   account_roles?: boolean | AccountCountOutputTypeCountAccount_rolesArgs
+  abatimento?: boolean | AccountCountOutputTypeCountAbatimentoArgs
+  login_codes?: boolean | AccountCountOutputTypeCountLogin_codesArgs
 }
 
 /**
@@ -546,6 +732,20 @@ export type AccountCountOutputTypeCountAccount_rolesArgs<ExtArgs extends runtime
   where?: Prisma.AccountRolesWhereInput
 }
 
+/**
+ * AccountCountOutputType without action
+ */
+export type AccountCountOutputTypeCountAbatimentoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AbatimentoWhereInput
+}
+
+/**
+ * AccountCountOutputType without action
+ */
+export type AccountCountOutputTypeCountLogin_codesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LoginCodeWhereInput
+}
+
 
 export type AccountSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -557,6 +757,8 @@ export type AccountSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   created_at?: boolean
   updated_at?: boolean
   account_roles?: boolean | Prisma.Account$account_rolesArgs<ExtArgs>
+  abatimento?: boolean | Prisma.Account$abatimentoArgs<ExtArgs>
+  login_codes?: boolean | Prisma.Account$login_codesArgs<ExtArgs>
   _count?: boolean | Prisma.AccountCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["account"]>
 
@@ -596,6 +798,8 @@ export type AccountSelectScalar = {
 export type AccountOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "password" | "cnpj_root" | "first_login" | "created_at" | "updated_at", ExtArgs["result"]["account"]>
 export type AccountInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   account_roles?: boolean | Prisma.Account$account_rolesArgs<ExtArgs>
+  abatimento?: boolean | Prisma.Account$abatimentoArgs<ExtArgs>
+  login_codes?: boolean | Prisma.Account$login_codesArgs<ExtArgs>
   _count?: boolean | Prisma.AccountCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AccountIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -605,6 +809,8 @@ export type $AccountPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   name: "Account"
   objects: {
     account_roles: Prisma.$AccountRolesPayload<ExtArgs>[]
+    abatimento: Prisma.$AbatimentoPayload<ExtArgs>[]
+    login_codes: Prisma.$LoginCodePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1010,6 +1216,8 @@ readonly fields: AccountFieldRefs;
 export interface Prisma__AccountClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   account_roles<T extends Prisma.Account$account_rolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Account$account_rolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountRolesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  abatimento<T extends Prisma.Account$abatimentoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Account$abatimentoArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AbatimentoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  login_codes<T extends Prisma.Account$login_codesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Account$login_codesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LoginCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1461,6 +1669,54 @@ export type Account$account_rolesArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.AccountRolesScalarFieldEnum | Prisma.AccountRolesScalarFieldEnum[]
+}
+
+/**
+ * Account.abatimento
+ */
+export type Account$abatimentoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Abatimento
+   */
+  select?: Prisma.AbatimentoSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Abatimento
+   */
+  omit?: Prisma.AbatimentoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AbatimentoInclude<ExtArgs> | null
+  where?: Prisma.AbatimentoWhereInput
+  orderBy?: Prisma.AbatimentoOrderByWithRelationInput | Prisma.AbatimentoOrderByWithRelationInput[]
+  cursor?: Prisma.AbatimentoWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AbatimentoScalarFieldEnum | Prisma.AbatimentoScalarFieldEnum[]
+}
+
+/**
+ * Account.login_codes
+ */
+export type Account$login_codesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LoginCode
+   */
+  select?: Prisma.LoginCodeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LoginCode
+   */
+  omit?: Prisma.LoginCodeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LoginCodeInclude<ExtArgs> | null
+  where?: Prisma.LoginCodeWhereInput
+  orderBy?: Prisma.LoginCodeOrderByWithRelationInput | Prisma.LoginCodeOrderByWithRelationInput[]
+  cursor?: Prisma.LoginCodeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LoginCodeScalarFieldEnum | Prisma.LoginCodeScalarFieldEnum[]
 }
 
 /**

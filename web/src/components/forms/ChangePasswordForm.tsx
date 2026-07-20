@@ -1,7 +1,7 @@
 "use client";
 
 import * as z from 'zod';
-import { AlertCircleIcon } from 'lucide-react';
+import { AlertCircleIcon, Eye, EyeOff } from 'lucide-react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, Controller } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
@@ -18,6 +18,7 @@ import {
 } from "../ui/alert";
 import { SignedAccount, useSignedAccount } from '../../../store/signedAccount';
 import { Separator } from '../ui/separator';
+import { InputGroup, InputGroupButton, InputGroupInput } from '../ui/input-group';
 
 const changePasswordSchema = z
   .object({
@@ -42,6 +43,8 @@ export type ApiErrorData = {
 
 export const ChangePasswordForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [apiError, setApiError] = useState<ApiErrorData>({
     message: "",
     status: ""
@@ -60,6 +63,14 @@ export const ChangePasswordForm = () => {
       confirmPassword: ''
     }
   });
+
+  const toggleShowPassword = () => {
+    setShowPassword((prev) => !prev);
+  }
+
+  const toggleShowConfirmPassword = () => {
+    setShowConfirmPassword((prev) => !prev);
+  }
 
   const onSubmit = async (data: ChangePasswordFormData) => {
     setIsSubmitting(true);
@@ -119,14 +130,24 @@ export const ChangePasswordForm = () => {
                   <FieldLabel htmlFor="form-password">
                     Senha
                   </FieldLabel>
-                  <Input
-                    {...field}
-                    id="form-password"
-                    type="password"
-                    aria-invalid={fieldState.invalid}
-                    placeholder="*********************"
-                    autoComplete="off"
-                  />
+                  <InputGroup>
+                    <InputGroupInput
+                      {...field}
+                      id="form-password"
+                      type={showPassword ? "text" : "password"}
+                      aria-invalid={fieldState.invalid}
+                      placeholder="*********************"
+                      autoComplete="off"
+                    />
+                    <InputGroupButton
+                      type="button"
+                      size="icon-sm"
+                      onClick={toggleShowPassword}
+                    >
+                      {showPassword ? <EyeOff /> : <Eye />}
+                      <span className="sr-only">{showPassword ? "Ocultar senha" : "Exibir senha"}</span>
+                    </InputGroupButton>
+                  </InputGroup>
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
@@ -143,14 +164,24 @@ export const ChangePasswordForm = () => {
                   <FieldLabel htmlFor="form-confirm-password">
                     Confirme sua senha
                   </FieldLabel>
-                  <Input
-                    {...field}
-                    id="form-confirm-password"
-                    type="password"
-                    aria-invalid={fieldState.invalid}
-                    placeholder="*********************"
-                    autoComplete="off"
-                  />
+                  <InputGroup>
+                    <InputGroupInput
+                      {...field}
+                      id="form-confirm-password"
+                      type={showConfirmPassword ? "text" : "password"}
+                      aria-invalid={fieldState.invalid}
+                      placeholder="*********************"
+                      autoComplete="off"
+                    />
+                    <InputGroupButton
+                      type="button"
+                      size="icon-sm"
+                      onClick={toggleShowConfirmPassword}
+                    >
+                      {showConfirmPassword ? <EyeOff /> : <Eye />}
+                      <span className="sr-only">{showConfirmPassword ? "Ocultar senha" : "Exibir senha"}</span>
+                    </InputGroupButton>
+                  </InputGroup>
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}

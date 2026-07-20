@@ -30,13 +30,12 @@ export class CreateAccountService {
     const accountExists = await this.accountRepository.findByEmail();
 
     if (accountExists) {
-      throw new ApiError("Já existe uma conta com esse e-mail cadastrado", 400);
+      throw new ApiError("Ja existe uma conta com esse e-mail cadastrado", 400);
     }
 
     this.password = await this.generatePassword();
 
     this.accountRepository.password = this.password;
-
 
     const account = await this.accountRepository.create();
 
@@ -45,7 +44,7 @@ export class CreateAccountService {
     const role = await this.roleRepository.findBySlug();
 
     if (!role) {
-      throw new ApiError("Função não encontrada", 404);
+      throw new ApiError("Funcao nao encontrada", 404);
     }
 
     this.accountRoleRepository.account_id = account.id;
@@ -56,9 +55,14 @@ export class CreateAccountService {
     const sendEmailService = new SendEmailService();
 
     sendEmailService.from = process.env.MAIL_FROM!;
-    sendEmailService.subject = "Abatimentos Tirol - Criação de Conta";
+    sendEmailService.subject = "Abatimentos Tirol - Criacao de Conta";
     sendEmailService.to = this.email;
-    sendEmailService.html = `<p>A sua senha inicial para acessar sua conta no portal de abatimentos Tirol é <strong>${this.password}</strong> <br/><br> Você vai acessar usando seu e-mail da Tirol e essa senha que você recebeu <br/><br> Acesse o portal atravez do link: <a href="https://abatimentos.tirol.com.br">Portal de Abatimentos Tirol</a></p>`;
+    sendEmailService.template = "account-created";
+    sendEmailService.templateData = {
+      account,
+      password: this.password,
+      portal_url: process.env.PORTAL_URL ?? "https://abatimentos.tirol.com.br",
+    };
 
     await sendEmailService.execute();
 
@@ -82,7 +86,6 @@ export class CreateAccountService {
       password.push(all[randomInt(all.length)]!);
     }
 
-    // embaralha (Fisher-Yates)
     for (let i = password.length - 1; i > 0; i--) {
       const j = randomInt(i + 1);
       [password[i], password[j]] = [password[j]!, password[i]!];

@@ -9,6 +9,7 @@ import { SignOutController } from "../controllers/auth/Sign-out-controller.js";
 import { checkAuth } from "../middleware/jwt.js";
 import { MeController } from "../controllers/auth/Me-controller.js";
 import { ChangePasswordController, type ChangePasswordRequest } from "../controllers/auth/Change-password-controller.js";
+import { VerifyCodeController, type VerifyCodeRequest } from "../controllers/auth/Verify-code-controller.js";
 
 export async function AuthRoutes(
   fastify: FastifyInstance
@@ -17,6 +18,7 @@ export async function AuthRoutes(
   const signOutController = new SignOutController();
   const meController = new MeController();
   const changePasswordController = new ChangePasswordController();
+  const verifyCodeController = new VerifyCodeController();
 
   const ErrorResponseSchema = z.object({
     status: z.literal("ERROR"),
@@ -32,6 +34,40 @@ export async function AuthRoutes(
         body: z.object({
           email: z.string(),
           password: z.string()
+        }),
+        response: {
+          200: z.object({
+            two_factor_required: z.boolean(),
+            email: z.string(),
+            expires_in_minutes: z.number(),
+          }),
+
+          400: ErrorResponseSchema,
+
+          500: ErrorResponseSchema
+        }
+      },
+      config: {
+        rateLimit: {
+          max: Number(process.env.RATE_LIMIT_SIGN_IN_MAX) || 5,
+          timeWindow: process.env.RATE_LIMIT_SIGN_IN_TIME_WINDOW || "1 minute",
+        }
+      },
+    },
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      return signInController.handle(request as FastifyRequest<SignInRequest>, reply);
+    }
+  );
+
+  fastify.post(
+    "/auth/verify-code",
+    {
+      schema: {
+        tags: ["Autenticacao"],
+        description: "Endpoint responsavel por validar o codigo de acesso enviado por e-mail",
+        body: z.object({
+          email: z.string(),
+          code: z.string().length(6, "O codigo precisa ter 6 digitos"),
         }),
         response: {
           200: z.object({
@@ -52,9 +88,15 @@ export async function AuthRoutes(
           500: ErrorResponseSchema
         }
       },
+      config: {
+        rateLimit: {
+          max: Number(process.env.RATE_LIMIT_VERIFY_CODE_MAX) || 5,
+          timeWindow: process.env.RATE_LIMIT_VERIFY_CODE_TIME_WINDOW || "1 minute",
+        }
+      },
     },
     async (request: FastifyRequest, reply: FastifyReply) => {
-      return signInController.handle(request as FastifyRequest<SignInRequest>, reply);
+      return verifyCodeController.handle(request as FastifyRequest<VerifyCodeRequest>, reply);
     }
   );
 
@@ -143,6 +185,12 @@ export async function AuthRoutes(
         }
       },
       preHandler: [ checkAuth ],
+      config: {
+        rateLimit: {
+          max: Number(process.env.RATE_LIMIT_CHANGE_PASSWORD_MAX) || 5,
+          timeWindow: process.env.RATE_LIMIT_CHANGE_PASSWORD_TIME_WINDOW || "1 minute",
+        }
+      },
     },
     async (request: FastifyRequest, reply: FastifyReply) => {
       return changePasswordController.handle(request as FastifyRequest<ChangePasswordRequest>, reply);

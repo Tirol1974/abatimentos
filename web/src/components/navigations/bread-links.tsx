@@ -1,9 +1,11 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "../ui/breadcrumb";
+import Link from "next/link";
+import { Fragment } from "react";
 
 type Links = {
   address: string
   name: string
-  actual: boolean
+  actual?: boolean
 }
 
 type BreadLinksProps = {
@@ -16,18 +18,24 @@ export const BreadLinks = ({
   return (
     <Breadcrumb>
       <BreadcrumbList>
-        {links.map((link) => (
-          <>
-            <BreadcrumbItem key={link.name}>
-              {link.actual ? (
-                <BreadcrumbPage>{link.name}</BreadcrumbPage>
-              ) : (
-                <BreadcrumbLink href={link.address}>{link.name}</BreadcrumbLink>
-              )}
-            </BreadcrumbItem>
-            {!link.actual && <BreadcrumbSeparator />}
-          </>
-        ))}
+        {links.map((link, index) => {
+          const isCurrentPage = link.actual ?? index == links.length - 1;
+
+          return (
+            <Fragment key={`${link.address}-${link.name}-${index}`}>
+              <BreadcrumbItem>
+                {isCurrentPage ? (
+                  <BreadcrumbPage>{link.name}</BreadcrumbPage>
+                ) : (
+                  <BreadcrumbLink asChild>
+                    <Link href={link.address}>{link.name}</Link>
+                  </BreadcrumbLink>
+                )}
+              </BreadcrumbItem>
+              {!isCurrentPage && <BreadcrumbSeparator />}
+            </Fragment>
+          );
+        })}
       </BreadcrumbList>
     </Breadcrumb>
   );

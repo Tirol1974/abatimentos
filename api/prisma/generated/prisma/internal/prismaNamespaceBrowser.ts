@@ -52,8 +52,10 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Account: 'Account',
+  LoginCode: 'LoginCode',
   Settings: 'Settings',
   Role: 'Role',
+  Abatimento: 'Abatimento',
   AccountRoles: 'AccountRoles'
 } as const
 
@@ -87,6 +89,19 @@ export const AccountScalarFieldEnum = {
 export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
 
 
+export const LoginCodeScalarFieldEnum = {
+  id: 'id',
+  code_hash: 'code_hash',
+  expires_at: 'expires_at',
+  used_at: 'used_at',
+  account_id: 'account_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type LoginCodeScalarFieldEnum = (typeof LoginCodeScalarFieldEnum)[keyof typeof LoginCodeScalarFieldEnum]
+
+
 export const SettingsScalarFieldEnum = {
   id: 'id',
   validity_days: 'validity_days',
@@ -108,6 +123,22 @@ export const RoleScalarFieldEnum = {
 export type RoleScalarFieldEnum = (typeof RoleScalarFieldEnum)[keyof typeof RoleScalarFieldEnum]
 
 
+export const AbatimentoScalarFieldEnum = {
+  id: 'id',
+  devolucoes: 'devolucoes',
+  vendas: 'vendas',
+  status: 'status',
+  boleto_path: 'boleto_path',
+  boleto_file_name: 'boleto_file_name',
+  boleto_uploaded_at: 'boleto_uploaded_at',
+  account_id: 'account_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type AbatimentoScalarFieldEnum = (typeof AbatimentoScalarFieldEnum)[keyof typeof AbatimentoScalarFieldEnum]
+
+
 export const AccountRolesScalarFieldEnum = {
   id: 'id',
   account_id: 'account_id',
@@ -127,10 +158,34 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

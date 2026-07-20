@@ -34,6 +34,7 @@ FROM node:22-alpine AS prod
 WORKDIR /usr/src/app
 
 COPY --from=build /usr/src/app/dist ./dist
+COPY --from=build /usr/src/app/src/services/email/templates ./dist/src/services/email/templates
 COPY --from=build /usr/src/app/prisma ./prisma
 COPY --from=build /usr/src/app/prisma.config.ts ./prisma.config.ts
 COPY --from=build /usr/src/app/package.json ./package.json

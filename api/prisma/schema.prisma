@@ -12,6 +12,12 @@ datasource db {
   provider = "postgresql"
 }
 
+enum AbatimentoStatus {
+  solicitado
+  atendimento
+  finalizado
+}
+
 model Account {
   id Int @id @default(autoincrement())
 
@@ -22,11 +28,30 @@ model Account {
   first_login Boolean @default(true)
 
   account_roles AccountRoles[]
+  abatimento Abatimento[]
+  login_codes LoginCode[]
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 
   @@map("account")
+}
+
+model LoginCode {
+  id Int @id @default(autoincrement())
+
+  code_hash String
+  expires_at DateTime
+  used_at DateTime?
+
+  account Account @relation(references: [id], fields: [account_id], onDelete: Cascade)
+  account_id Int
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@index([account_id])
+  @@map("login_codes")
 }
 
 model Settings {
@@ -52,6 +77,25 @@ model Role {
   updated_at DateTime @default(now())
 
   @@map("roles")
+}
+
+model Abatimento {
+  id Int @id @default(autoincrement())
+
+  devolucoes Json
+  vendas Json
+  status AbatimentoStatus @default(solicitado)
+  boleto_path String?
+  boleto_file_name String?
+  boleto_uploaded_at DateTime?
+
+  account Account @relation(references: [id], fields: [account_id])
+  account_id Int
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@map("abatimentos")
 }
 
 model AccountRoles {

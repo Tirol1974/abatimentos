@@ -1,6 +1,6 @@
 'use client';
 
-import { LayoutDashboard, Settings, Users } from "lucide-react";
+import { FileCheck2, LayoutDashboard, Settings, Users } from "lucide-react";
 import { Item } from "@/components/ui/item";
 import Link from "next/link";
 import { useSignedAccount } from "../../store/signedAccount";
@@ -53,6 +53,15 @@ const AdminMenu = () => {
         >
           <Settings />
           <span>Configuração</span>
+        </Item>
+      </Link>
+      <Link href="/abatimentos" className="w-28 h-28 md:min-w-52 md:min-h-52">
+        <Item
+          variant={'outline'}
+          className="flex flex-col items-center justify-center h-full hover:shadow-2xl"
+        >
+          <FileCheck2 />
+          <span>Abatimentos</span>
         </Item>
       </Link>
     </>

@@ -1,0 +1,39 @@
+import { AbatimentosRepository } from "../../repositories/Abatimentos-repository.js";
+import { normalizePartidas } from "./Normalize-partidas.js";
+
+export class ListAdminAbatimentosService {
+  private readonly abatimentosRepository: AbatimentosRepository;
+
+  constructor() {
+    this.abatimentosRepository = new AbatimentosRepository();
+  }
+
+  public async execute() {
+    const abatimentos = await this.abatimentosRepository.listWithAccount();
+
+    return abatimentos.map((abatimento) => {
+      const boleto = abatimento as typeof abatimento & {
+        boleto_path: string | null;
+        boleto_file_name: string | null;
+        boleto_uploaded_at: Date | null;
+      };
+      const devolucoes = normalizePartidas(abatimento.devolucoes);
+      const vendas = normalizePartidas(abatimento.vendas);
+
+      return {
+        id: abatimento.id,
+        account: abatimento.account,
+        devolucoes,
+        vendas,
+        status: abatimento.status,
+        total_devolucoes: devolucoes.reduce((total, partida) => total + partida.valor, 0),
+        total_vendas: vendas.reduce((total, partida) => total + partida.valor, 0),
+        boleto_file_name: boleto.boleto_file_name,
+        boleto_uploaded_at: boleto.boleto_uploaded_at,
+        boleto_download_url: boleto.boleto_path ? `/abatimentos/${abatimento.id}/boleto` : null,
+        created_at: abatimento.created_at,
+        updated_at: abatimento.updated_at,
+      };
+    });
+  }
+}

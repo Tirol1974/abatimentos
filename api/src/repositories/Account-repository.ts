@@ -65,7 +65,13 @@ export class AccountRepository {
   }
 
   public async deleteById() {
+    await this.prismaClient.accountRoles.deleteMany({
+      where: { account_id: this.account_id }
+    });
 
+    await this.prismaClient.account.delete({
+      where: { id: this.account_id }
+    });
   }
 
   public async changePassword() {

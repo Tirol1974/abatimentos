@@ -9,6 +9,7 @@ import {
 } from 'fastify-type-provider-zod';
 import fastifyCors from '@fastify/cors';
 import fastifyJwt from '@fastify/jwt';
+import fastifyRateLimit from '@fastify/rate-limit';
 import fastifySwagger from '@fastify/swagger';
 import { router } from './router.js';
 import fastifySwaggerUi from '@fastify/swagger-ui';
@@ -52,6 +53,16 @@ export class App {
       }
     });
 
+    await this.app.register(fastifyRateLimit, {
+      max: Number(process.env.RATE_LIMIT_MAX) || 300,
+      timeWindow: process.env.RATE_LIMIT_TIME_WINDOW || "1 minute",
+      errorResponseBuilder: (request, context) => ({
+        statusCode: context.statusCode,
+        status: "ERROR",
+        message: "Muitas requisicoes em pouco tempo. Tente novamente em alguns instantes."
+      })
+    });
+
     this.app.setErrorHandler((error, request, reply) => {
       if (hasZodFastifySchemaValidationErrors(error)) {
         return reply.code(400).send({
@@ -72,6 +83,18 @@ export class App {
         return reply.status(error.statusCode).send({
           status: "ERROR",
           message: error.message
+        });
+      }
+
+      const errorWithStatus = error as {
+        statusCode?: number;
+        message?: string;
+      };
+
+      if (errorWithStatus.statusCode) {
+        return reply.status(errorWithStatus.statusCode).send({
+          status: "ERROR",
+          message: errorWithStatus.message ?? "Muitas requisicoes em pouco tempo. Tente novamente em alguns instantes."
         });
       }
 
@@ -117,8 +140,8 @@ export class App {
         port: Number(process.env.PORT) || 3333,
         host: '0.0.0.0'
       }).then(() => {
-        console.log(`🚀 HTTP server running on ${process.env.APP_URL ?? ""}${process.env.PORT || 3333}`);
-        console.log(`📚 Docs available at ${process.env.APP_URL ?? ""}${process.env.PORT || 3333}/docs`);
+        console.log(`🚀 HTTP server running on ${process.env.APP_URL ?? ""}:${process.env.PORT || 3333}`);
+        console.log(`📚 Docs available at ${process.env.APP_URL ?? ""}:${process.env.PORT || 3333}/docs`);
       });
     } catch (error) {
       console.log(error);

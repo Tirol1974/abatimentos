@@ -31,6 +31,8 @@ services:
       - "3333"
     env_file:
       - ./api/.env
+    volumes:
+      - /opt/abatimentos/uploads:/usr/src/app/uploads
     depends_on:
       postgres:
         condition: service_healthy

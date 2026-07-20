@@ -36,6 +36,7 @@ services:
     volumes:
       - ./api:/usr/src/app
       - /usr/src/app/node_modules
+      - ./uploads:/usr/src/app/uploads
     depends_on:
       postgres:
         condition: service_healthy

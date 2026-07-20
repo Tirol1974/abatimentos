@@ -8,7 +8,6 @@ import { Account, account_collumns } from "./columns";
 import { ApiErrorData } from "@/components/forms/SignIn";
 import { AccountsDataTable } from "./data-table";
 import { Spinner } from "@/components/ui/spinner";
-import { toast } from "sonner";
 import { BreadLinks } from "@/components/navigations/bread-links";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
@@ -49,8 +48,6 @@ export default function AccountsPage() {
       }
 
       setAccounts(data as Account[]);
-
-      console.log(data);
 
       setLoading(false);
     }

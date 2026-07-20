@@ -9,7 +9,9 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/Account.js'
+export type * from './models/LoginCode.js'
 export type * from './models/Settings.js'
 export type * from './models/Role.js'
+export type * from './models/Abatimento.js'
 export type * from './models/AccountRoles.js'
 export type * from './commonInputTypes.js'

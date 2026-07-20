@@ -3,6 +3,7 @@
 import {
   Home,
   MenuIcon,
+  ReceiptText,
   Users
 } from 'lucide-react';
 import {
@@ -67,7 +68,7 @@ export const Navbar = () => {
   
   return (
     <header className="flex items-center justify-center border border-l-0 border-r-0 border-t-0">
-      <div className="container p-3 flex justify-between items-center">
+      <div className="container flex items-center justify-between px-4 py-3 md:px-6">
         <div>
           <Link href="/">
             <Image
@@ -112,6 +113,12 @@ export const Navbar = () => {
                     <Users />
                     Contas
                   </Link>
+                  {account.role == "admin" && (
+                    <Link href="/abatimentos" className="flex gap-2 items-center border-l-0 border-r-0 border-t-0 border w-full justify-center pb-5">
+                      <ReceiptText />
+                      Abatimentos
+                    </Link>
+                  )}
                 </div>
               </DrawerContent>
             </Drawer>
@@ -121,8 +128,8 @@ export const Navbar = () => {
           className="
             hidden
             md:flex
-            md:flex-col
-            md:justify-between
+            md:items-center
+            md:gap-4
           "
         >
           {loading ? (
@@ -131,12 +138,18 @@ export const Navbar = () => {
             <>
               {account && (
                 <>
-                  <span className='font-lg'>{account?.name}</span>
-                  {account?.cnpj_root && <span className='text-sm'>Cliente {maskCNPJ(account.cnpj_root)}</span>}
+                  <div className="flex min-w-0 flex-col items-end gap-0.5 border-r pr-4">
+                    <span className='max-w-72 truncate text-sm font-medium'>{account?.name}</span>
+                    {account?.cnpj_root && (
+                      <span className='text-xs text-muted-foreground'>
+                        Cliente {maskCNPJ(account.cnpj_root)}
+                      </span>
+                    )}
+                  </div>
                   <Button
                     size='sm'
                     variant='destructive'
-                    className="self-start hover:cursor-pointer"
+                    className="hover:cursor-pointer"
                     onClick={() => onLogout()}
                   >Sair</Button>
                 </>

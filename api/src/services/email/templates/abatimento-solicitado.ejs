@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nova solicitacao de abatimento</title>
+  </head>
+  <body style="margin:0;background:#F5F5F5;color:#262123;font-family:Arial,Helvetica,sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="background:#F5F5F5;padding:24px 12px;">
+      <tr>
+        <td align="center">
+          <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="max-width:680px;background:#FFFFFF;border:1px solid #E5E7EB;border-radius:12px;overflow:hidden;">
+            <tr>
+              <td style="background:#D90C2C;color:#FFFFFF;padding:24px;">
+                <p style="margin:0 0 8px;font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;">Portal de Abatimentos Tirol</p>
+                <h1 style="margin:0;font-size:24px;line-height:1.25;">Nova solicitacao de abatimento #<%= abatimento.id %></h1>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:24px;">
+                <p style="margin:0 0 16px;font-size:15px;line-height:1.6;">Um cliente criou uma nova solicitacao de abatimento no portal.</p>
+
+                <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="border:1px solid #E5E7EB;border-radius:10px;overflow:hidden;margin-bottom:20px;">
+                  <tr>
+                    <td style="padding:14px 16px;background:#FAFAFA;border-bottom:1px solid #E5E7EB;font-weight:700;">Cliente</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:16px;">
+                      <p style="margin:0 0 6px;"><strong>Nome:</strong> <%= account.name %></p>
+                      <p style="margin:0 0 6px;"><strong>E-mail:</strong> <%= account.email %></p>
+                      <p style="margin:0;"><strong>Raiz do CNPJ:</strong> <%= account.cnpj_root %></p>
+                    </td>
+                  </tr>
+                </table>
+
+                <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin-bottom:20px;">
+                  <tr>
+                    <td width="50%" style="padding-right:6px;">
+                      <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#FFFFFF;">
+                        <p style="margin:0 0 6px;color:#6B7280;font-size:13px;">Total em devolucoes</p>
+                        <p style="margin:0;color:#19743A;font-size:20px;font-weight:700;"><%= totals.devolucoes %></p>
+                      </div>
+                    </td>
+                    <td width="50%" style="padding-left:6px;">
+                      <div style="border:1px solid #E5E7EB;border-radius:10px;padding:16px;background:#FFFFFF;">
+                        <p style="margin:0 0 6px;color:#6B7280;font-size:13px;">Saldo selecionado</p>
+                        <p style="margin:0;color:#D90C2C;font-size:20px;font-weight:700;"><%= totals.vendas %></p>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+
+                <a href="<%= admin_url %>" style="display:inline-block;background:#D90C2C;color:#FFFFFF;text-decoration:none;padding:12px 16px;border-radius:8px;font-weight:700;">Abrir solicitacoes</a>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
