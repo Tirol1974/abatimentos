@@ -52,6 +52,11 @@ export type Account = Prisma.AccountModel
  */
 export type LoginCode = Prisma.LoginCodeModel
 /**
+ * Model PasswordResetToken
+ * 
+ */
+export type PasswordResetToken = Prisma.PasswordResetTokenModel
+/**
  * Model Settings
  * 
  */

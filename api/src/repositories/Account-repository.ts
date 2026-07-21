@@ -95,6 +95,15 @@ export class AccountRepository {
       }
     });
   }
+  
+  public async firstLoginTrue() {
+    await this.prismaClient.account.update({
+      where: { id: this.account_id },
+      data: {
+        first_login: true,
+      }
+    });
+  }
 
   public async list() {
     const accounts = await this.prismaClient.accountRoles.findMany({

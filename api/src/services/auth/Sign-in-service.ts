@@ -28,7 +28,7 @@ export class SignInService {
 
     if (!account) {
       throw new ApiError("E-mail ou senha invalidos", 404);
-    }
+    }    
 
     let hashed_password = await compare(this.password, account.password);
 

@@ -22,6 +22,7 @@ import Image from 'next/image';
 import { InputGroup, InputGroupButton, InputGroupInput } from '../ui/input-group';
 import { REGEXP_ONLY_DIGITS } from 'input-otp';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '../ui/input-otp';
+import Link from 'next/link';
 
 const signInSchema = z.object({
   email: z.email("Insira um e-mail valido"),
@@ -46,7 +47,13 @@ export type ApiErrorData = {
   message: string
 }
 
-export const SignInForm = () => {
+type SignInFormProps = {
+  toggleForm: () => void;
+}
+
+export const SignInForm = ({
+  toggleForm
+}: SignInFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [twoFactorRequired, setTwoFactorRequired] = useState(false);
@@ -303,9 +310,28 @@ export const SignInForm = () => {
             {twoFactorRequired ? "Validando codigo..." : "Entrando no sistema..."}
           </Button>
         ) : (
-          <Button type="submit" className="w-full" form="form-sign-in">
-            {twoFactorRequired ? "Validar codigo" : "Entrar"}
-          </Button>
+          <>
+            <Button type="submit" className="w-full" form="form-sign-in">
+              {twoFactorRequired ? "Validar codigo" : "Entrar"}
+            </Button>
+            {!twoFactorRequired && (
+              <>
+                <Button type="button" className="w-full" onClick={() => toggleForm()}>
+                  Acessar pela primeira vez
+                </Button>
+                <Link href="/auth/check-account">
+                  <Button variant={'link'}>
+                    Esqueci minha senha
+                  </Button>
+                </Link>
+              </>
+            )}
+            {twoFactorRequired && (
+              <Button type="button" variant="link" onClick={() => setTwoFactorRequired(false)}>
+                Voltar para login
+              </Button>
+            )}
+          </>
         )}
       </CardFooter>
     </Card>

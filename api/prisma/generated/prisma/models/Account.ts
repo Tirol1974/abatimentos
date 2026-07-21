@@ -243,6 +243,7 @@ export type AccountWhereInput = {
   account_roles?: Prisma.AccountRolesListRelationFilter
   abatimento?: Prisma.AbatimentoListRelationFilter
   login_codes?: Prisma.LoginCodeListRelationFilter
+  password_reset_token?: Prisma.PasswordResetTokenListRelationFilter
 }
 
 export type AccountOrderByWithRelationInput = {
@@ -257,6 +258,7 @@ export type AccountOrderByWithRelationInput = {
   account_roles?: Prisma.AccountRolesOrderByRelationAggregateInput
   abatimento?: Prisma.AbatimentoOrderByRelationAggregateInput
   login_codes?: Prisma.LoginCodeOrderByRelationAggregateInput
+  password_reset_token?: Prisma.PasswordResetTokenOrderByRelationAggregateInput
 }
 
 export type AccountWhereUniqueInput = Prisma.AtLeast<{
@@ -274,6 +276,7 @@ export type AccountWhereUniqueInput = Prisma.AtLeast<{
   account_roles?: Prisma.AccountRolesListRelationFilter
   abatimento?: Prisma.AbatimentoListRelationFilter
   login_codes?: Prisma.LoginCodeListRelationFilter
+  password_reset_token?: Prisma.PasswordResetTokenListRelationFilter
 }, "id" | "email">
 
 export type AccountOrderByWithAggregationInput = {
@@ -317,6 +320,7 @@ export type AccountCreateInput = {
   account_roles?: Prisma.AccountRolesCreateNestedManyWithoutAccountInput
   abatimento?: Prisma.AbatimentoCreateNestedManyWithoutAccountInput
   login_codes?: Prisma.LoginCodeCreateNestedManyWithoutAccountInput
+  password_reset_token?: Prisma.PasswordResetTokenCreateNestedManyWithoutAccountInput
 }
 
 export type AccountUncheckedCreateInput = {
@@ -331,6 +335,7 @@ export type AccountUncheckedCreateInput = {
   account_roles?: Prisma.AccountRolesUncheckedCreateNestedManyWithoutAccountInput
   abatimento?: Prisma.AbatimentoUncheckedCreateNestedManyWithoutAccountInput
   login_codes?: Prisma.LoginCodeUncheckedCreateNestedManyWithoutAccountInput
+  password_reset_token?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutAccountInput
 }
 
 export type AccountUpdateInput = {
@@ -344,6 +349,7 @@ export type AccountUpdateInput = {
   account_roles?: Prisma.AccountRolesUpdateManyWithoutAccountNestedInput
   abatimento?: Prisma.AbatimentoUpdateManyWithoutAccountNestedInput
   login_codes?: Prisma.LoginCodeUpdateManyWithoutAccountNestedInput
+  password_reset_token?: Prisma.PasswordResetTokenUpdateManyWithoutAccountNestedInput
 }
 
 export type AccountUncheckedUpdateInput = {
@@ -358,6 +364,7 @@ export type AccountUncheckedUpdateInput = {
   account_roles?: Prisma.AccountRolesUncheckedUpdateManyWithoutAccountNestedInput
   abatimento?: Prisma.AbatimentoUncheckedUpdateManyWithoutAccountNestedInput
   login_codes?: Prisma.LoginCodeUncheckedUpdateManyWithoutAccountNestedInput
+  password_reset_token?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutAccountNestedInput
 }
 
 export type AccountCreateManyInput = {
@@ -472,6 +479,20 @@ export type AccountUpdateOneRequiredWithoutLogin_codesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.AccountUpdateToOneWithWhereWithoutLogin_codesInput, Prisma.AccountUpdateWithoutLogin_codesInput>, Prisma.AccountUncheckedUpdateWithoutLogin_codesInput>
 }
 
+export type AccountCreateNestedOneWithoutPassword_reset_tokenInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutPassword_reset_tokenInput, Prisma.AccountUncheckedCreateWithoutPassword_reset_tokenInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutPassword_reset_tokenInput
+  connect?: Prisma.AccountWhereUniqueInput
+}
+
+export type AccountUpdateOneRequiredWithoutPassword_reset_tokenNestedInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutPassword_reset_tokenInput, Prisma.AccountUncheckedCreateWithoutPassword_reset_tokenInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutPassword_reset_tokenInput
+  upsert?: Prisma.AccountUpsertWithoutPassword_reset_tokenInput
+  connect?: Prisma.AccountWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AccountUpdateToOneWithWhereWithoutPassword_reset_tokenInput, Prisma.AccountUpdateWithoutPassword_reset_tokenInput>, Prisma.AccountUncheckedUpdateWithoutPassword_reset_tokenInput>
+}
+
 export type AccountCreateNestedOneWithoutAbatimentoInput = {
   create?: Prisma.XOR<Prisma.AccountCreateWithoutAbatimentoInput, Prisma.AccountUncheckedCreateWithoutAbatimentoInput>
   connectOrCreate?: Prisma.AccountCreateOrConnectWithoutAbatimentoInput
@@ -510,6 +531,7 @@ export type AccountCreateWithoutLogin_codesInput = {
   updated_at?: Date | string
   account_roles?: Prisma.AccountRolesCreateNestedManyWithoutAccountInput
   abatimento?: Prisma.AbatimentoCreateNestedManyWithoutAccountInput
+  password_reset_token?: Prisma.PasswordResetTokenCreateNestedManyWithoutAccountInput
 }
 
 export type AccountUncheckedCreateWithoutLogin_codesInput = {
@@ -523,6 +545,7 @@ export type AccountUncheckedCreateWithoutLogin_codesInput = {
   updated_at?: Date | string
   account_roles?: Prisma.AccountRolesUncheckedCreateNestedManyWithoutAccountInput
   abatimento?: Prisma.AbatimentoUncheckedCreateNestedManyWithoutAccountInput
+  password_reset_token?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutAccountInput
 }
 
 export type AccountCreateOrConnectWithoutLogin_codesInput = {
@@ -551,6 +574,7 @@ export type AccountUpdateWithoutLogin_codesInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   account_roles?: Prisma.AccountRolesUpdateManyWithoutAccountNestedInput
   abatimento?: Prisma.AbatimentoUpdateManyWithoutAccountNestedInput
+  password_reset_token?: Prisma.PasswordResetTokenUpdateManyWithoutAccountNestedInput
 }
 
 export type AccountUncheckedUpdateWithoutLogin_codesInput = {
@@ -564,6 +588,77 @@ export type AccountUncheckedUpdateWithoutLogin_codesInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   account_roles?: Prisma.AccountRolesUncheckedUpdateManyWithoutAccountNestedInput
   abatimento?: Prisma.AbatimentoUncheckedUpdateManyWithoutAccountNestedInput
+  password_reset_token?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutAccountNestedInput
+}
+
+export type AccountCreateWithoutPassword_reset_tokenInput = {
+  name: string
+  email: string
+  password: string
+  cnpj_root: string
+  first_login?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
+  account_roles?: Prisma.AccountRolesCreateNestedManyWithoutAccountInput
+  abatimento?: Prisma.AbatimentoCreateNestedManyWithoutAccountInput
+  login_codes?: Prisma.LoginCodeCreateNestedManyWithoutAccountInput
+}
+
+export type AccountUncheckedCreateWithoutPassword_reset_tokenInput = {
+  id?: number
+  name: string
+  email: string
+  password: string
+  cnpj_root: string
+  first_login?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
+  account_roles?: Prisma.AccountRolesUncheckedCreateNestedManyWithoutAccountInput
+  abatimento?: Prisma.AbatimentoUncheckedCreateNestedManyWithoutAccountInput
+  login_codes?: Prisma.LoginCodeUncheckedCreateNestedManyWithoutAccountInput
+}
+
+export type AccountCreateOrConnectWithoutPassword_reset_tokenInput = {
+  where: Prisma.AccountWhereUniqueInput
+  create: Prisma.XOR<Prisma.AccountCreateWithoutPassword_reset_tokenInput, Prisma.AccountUncheckedCreateWithoutPassword_reset_tokenInput>
+}
+
+export type AccountUpsertWithoutPassword_reset_tokenInput = {
+  update: Prisma.XOR<Prisma.AccountUpdateWithoutPassword_reset_tokenInput, Prisma.AccountUncheckedUpdateWithoutPassword_reset_tokenInput>
+  create: Prisma.XOR<Prisma.AccountCreateWithoutPassword_reset_tokenInput, Prisma.AccountUncheckedCreateWithoutPassword_reset_tokenInput>
+  where?: Prisma.AccountWhereInput
+}
+
+export type AccountUpdateToOneWithWhereWithoutPassword_reset_tokenInput = {
+  where?: Prisma.AccountWhereInput
+  data: Prisma.XOR<Prisma.AccountUpdateWithoutPassword_reset_tokenInput, Prisma.AccountUncheckedUpdateWithoutPassword_reset_tokenInput>
+}
+
+export type AccountUpdateWithoutPassword_reset_tokenInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  cnpj_root?: Prisma.StringFieldUpdateOperationsInput | string
+  first_login?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  account_roles?: Prisma.AccountRolesUpdateManyWithoutAccountNestedInput
+  abatimento?: Prisma.AbatimentoUpdateManyWithoutAccountNestedInput
+  login_codes?: Prisma.LoginCodeUpdateManyWithoutAccountNestedInput
+}
+
+export type AccountUncheckedUpdateWithoutPassword_reset_tokenInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  cnpj_root?: Prisma.StringFieldUpdateOperationsInput | string
+  first_login?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  account_roles?: Prisma.AccountRolesUncheckedUpdateManyWithoutAccountNestedInput
+  abatimento?: Prisma.AbatimentoUncheckedUpdateManyWithoutAccountNestedInput
+  login_codes?: Prisma.LoginCodeUncheckedUpdateManyWithoutAccountNestedInput
 }
 
 export type AccountCreateWithoutAbatimentoInput = {
@@ -576,6 +671,7 @@ export type AccountCreateWithoutAbatimentoInput = {
   updated_at?: Date | string
   account_roles?: Prisma.AccountRolesCreateNestedManyWithoutAccountInput
   login_codes?: Prisma.LoginCodeCreateNestedManyWithoutAccountInput
+  password_reset_token?: Prisma.PasswordResetTokenCreateNestedManyWithoutAccountInput
 }
 
 export type AccountUncheckedCreateWithoutAbatimentoInput = {
@@ -589,6 +685,7 @@ export type AccountUncheckedCreateWithoutAbatimentoInput = {
   updated_at?: Date | string
   account_roles?: Prisma.AccountRolesUncheckedCreateNestedManyWithoutAccountInput
   login_codes?: Prisma.LoginCodeUncheckedCreateNestedManyWithoutAccountInput
+  password_reset_token?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutAccountInput
 }
 
 export type AccountCreateOrConnectWithoutAbatimentoInput = {
@@ -617,6 +714,7 @@ export type AccountUpdateWithoutAbatimentoInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   account_roles?: Prisma.AccountRolesUpdateManyWithoutAccountNestedInput
   login_codes?: Prisma.LoginCodeUpdateManyWithoutAccountNestedInput
+  password_reset_token?: Prisma.PasswordResetTokenUpdateManyWithoutAccountNestedInput
 }
 
 export type AccountUncheckedUpdateWithoutAbatimentoInput = {
@@ -630,6 +728,7 @@ export type AccountUncheckedUpdateWithoutAbatimentoInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   account_roles?: Prisma.AccountRolesUncheckedUpdateManyWithoutAccountNestedInput
   login_codes?: Prisma.LoginCodeUncheckedUpdateManyWithoutAccountNestedInput
+  password_reset_token?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutAccountNestedInput
 }
 
 export type AccountCreateWithoutAccount_rolesInput = {
@@ -642,6 +741,7 @@ export type AccountCreateWithoutAccount_rolesInput = {
   updated_at?: Date | string
   abatimento?: Prisma.AbatimentoCreateNestedManyWithoutAccountInput
   login_codes?: Prisma.LoginCodeCreateNestedManyWithoutAccountInput
+  password_reset_token?: Prisma.PasswordResetTokenCreateNestedManyWithoutAccountInput
 }
 
 export type AccountUncheckedCreateWithoutAccount_rolesInput = {
@@ -655,6 +755,7 @@ export type AccountUncheckedCreateWithoutAccount_rolesInput = {
   updated_at?: Date | string
   abatimento?: Prisma.AbatimentoUncheckedCreateNestedManyWithoutAccountInput
   login_codes?: Prisma.LoginCodeUncheckedCreateNestedManyWithoutAccountInput
+  password_reset_token?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutAccountInput
 }
 
 export type AccountCreateOrConnectWithoutAccount_rolesInput = {
@@ -683,6 +784,7 @@ export type AccountUpdateWithoutAccount_rolesInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   abatimento?: Prisma.AbatimentoUpdateManyWithoutAccountNestedInput
   login_codes?: Prisma.LoginCodeUpdateManyWithoutAccountNestedInput
+  password_reset_token?: Prisma.PasswordResetTokenUpdateManyWithoutAccountNestedInput
 }
 
 export type AccountUncheckedUpdateWithoutAccount_rolesInput = {
@@ -696,6 +798,7 @@ export type AccountUncheckedUpdateWithoutAccount_rolesInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   abatimento?: Prisma.AbatimentoUncheckedUpdateManyWithoutAccountNestedInput
   login_codes?: Prisma.LoginCodeUncheckedUpdateManyWithoutAccountNestedInput
+  password_reset_token?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutAccountNestedInput
 }
 
 
@@ -707,12 +810,14 @@ export type AccountCountOutputType = {
   account_roles: number
   abatimento: number
   login_codes: number
+  password_reset_token: number
 }
 
 export type AccountCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   account_roles?: boolean | AccountCountOutputTypeCountAccount_rolesArgs
   abatimento?: boolean | AccountCountOutputTypeCountAbatimentoArgs
   login_codes?: boolean | AccountCountOutputTypeCountLogin_codesArgs
+  password_reset_token?: boolean | AccountCountOutputTypeCountPassword_reset_tokenArgs
 }
 
 /**
@@ -746,6 +851,13 @@ export type AccountCountOutputTypeCountLogin_codesArgs<ExtArgs extends runtime.T
   where?: Prisma.LoginCodeWhereInput
 }
 
+/**
+ * AccountCountOutputType without action
+ */
+export type AccountCountOutputTypeCountPassword_reset_tokenArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PasswordResetTokenWhereInput
+}
+
 
 export type AccountSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -759,6 +871,7 @@ export type AccountSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   account_roles?: boolean | Prisma.Account$account_rolesArgs<ExtArgs>
   abatimento?: boolean | Prisma.Account$abatimentoArgs<ExtArgs>
   login_codes?: boolean | Prisma.Account$login_codesArgs<ExtArgs>
+  password_reset_token?: boolean | Prisma.Account$password_reset_tokenArgs<ExtArgs>
   _count?: boolean | Prisma.AccountCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["account"]>
 
@@ -800,6 +913,7 @@ export type AccountInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   account_roles?: boolean | Prisma.Account$account_rolesArgs<ExtArgs>
   abatimento?: boolean | Prisma.Account$abatimentoArgs<ExtArgs>
   login_codes?: boolean | Prisma.Account$login_codesArgs<ExtArgs>
+  password_reset_token?: boolean | Prisma.Account$password_reset_tokenArgs<ExtArgs>
   _count?: boolean | Prisma.AccountCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AccountIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -811,6 +925,7 @@ export type $AccountPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     account_roles: Prisma.$AccountRolesPayload<ExtArgs>[]
     abatimento: Prisma.$AbatimentoPayload<ExtArgs>[]
     login_codes: Prisma.$LoginCodePayload<ExtArgs>[]
+    password_reset_token: Prisma.$PasswordResetTokenPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1218,6 +1333,7 @@ export interface Prisma__AccountClient<T, Null = never, ExtArgs extends runtime.
   account_roles<T extends Prisma.Account$account_rolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Account$account_rolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountRolesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   abatimento<T extends Prisma.Account$abatimentoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Account$abatimentoArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AbatimentoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   login_codes<T extends Prisma.Account$login_codesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Account$login_codesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LoginCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  password_reset_token<T extends Prisma.Account$password_reset_tokenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Account$password_reset_tokenArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1717,6 +1833,30 @@ export type Account$login_codesArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.LoginCodeScalarFieldEnum | Prisma.LoginCodeScalarFieldEnum[]
+}
+
+/**
+ * Account.password_reset_token
+ */
+export type Account$password_reset_tokenArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PasswordResetToken
+   */
+  select?: Prisma.PasswordResetTokenSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PasswordResetToken
+   */
+  omit?: Prisma.PasswordResetTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PasswordResetTokenInclude<ExtArgs> | null
+  where?: Prisma.PasswordResetTokenWhereInput
+  orderBy?: Prisma.PasswordResetTokenOrderByWithRelationInput | Prisma.PasswordResetTokenOrderByWithRelationInput[]
+  cursor?: Prisma.PasswordResetTokenWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PasswordResetTokenScalarFieldEnum | Prisma.PasswordResetTokenScalarFieldEnum[]
 }
 
 /**

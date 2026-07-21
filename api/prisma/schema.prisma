@@ -30,6 +30,7 @@ model Account {
   account_roles AccountRoles[]
   abatimento Abatimento[]
   login_codes LoginCode[]
+  password_reset_token PasswordResetToken[]
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
@@ -52,6 +53,24 @@ model LoginCode {
 
   @@index([account_id])
   @@map("login_codes")
+}
+
+model PasswordResetToken {
+  id Int @id @default(autoincrement())
+
+  token_hash String
+  expires_at DateTime
+  used_at DateTime?
+
+  account Account @relation(references: [id], fields: [account_id], onDelete: Cascade)
+  account_id Int
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@index([account_id])
+  @@unique([token_hash])
+  @@map("password_reset_tokens")
 }
 
 model Settings {

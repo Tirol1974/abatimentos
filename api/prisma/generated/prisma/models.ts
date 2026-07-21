@@ -10,6 +10,7 @@
  */
 export type * from './models/Account.js'
 export type * from './models/LoginCode.js'
+export type * from './models/PasswordResetToken.js'
 export type * from './models/Settings.js'
 export type * from './models/Role.js'
 export type * from './models/Abatimento.js'
