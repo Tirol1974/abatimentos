@@ -1,11 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AlertCircleIcon, Download, FileUp, Play, ReceiptText } from "lucide-react";
+import { AlertCircleIcon, Download, FileUp, Newspaper, Play, ReceiptText } from "lucide-react";
 import { BoletoPreviewDialog } from "@/components/abatimentos/BoletoPreviewDialog";
 import { ApiErrorData } from "@/components/forms/SignIn";
 import { BreadLinks } from "@/components/navigations/bread-links";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
+} from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,9 +30,24 @@ type Account = {
   cnpj_root: string;
 }
 
+type PartidaAbatimento = {
+  id: string;
+  tipo: string;
+  blart: string;
+  doc: string;
+  parcela: number;
+  dataDocumento: string;
+  dataVencimento: string;
+  valor: number;
+  referencia: string;
+  descricao: string;
+}
+
 type Abatimento = {
   id: number;
   account: Account;
+  devolucoes: PartidaAbatimento[];
+  vendas: PartidaAbatimento[];
   status: "solicitado" | "atendimento" | "finalizado";
   total_devolucoes: number;
   total_vendas: number;
@@ -341,6 +362,29 @@ export default function AdminAbatimentosPage() {
                   </Item>
                 </div>
 
+                <Accordion type="multiple">
+                  <AccordionItem value={`devolucoes-${abatimento.id}`}>
+                    <AccordionTrigger>
+                      Devolucoes selecionadas ({abatimento.devolucoes.length})
+                    </AccordionTrigger>
+                    <AccordionContent className="flex flex-col gap-2">
+                      {abatimento.devolucoes.map((partida) => (
+                        <NfResumo key={partida.id} partida={partida} />
+                      ))}
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value={`vendas-${abatimento.id}`}>
+                    <AccordionTrigger>
+                      Vendas selecionadas ({abatimento.vendas.length})
+                    </AccordionTrigger>
+                    <AccordionContent className="flex flex-col gap-2">
+                      {abatimento.vendas.map((partida) => (
+                        <NfResumo key={partida.id} partida={partida} />
+                      ))}
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+
                 <Item variant="outline">
                   <ItemMedia>
                     <FileUp />
@@ -415,5 +459,28 @@ const matchesSearch = (abatimento: Abatimento, search: string) => {
     abatimento.account.cnpj_root.includes(normalizedSearch) ||
     abatimento.account.name.toLowerCase().includes(rawSearch) ||
     abatimento.account.email.toLowerCase().includes(rawSearch)
+  );
+}
+
+const NfResumo = ({
+  partida
+}: {
+  partida: PartidaAbatimento
+}) => {
+  return (
+    <Item variant="outline">
+      <ItemMedia>
+        <Newspaper />
+      </ItemMedia>
+      <ItemContent>
+        <span>NF {partida.referencia}</span>
+        <span>Parcela {partida.parcela}</span>
+      </ItemContent>
+      <ItemDescription>
+        <Badge variant={partida.valor < 0 ? "default" : "secondary"}>
+          {valorFormatado(partida.valor)}
+        </Badge>
+      </ItemDescription>
+    </Item>
   );
 }
