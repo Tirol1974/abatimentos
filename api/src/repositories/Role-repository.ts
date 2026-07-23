@@ -23,6 +23,10 @@ export class RoleRepository {
   }
 
   public async list() {
-    return await this.prismaClient.role.findMany();
+    return await this.prismaClient.role.findMany({
+      orderBy: {
+        name: "asc",
+      }
+    });
   }
 }

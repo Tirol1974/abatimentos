@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/sonner"
 import { Metadata } from 'next';
 import { Navbar } from '@/components/ui/navbar';
 import Script from 'next/script';
+import { getAuthenticatedAccount } from '@/lib/auth';
 
 export const metadata: Metadata = {
   title: {
@@ -48,6 +49,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const signedAccount = await getAuthenticatedAccount();
+
   return (
     <html
       lang="pt-br"
@@ -56,7 +59,7 @@ export default async function RootLayout({
       <body className={`${customFont.variable} font-sans`}>
         <main className="container flex flex-col h-screen m-auto p-3">
           <ThemeProvider>
-            <Navbar />
+            <Navbar initialAccount={signedAccount} />
             {children}
             <Toaster position="top-center" />
           </ThemeProvider>

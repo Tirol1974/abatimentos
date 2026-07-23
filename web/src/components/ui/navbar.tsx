@@ -12,8 +12,8 @@ import {
   DrawerTrigger
 } from "./drawer";
 import { Button } from "./button";
-import { useSignedAccount } from '../../../store/signedAccount';
-import { useState } from 'react';
+import { SignedAccount, useSignedAccount } from '../../../store/signedAccount';
+import { useEffect, useState } from 'react';
 import { ApiErrorData } from '../forms/SignIn';
 import { useRouter } from 'next/navigation';
 import { Separator } from './separator';
@@ -21,7 +21,13 @@ import Link from 'next/link';
 import { maskCNPJ } from '@/lib/utils';
 import Image from 'next/image';
 
-export const Navbar = () => {
+type NavbarProps = {
+  initialAccount: SignedAccount | null;
+}
+
+export const Navbar = ({
+  initialAccount
+}: NavbarProps) => {
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState<ApiErrorData>({
     message: "",
@@ -30,10 +36,19 @@ export const Navbar = () => {
   
   const {
     account,
+    setSignedAccount,
     logout
   } = useSignedAccount();
 
   const router = useRouter();
+
+  useEffect(() => {
+    if (!account && initialAccount) {
+      setSignedAccount(initialAccount);
+    }
+  }, [ account, initialAccount, setSignedAccount ]);
+
+  const signedAccount = account ?? initialAccount;
 
   const onLogout = async () => {
       setLoading(true);
@@ -81,7 +96,7 @@ export const Navbar = () => {
         </div>
         
         <div className='block md:hidden'>
-          {account && (
+          {signedAccount && (
             <Drawer direction='right'>
               <DrawerTrigger>
                 <MenuIcon />
@@ -96,8 +111,8 @@ export const Navbar = () => {
                     gap-5
                   "
                 >
-                  <span className='font-md text-lg'>{account?.name}</span>
-                  {account?.cnpj_root && <span className='text-sm'>Cliente {maskCNPJ(account.cnpj_root)}</span>}
+                  <span className='font-md text-lg'>{signedAccount?.name}</span>
+                  {signedAccount?.cnpj_root && <span className='text-sm'>Cliente {maskCNPJ(signedAccount.cnpj_root)}</span>}
                   <Button
                     size='sm'
                     variant='destructive'
@@ -113,7 +128,7 @@ export const Navbar = () => {
                     <Users />
                     Contas
                   </Link>
-                  {account.role == "admin" && (
+                  {signedAccount.role == "admin" && (
                     <Link href="/abatimentos" className="flex gap-2 items-center border-l-0 border-r-0 border-t-0 border w-full justify-center pb-5">
                       <ReceiptText />
                       Abatimentos
@@ -136,13 +151,13 @@ export const Navbar = () => {
             <span>Saindo...</span>
           ) : (
             <>
-              {account && (
+              {signedAccount && (
                 <>
                   <div className="flex min-w-0 flex-col items-end gap-0.5 border-r pr-4">
-                    <span className='max-w-72 truncate text-sm font-medium'>{account?.name}</span>
-                    {account?.cnpj_root && (
+                    <span className='max-w-72 truncate text-sm font-medium'>{signedAccount?.name}</span>
+                    {signedAccount?.cnpj_root && (
                       <span className='text-xs text-muted-foreground'>
-                        Cliente {maskCNPJ(account.cnpj_root)}
+                        Cliente {maskCNPJ(signedAccount.cnpj_root)}
                       </span>
                     )}
                   </div>

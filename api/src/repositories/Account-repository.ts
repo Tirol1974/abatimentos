@@ -119,6 +119,11 @@ export class AccountRepository {
           }
         },
         role: true,
+      },
+      orderBy: {
+        account: {
+          name: "asc",
+        }
       }
     });
 
