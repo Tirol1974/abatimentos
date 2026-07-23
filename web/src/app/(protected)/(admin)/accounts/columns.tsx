@@ -22,7 +22,7 @@ import { toast } from "sonner";
 import { ApiErrorData } from "@/components/forms/SignIn";
 
 export type Account = {
-  id: string
+  id: number
   name: string
   email: string
   role: string

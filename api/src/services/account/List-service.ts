@@ -11,13 +11,13 @@ export class ListAccountsService {
     const accounts = await this.accountRepository.list();
     
     return accounts.map((data) => ({
-      id: data.id,
+      id: data.account.id,
       name: data.account.name,
       email: data.account.email,
       role: data.role.slug,
       cnpj_root: data.account.cnpj_root,
-      created_at: data.created_at,
-      updated_at: data.updated_at
+      created_at: data.account.created_at,
+      updated_at: data.account.updated_at
     }));
   }
 }
