@@ -29,6 +29,7 @@ export const Navbar = ({
   initialAccount
 }: NavbarProps) => {
   const [loading, setLoading] = useState(false);
+  const [hasLoggedOut, setHasLoggedOut] = useState(false);
   const [apiError, setApiError] = useState<ApiErrorData>({
     message: "",
     status: ""
@@ -48,7 +49,7 @@ export const Navbar = ({
     }
   }, [ account, initialAccount, setSignedAccount ]);
 
-  const signedAccount = account ?? initialAccount;
+  const signedAccount = hasLoggedOut ? null : account ?? initialAccount;
 
   const onLogout = async () => {
       setLoading(true);
@@ -69,9 +70,12 @@ export const Navbar = ({
           setLoading(false);
   
           setApiError(data);
+
+          return;
         }
 
         logout();
+        setHasLoggedOut(true);
 
         setLoading(false);
         
