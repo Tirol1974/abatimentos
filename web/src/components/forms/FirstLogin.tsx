@@ -60,6 +60,10 @@ export const FirstLoginForm = ({
     });
 
     try {
+      const token = await window.grecaptcha.enterprise.execute(`${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`, {
+        action: "first_login",
+      });
+
       const request = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/first-login`, {
         method: "POST",
@@ -67,7 +71,10 @@ export const FirstLoginForm = ({
           "Content-Type": "application/json"
         },
         credentials: 'include',
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...data,
+          recaptcha_token: token
+        }),
       });
 
       if (!request.ok) {

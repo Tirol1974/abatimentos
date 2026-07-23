@@ -33,10 +33,12 @@ services:
     environment:
       - NODE_ENV=${NODE_ENV}
       - CHOKIDAR_USEPOLLING=true
+      - GOOGLE_APPLICATION_CREDENTIALS=/usr/src/app/recaptcha-auth.json
     volumes:
       - ./api:/usr/src/app
       - /usr/src/app/node_modules
       - ./uploads:/usr/src/app/uploads
+      - ./google/recaptcha-auth.json:/usr/src/app/recaptcha-auth.json:ro
     depends_on:
       postgres:
         condition: service_healthy

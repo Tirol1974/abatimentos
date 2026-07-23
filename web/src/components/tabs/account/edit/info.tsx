@@ -58,7 +58,7 @@ export const InfoTabContent = ({
       account_id: account.id,
       name: account.name,
       email: account.email,
-      cnpj_root: account.cnpj_root,
+      cnpj_root: maskCNPJRoot(account.cnpj_root),
       role: account.role
     }
   });

@@ -1023,6 +1023,9 @@ export type PasswordResetTokenScalarFieldEnum = (typeof PasswordResetTokenScalar
 export const SettingsScalarFieldEnum = {
   id: 'id',
   validity_days: 'validity_days',
+  devolucao_days_back: 'devolucao_days_back',
+  venda_days_forward: 'venda_days_forward',
+  abatimentos_mail_to: 'abatimentos_mail_to',
   created_at: 'created_at',
   updated_at: 'updated_at'
 } as const

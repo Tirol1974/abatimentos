@@ -30,9 +30,10 @@ services:
     ports:
       - "3333"
     env_file:
-      - ./api/.env
+      - ./api/.prod.env
     volumes:
       - /opt/abatimentos/uploads:/usr/src/app/uploads
+      - /opt/abatimentos/google/recaptcha-auth.json:/run/secrets/recaptcha-auth.json:ro
     depends_on:
       postgres:
         condition: service_healthy

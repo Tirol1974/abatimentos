@@ -5,6 +5,7 @@ import { ThemeProvider } from "next-themes"
 import { Toaster } from "@/components/ui/sonner"
 import { Metadata } from 'next';
 import { Navbar } from '@/components/ui/navbar';
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   title: {

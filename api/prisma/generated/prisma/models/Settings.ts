@@ -29,16 +29,23 @@ export type AggregateSettings = {
 export type SettingsAvgAggregateOutputType = {
   id: number | null
   validity_days: number | null
+  devolucao_days_back: number | null
+  venda_days_forward: number | null
 }
 
 export type SettingsSumAggregateOutputType = {
   id: number | null
   validity_days: number | null
+  devolucao_days_back: number | null
+  venda_days_forward: number | null
 }
 
 export type SettingsMinAggregateOutputType = {
   id: number | null
   validity_days: number | null
+  devolucao_days_back: number | null
+  venda_days_forward: number | null
+  abatimentos_mail_to: string | null
   created_at: Date | null
   updated_at: Date | null
 }
@@ -46,6 +53,9 @@ export type SettingsMinAggregateOutputType = {
 export type SettingsMaxAggregateOutputType = {
   id: number | null
   validity_days: number | null
+  devolucao_days_back: number | null
+  venda_days_forward: number | null
+  abatimentos_mail_to: string | null
   created_at: Date | null
   updated_at: Date | null
 }
@@ -53,6 +63,9 @@ export type SettingsMaxAggregateOutputType = {
 export type SettingsCountAggregateOutputType = {
   id: number
   validity_days: number
+  devolucao_days_back: number
+  venda_days_forward: number
+  abatimentos_mail_to: number
   created_at: number
   updated_at: number
   _all: number
@@ -62,16 +75,23 @@ export type SettingsCountAggregateOutputType = {
 export type SettingsAvgAggregateInputType = {
   id?: true
   validity_days?: true
+  devolucao_days_back?: true
+  venda_days_forward?: true
 }
 
 export type SettingsSumAggregateInputType = {
   id?: true
   validity_days?: true
+  devolucao_days_back?: true
+  venda_days_forward?: true
 }
 
 export type SettingsMinAggregateInputType = {
   id?: true
   validity_days?: true
+  devolucao_days_back?: true
+  venda_days_forward?: true
+  abatimentos_mail_to?: true
   created_at?: true
   updated_at?: true
 }
@@ -79,6 +99,9 @@ export type SettingsMinAggregateInputType = {
 export type SettingsMaxAggregateInputType = {
   id?: true
   validity_days?: true
+  devolucao_days_back?: true
+  venda_days_forward?: true
+  abatimentos_mail_to?: true
   created_at?: true
   updated_at?: true
 }
@@ -86,6 +109,9 @@ export type SettingsMaxAggregateInputType = {
 export type SettingsCountAggregateInputType = {
   id?: true
   validity_days?: true
+  devolucao_days_back?: true
+  venda_days_forward?: true
+  abatimentos_mail_to?: true
   created_at?: true
   updated_at?: true
   _all?: true
@@ -180,6 +206,9 @@ export type SettingsGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 export type SettingsGroupByOutputType = {
   id: number
   validity_days: number
+  devolucao_days_back: number
+  venda_days_forward: number
+  abatimentos_mail_to: string
   created_at: Date
   updated_at: Date
   _count: SettingsCountAggregateOutputType | null
@@ -210,6 +239,9 @@ export type SettingsWhereInput = {
   NOT?: Prisma.SettingsWhereInput | Prisma.SettingsWhereInput[]
   id?: Prisma.IntFilter<"Settings"> | number
   validity_days?: Prisma.IntFilter<"Settings"> | number
+  devolucao_days_back?: Prisma.IntFilter<"Settings"> | number
+  venda_days_forward?: Prisma.IntFilter<"Settings"> | number
+  abatimentos_mail_to?: Prisma.StringFilter<"Settings"> | string
   created_at?: Prisma.DateTimeFilter<"Settings"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"Settings"> | Date | string
 }
@@ -217,6 +249,9 @@ export type SettingsWhereInput = {
 export type SettingsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   validity_days?: Prisma.SortOrder
+  devolucao_days_back?: Prisma.SortOrder
+  venda_days_forward?: Prisma.SortOrder
+  abatimentos_mail_to?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
 }
@@ -227,6 +262,9 @@ export type SettingsWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.SettingsWhereInput[]
   NOT?: Prisma.SettingsWhereInput | Prisma.SettingsWhereInput[]
   validity_days?: Prisma.IntFilter<"Settings"> | number
+  devolucao_days_back?: Prisma.IntFilter<"Settings"> | number
+  venda_days_forward?: Prisma.IntFilter<"Settings"> | number
+  abatimentos_mail_to?: Prisma.StringFilter<"Settings"> | string
   created_at?: Prisma.DateTimeFilter<"Settings"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"Settings"> | Date | string
 }, "id">
@@ -234,6 +272,9 @@ export type SettingsWhereUniqueInput = Prisma.AtLeast<{
 export type SettingsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   validity_days?: Prisma.SortOrder
+  devolucao_days_back?: Prisma.SortOrder
+  venda_days_forward?: Prisma.SortOrder
+  abatimentos_mail_to?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   _count?: Prisma.SettingsCountOrderByAggregateInput
@@ -249,12 +290,18 @@ export type SettingsScalarWhereWithAggregatesInput = {
   NOT?: Prisma.SettingsScalarWhereWithAggregatesInput | Prisma.SettingsScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Settings"> | number
   validity_days?: Prisma.IntWithAggregatesFilter<"Settings"> | number
+  devolucao_days_back?: Prisma.IntWithAggregatesFilter<"Settings"> | number
+  venda_days_forward?: Prisma.IntWithAggregatesFilter<"Settings"> | number
+  abatimentos_mail_to?: Prisma.StringWithAggregatesFilter<"Settings"> | string
   created_at?: Prisma.DateTimeWithAggregatesFilter<"Settings"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"Settings"> | Date | string
 }
 
 export type SettingsCreateInput = {
   validity_days?: number
+  devolucao_days_back?: number
+  venda_days_forward?: number
+  abatimentos_mail_to?: string
   created_at?: Date | string
   updated_at?: Date | string
 }
@@ -262,12 +309,18 @@ export type SettingsCreateInput = {
 export type SettingsUncheckedCreateInput = {
   id?: number
   validity_days?: number
+  devolucao_days_back?: number
+  venda_days_forward?: number
+  abatimentos_mail_to?: string
   created_at?: Date | string
   updated_at?: Date | string
 }
 
 export type SettingsUpdateInput = {
   validity_days?: Prisma.IntFieldUpdateOperationsInput | number
+  devolucao_days_back?: Prisma.IntFieldUpdateOperationsInput | number
+  venda_days_forward?: Prisma.IntFieldUpdateOperationsInput | number
+  abatimentos_mail_to?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -275,6 +328,9 @@ export type SettingsUpdateInput = {
 export type SettingsUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   validity_days?: Prisma.IntFieldUpdateOperationsInput | number
+  devolucao_days_back?: Prisma.IntFieldUpdateOperationsInput | number
+  venda_days_forward?: Prisma.IntFieldUpdateOperationsInput | number
+  abatimentos_mail_to?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -282,12 +338,18 @@ export type SettingsUncheckedUpdateInput = {
 export type SettingsCreateManyInput = {
   id?: number
   validity_days?: number
+  devolucao_days_back?: number
+  venda_days_forward?: number
+  abatimentos_mail_to?: string
   created_at?: Date | string
   updated_at?: Date | string
 }
 
 export type SettingsUpdateManyMutationInput = {
   validity_days?: Prisma.IntFieldUpdateOperationsInput | number
+  devolucao_days_back?: Prisma.IntFieldUpdateOperationsInput | number
+  venda_days_forward?: Prisma.IntFieldUpdateOperationsInput | number
+  abatimentos_mail_to?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -295,6 +357,9 @@ export type SettingsUpdateManyMutationInput = {
 export type SettingsUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   validity_days?: Prisma.IntFieldUpdateOperationsInput | number
+  devolucao_days_back?: Prisma.IntFieldUpdateOperationsInput | number
+  venda_days_forward?: Prisma.IntFieldUpdateOperationsInput | number
+  abatimentos_mail_to?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -302,6 +367,9 @@ export type SettingsUncheckedUpdateManyInput = {
 export type SettingsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   validity_days?: Prisma.SortOrder
+  devolucao_days_back?: Prisma.SortOrder
+  venda_days_forward?: Prisma.SortOrder
+  abatimentos_mail_to?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
 }
@@ -309,11 +377,16 @@ export type SettingsCountOrderByAggregateInput = {
 export type SettingsAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   validity_days?: Prisma.SortOrder
+  devolucao_days_back?: Prisma.SortOrder
+  venda_days_forward?: Prisma.SortOrder
 }
 
 export type SettingsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   validity_days?: Prisma.SortOrder
+  devolucao_days_back?: Prisma.SortOrder
+  venda_days_forward?: Prisma.SortOrder
+  abatimentos_mail_to?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
 }
@@ -321,6 +394,9 @@ export type SettingsMaxOrderByAggregateInput = {
 export type SettingsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   validity_days?: Prisma.SortOrder
+  devolucao_days_back?: Prisma.SortOrder
+  venda_days_forward?: Prisma.SortOrder
+  abatimentos_mail_to?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
 }
@@ -328,6 +404,8 @@ export type SettingsMinOrderByAggregateInput = {
 export type SettingsSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   validity_days?: Prisma.SortOrder
+  devolucao_days_back?: Prisma.SortOrder
+  venda_days_forward?: Prisma.SortOrder
 }
 
 
@@ -335,6 +413,9 @@ export type SettingsSumOrderByAggregateInput = {
 export type SettingsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   validity_days?: boolean
+  devolucao_days_back?: boolean
+  venda_days_forward?: boolean
+  abatimentos_mail_to?: boolean
   created_at?: boolean
   updated_at?: boolean
 }, ExtArgs["result"]["settings"]>
@@ -342,6 +423,9 @@ export type SettingsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
 export type SettingsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   validity_days?: boolean
+  devolucao_days_back?: boolean
+  venda_days_forward?: boolean
+  abatimentos_mail_to?: boolean
   created_at?: boolean
   updated_at?: boolean
 }, ExtArgs["result"]["settings"]>
@@ -349,6 +433,9 @@ export type SettingsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
 export type SettingsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   validity_days?: boolean
+  devolucao_days_back?: boolean
+  venda_days_forward?: boolean
+  abatimentos_mail_to?: boolean
   created_at?: boolean
   updated_at?: boolean
 }, ExtArgs["result"]["settings"]>
@@ -356,11 +443,14 @@ export type SettingsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
 export type SettingsSelectScalar = {
   id?: boolean
   validity_days?: boolean
+  devolucao_days_back?: boolean
+  venda_days_forward?: boolean
+  abatimentos_mail_to?: boolean
   created_at?: boolean
   updated_at?: boolean
 }
 
-export type SettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "validity_days" | "created_at" | "updated_at", ExtArgs["result"]["settings"]>
+export type SettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "validity_days" | "devolucao_days_back" | "venda_days_forward" | "abatimentos_mail_to" | "created_at" | "updated_at", ExtArgs["result"]["settings"]>
 
 export type $SettingsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Settings"
@@ -368,6 +458,9 @@ export type $SettingsPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     validity_days: number
+    devolucao_days_back: number
+    venda_days_forward: number
+    abatimentos_mail_to: string
     created_at: Date
     updated_at: Date
   }, ExtArgs["result"]["settings"]>
@@ -795,6 +888,9 @@ export interface Prisma__SettingsClient<T, Null = never, ExtArgs extends runtime
 export interface SettingsFieldRefs {
   readonly id: Prisma.FieldRef<"Settings", 'Int'>
   readonly validity_days: Prisma.FieldRef<"Settings", 'Int'>
+  readonly devolucao_days_back: Prisma.FieldRef<"Settings", 'Int'>
+  readonly venda_days_forward: Prisma.FieldRef<"Settings", 'Int'>
+  readonly abatimentos_mail_to: Prisma.FieldRef<"Settings", 'String'>
   readonly created_at: Prisma.FieldRef<"Settings", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"Settings", 'DateTime'>
 }

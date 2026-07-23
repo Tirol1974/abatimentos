@@ -39,7 +39,8 @@ export async function AuthRoutes(
         description: "Endpoint responsável por fazer a autenticação dos usuários",
         body: z.object({
           email: z.email(),
-          password: z.string()
+          password: z.string(),
+          recaptcha_token: z.string().min(1),
         }),
         response: {
           200: z.object({
@@ -114,6 +115,7 @@ export async function AuthRoutes(
         description: "Endpoint responsavel por validar o primeiro acesso do cliente",
         body: z.object({
           email: z.email(),
+          recaptcha_token: z.string().min(1),
         }),
         response: {
           204: z.void(),
@@ -143,6 +145,7 @@ export async function AuthRoutes(
         description: "Endpoint responsavel por enviar o e-mail com o link para redefinição da senha do usuário",
         body: z.object({
           email: z.email(),
+          recaptcha_token: z.string().min(1),
         }),
         response: {
           204: z.void(),

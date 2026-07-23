@@ -55,15 +55,30 @@ export const SendResetPasswordLinkEmailForm = () => {
     });
 
     try {
-      await fetch(
+      const token = await window.grecaptcha.enterprise.execute(`${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`, {
+        action: "send_reset_password_link",
+      });
+
+      const request = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/send-reset-password-link`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         credentials: 'include',
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...data,
+          recaptcha_token: token
+        }),
       });
+
+      if (!request.ok) {
+        const response = await request.json();
+
+        setApiError(response as ApiErrorData);
+        
+        return;
+      }
 
       toast.success("Enviamos um link para redefinição da senha no seu e-mail");
 

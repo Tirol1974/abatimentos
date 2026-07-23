@@ -77,6 +77,9 @@ model Settings {
   id Int @id @default(autoincrement())
 
   validity_days Int @default(5)
+  devolucao_days_back Int @default(5)
+  venda_days_forward Int @default(7)
+  abatimentos_mail_to String @default("")
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now())

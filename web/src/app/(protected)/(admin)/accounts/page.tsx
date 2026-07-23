@@ -4,7 +4,7 @@ import { CreateAccountModal } from "@/components/modals/CreateAccountModal";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
 import { AlertCircleIcon, User } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { Account, account_collumns } from "./columns";
+import { Account, getAccountColumns } from "./columns";
 import { ApiErrorData } from "@/components/forms/SignIn";
 import { AccountsDataTable } from "./data-table";
 import { Spinner } from "@/components/ui/spinner";
@@ -56,7 +56,11 @@ export default function AccountsPage() {
   }, [ updateAccountsList ]);
 
   const renderTable = useMemo(() => {
-    return <AccountsDataTable columns={account_collumns} data={accounts} />
+    const accountColumns = getAccountColumns({
+      toggleUpdateAccountsList,
+    });
+
+    return <AccountsDataTable columns={accountColumns} data={accounts} />
   }, [ accounts ]);
 
   if (loading) {

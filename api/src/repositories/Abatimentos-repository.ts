@@ -11,6 +11,8 @@ export class AbatimentosRepository {
   public boleto_file_name: string = "";
   public status: "solicitado" | "atendimento" | "finalizado" = "solicitado";
   public own: boolean = false;
+  public date_start: Date = new Date();
+  public date_end: Date = new Date();
 
   constructor(
     private readonly prismaClient: PrismaTransactionClient = prisma
@@ -64,6 +66,27 @@ export class AbatimentosRepository {
   public async countByAccountId() {
     return await this.prismaClient.abatimento.count({
       where: { account_id: this.account_id }
+    });
+  }
+
+  public async listMetricsByPeriod() {
+    return await this.prismaClient.abatimento.findMany({
+      where: {
+        OR: [
+          {
+            created_at: {
+              gte: this.date_start,
+              lt: this.date_end,
+            }
+          },
+          {
+            boleto_uploaded_at: {
+              gte: this.date_start,
+              lt: this.date_end,
+            }
+          }
+        ]
+      }
     });
   }
 

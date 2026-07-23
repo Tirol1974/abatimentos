@@ -12,6 +12,7 @@ import { ListAdminAbatimentosController } from "../controllers/abatimentos/List-
 import { AttachBoletoController, type AttachBoletoRequest } from "../controllers/abatimentos/Attach-boleto-controller.js";
 import { DownloadBoletoController, type DownloadBoletoRequest } from "../controllers/abatimentos/Download-boleto-controller.js";
 import { ChangeAbatimentoStatusController, type ChangeAbatimentoStatusRequest } from "../controllers/abatimentos/Change-status-controller.js";
+import { MetricsAdminAbatimentosController, type MetricsAdminAbatimentosRequest } from "../controllers/abatimentos/Metrics-admin-controller.js";
 
 export async function AbatimentosRoutes(
   fastify: FastifyInstance
@@ -22,6 +23,7 @@ export async function AbatimentosRoutes(
   const attachBoletoController = new AttachBoletoController();
   const downloadBoletoController = new DownloadBoletoController();
   const changeAbatimentoStatusController = new ChangeAbatimentoStatusController();
+  const metricsAdminAbatimentosController = new MetricsAdminAbatimentosController();
 
   const ErrorResponseSchema = z.object({
     status: z.literal("ERROR"),
@@ -53,6 +55,39 @@ export async function AbatimentosRoutes(
     boleto_download_url: z.string().nullable(),
     created_at: z.date(),
     updated_at: z.date(),
+  });
+
+  const RawAbatimentoResponseSchema = z.object({
+    id: z.number(),
+    account_id: z.number(),
+    devolucoes: z.unknown(),
+    vendas: z.unknown(),
+    status: z.enum(["solicitado", "atendimento", "finalizado"]),
+    boleto_path: z.string().nullable(),
+    boleto_file_name: z.string().nullable(),
+    boleto_uploaded_at: z.date().nullable(),
+    created_at: z.date(),
+    updated_at: z.date(),
+  });
+
+  const AdminAbatimentoResponseSchema = AbatimentoResponseSchema.extend({
+    account: z.object({
+      id: z.number(),
+      name: z.string(),
+      email: z.email(),
+      cnpj_root: z.string(),
+    }),
+  });
+
+  const AdminAbatimentoMetricsResponseSchema = z.object({
+    month: z.string(),
+    total_requested: z.number(),
+    total_finished: z.number(),
+    total_in_progress: z.number(),
+    total_pending: z.number(),
+    amount_requested: z.number(),
+    amount_finished: z.number(),
+    average_resolution_hours: z.number(),
   });
 
   fastify.post(
@@ -125,7 +160,7 @@ export async function AbatimentosRoutes(
           }
         ],
         response: {
-          200: z.array(z.any()),
+          200: z.array(AdminAbatimentoResponseSchema),
 
           400: ErrorResponseSchema,
 
@@ -136,6 +171,35 @@ export async function AbatimentosRoutes(
     },
     async (request: FastifyRequest, reply: FastifyReply) => {
       return listAdminAbatimentosController.handle(request, reply);
+    }
+  );
+
+  fastify.get(
+    "/abatimentos/admin/metrics",
+    {
+      schema: {
+        tags: ["Abatimentos"],
+        description: "Endpoint responsavel por trazer metricas mensais dos abatimentos",
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        querystring: z.object({
+          month: z.string().regex(/^\d{4}-\d{2}$/).optional(),
+        }),
+        response: {
+          200: AdminAbatimentoMetricsResponseSchema,
+
+          400: ErrorResponseSchema,
+
+          500: ErrorResponseSchema
+        }
+      },
+      preHandler: [ checkAuth, checkAdminAuth ],
+    },
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      return metricsAdminAbatimentosController.handle(request as FastifyRequest<MetricsAdminAbatimentosRequest>, reply);
     }
   );
 
@@ -159,7 +223,7 @@ export async function AbatimentosRoutes(
         }),
         response: {
           200: z.object({
-            abatimento: z.any(),
+            abatimento: RawAbatimentoResponseSchema,
           }),
 
           400: ErrorResponseSchema,
@@ -194,7 +258,7 @@ export async function AbatimentosRoutes(
         }),
         response: {
           200: z.object({
-            abatimento: z.any(),
+            abatimento: RawAbatimentoResponseSchema,
           }),
 
           400: ErrorResponseSchema,

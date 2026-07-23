@@ -133,6 +133,10 @@ export const SignInForm = ({
         return router.replace("/");
       }
 
+      const token = await window.grecaptcha.enterprise.execute(`${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`, {
+        action: "sign_in",
+      });
+
       const request = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/sign-in`, {
         method: "POST",
@@ -140,7 +144,10 @@ export const SignInForm = ({
           "Content-Type": "application/json"
         },
         credentials: 'include',
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...data,
+          recaptcha_token: token
+        }),
       });
 
       const response = await request.json();

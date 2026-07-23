@@ -1,7 +1,8 @@
 "use client"
  
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal, Trash, UserPen, UserStar, User } from "lucide-react";
+import { AlertCircleIcon, MoreHorizontal, Trash, UserPen, UserStar, User } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -17,6 +18,8 @@ import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, Di
 import { maskCNPJRoot } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
+import { toast } from "sonner";
+import { ApiErrorData } from "@/components/forms/SignIn";
 
 export type Account = {
   id: string
@@ -28,7 +31,11 @@ export type Account = {
   updated_at: Date
 }
 
-export const account_collumns: ColumnDef<Account>[] = [
+export const getAccountColumns = ({
+  toggleUpdateAccountsList,
+}: {
+  toggleUpdateAccountsList: () => void;
+}): ColumnDef<Account>[] => [
   {
     accessorKey: "id",
     header: "ID",
@@ -97,19 +104,65 @@ export const account_collumns: ColumnDef<Account>[] = [
     id: "actions",
     header: "Ações",
     cell: ({ row }) => { 
-      return <AccountColumnsActions account={row.original} />
+      return (
+        <AccountColumnsActions
+          account={row.original}
+          toggleUpdateAccountsList={toggleUpdateAccountsList}
+        />
+      );
     },
   },
 ]
 
 type AccountColumnsActionsProps = {
   account: Account;
+  toggleUpdateAccountsList: () => void;
 }
 
 const AccountColumnsActions = ({
-  account
+  account,
+  toggleUpdateAccountsList,
 }: AccountColumnsActionsProps) => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<ApiErrorData>({
+    message: "",
+    status: ""
+  });
+
+  const deleteAccount = async () => {
+    setIsDeleting(true);
+    setDeleteError({
+      message: "",
+      status: ""
+    });
+
+    try {
+      const request = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/account/${account.id}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+
+      if (!request.ok) {
+        const data = await request.json() as ApiErrorData;
+
+        setDeleteError(data);
+
+        return;
+      }
+
+      toast.success("Conta deletada com sucesso");
+      setDeleteDialogOpen(false);
+      toggleUpdateAccountsList();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsDeleting(false);
+    }
+  }
   
   return (
     <>
@@ -140,7 +193,16 @@ const AccountColumnsActions = ({
 
       <Dialog
         open={deleteDialogOpen}
-        onOpenChange={setDeleteDialogOpen}
+        onOpenChange={(open) => {
+          setDeleteDialogOpen(open);
+
+          if (!open) {
+            setDeleteError({
+              message: "",
+              status: ""
+            });
+          }
+        }}
       >
         <DialogContent>
           <DialogHeader>
@@ -149,12 +211,25 @@ const AccountColumnsActions = ({
           <DialogDescription>
             Você está deletando a conta {account.name}
           </DialogDescription>
+          {deleteError.message != "" && (
+            <Alert variant="destructive">
+              <AlertCircleIcon />
+              <AlertTitle>Mensagem da API</AlertTitle>
+              <AlertDescription>
+                {deleteError.message}
+              </AlertDescription>
+            </Alert>
+          )}
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="outline">Cancelar</Button>
             </DialogClose>
-            <Button variant={'destructive'}>
-              Confirmar
+            <Button
+              variant={'destructive'}
+              disabled={isDeleting}
+              onClick={deleteAccount}
+            >
+              {isDeleting ? "Deletando..." : "Confirmar"}
             </Button>
           </DialogFooter>
         </DialogContent>

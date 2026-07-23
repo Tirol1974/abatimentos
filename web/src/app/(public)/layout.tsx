@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { getAuthenticatedAccount } from "../../lib/auth";
 import { Metadata } from "next";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: {
@@ -23,6 +24,10 @@ export default async function PublicLayout({ children }: { children: React.React
   return (
     <div className="flex flex-col flex-1 items-center justify-center p-3">
       {children}
+      <Script
+        src={`https://www.google.com/recaptcha/enterprise.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+        strategy="afterInteractive"
+      />
     </div>
   );
 }

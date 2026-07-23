@@ -1,4 +1,5 @@
 import { AccountRepository } from "../../repositories/Account-repository.js";
+import { SettingsRepository } from "../../repositories/Settings-repository.js";
 import { SendEmailService } from "../email/send-email-service.js";
 
 type PartidaAbatimento = {
@@ -15,13 +16,16 @@ type AbatimentoEmailData = {
 
 export class NotifyAbatimentoService {
   private readonly accountRepository: AccountRepository;
+  private readonly settingsRepository: SettingsRepository;
 
   constructor() {
     this.accountRepository = new AccountRepository();
+    this.settingsRepository = new SettingsRepository();
   }
 
   public async notifySolicitado(abatimento: AbatimentoEmailData) {
-    const to = process.env.ABATIMENTOS_MAIL_TO;
+    const settings = await this.settingsRepository.get();
+    const to = settings.abatimentos_mail_to || process.env.ABATIMENTOS_MAIL_TO;
 
     if (!to) {
       return;

@@ -1,24 +1,15 @@
-'use client';
-
 import { FileCheck2, LayoutDashboard, Settings, Users } from "lucide-react";
 import { Item } from "@/components/ui/item";
 import Link from "next/link";
-import { useSignedAccount } from "../../store/signedAccount";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
+import { getAuthenticatedAccount } from "@/lib/auth";
 
-export default function Homepage() {
-  const {
-    account
-  } = useSignedAccount();
+export default async function Homepage() {
+  const account = await getAuthenticatedAccount();
 
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!account) {
-      return router.replace("/sign-in");
-    }
-  }, []);
+  if (!account) {
+    return redirect("/sign-in");
+  }
 
   return (
     <div className="flex flex-col gap-5 py-5">
