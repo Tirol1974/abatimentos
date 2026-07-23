@@ -131,6 +131,12 @@ export class App {
   }
 
   public async registerRoutes() {
+    this.app.get("/health", async (request, reply) => {
+      return reply.code(200).send({
+        status: "ok"
+      });
+    });
+
     await this.app.register(router);
   }
 

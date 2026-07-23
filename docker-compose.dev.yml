@@ -34,6 +34,12 @@ services:
       - NODE_ENV=${NODE_ENV}
       - CHOKIDAR_USEPOLLING=true
       - GOOGLE_APPLICATION_CREDENTIALS=/usr/src/app/recaptcha-auth.json
+    healthcheck:
+      test: [ "CMD-SHELL", "node -e \"fetch('http://localhost:3333/health').then((response) => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))\"" ]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
     volumes:
       - ./api:/usr/src/app
       - /usr/src/app/node_modules
