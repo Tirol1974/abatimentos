@@ -3,7 +3,7 @@ services:
     image: postgres:16-alpine
     container_name: abatimentos-postgres
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER}" ]
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -52,6 +52,9 @@ services:
     build:
       context: ./web
       target: prod
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-https://abatimentos.tirol.com.br/api}
+        NEXT_PUBLIC_RECAPTCHA_SITE_KEY: ${NEXT_PUBLIC_RECAPTCHA_SITE_KEY:-6LdgZ18tAAAAANL5DzBVFOMQ7ZjlV56H3uLmll3u}
     container_name: abatimentos-web
     expose:
       - "3000"

@@ -24,6 +24,7 @@ export class FetchPartidasController {
       doc_type
     } = request.body;
 
+    this.fetchSapPartidasService.account_id = request.user.sub;
     this.fetchSapPartidasService.kunnr_list = kunnr_list;
     this.fetchSapPartidasService.doc_type = doc_type;
 

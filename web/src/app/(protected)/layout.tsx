@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { Navbar } from "../../components/ui/navbar";
 import { getAuthenticatedAccount } from "../../lib/auth";
 import { redirect } from "next/navigation";
+import { RecaptchaCleanup } from "@/components/security/RecaptchaCleanup";
 
 export const metadata: Metadata = {
   title: {
@@ -23,6 +24,7 @@ export default async function ProtectedLayout({ children }: { children: React.Re
 
   return (
     <div className="flex flex-col">
+      <RecaptchaCleanup />
       <div className="p-3">
         {children}
       </div>

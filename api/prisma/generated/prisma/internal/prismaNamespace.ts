@@ -403,6 +403,7 @@ export const ModelName = {
   Settings: 'Settings',
   Role: 'Role',
   Abatimento: 'Abatimento',
+  AbatimentoCreditoUtilizado: 'AbatimentoCreditoUtilizado',
   AccountRoles: 'AccountRoles'
 } as const
 
@@ -419,7 +420,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "account" | "loginCode" | "passwordResetToken" | "settings" | "role" | "abatimento" | "accountRoles"
+    modelProps: "account" | "loginCode" | "passwordResetToken" | "settings" | "role" | "abatimento" | "abatimentoCreditoUtilizado" | "accountRoles"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -867,6 +868,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    AbatimentoCreditoUtilizado: {
+      payload: Prisma.$AbatimentoCreditoUtilizadoPayload<ExtArgs>
+      fields: Prisma.AbatimentoCreditoUtilizadoFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AbatimentoCreditoUtilizadoFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AbatimentoCreditoUtilizadoPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AbatimentoCreditoUtilizadoFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AbatimentoCreditoUtilizadoPayload>
+        }
+        findFirst: {
+          args: Prisma.AbatimentoCreditoUtilizadoFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AbatimentoCreditoUtilizadoPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AbatimentoCreditoUtilizadoFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AbatimentoCreditoUtilizadoPayload>
+        }
+        findMany: {
+          args: Prisma.AbatimentoCreditoUtilizadoFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AbatimentoCreditoUtilizadoPayload>[]
+        }
+        create: {
+          args: Prisma.AbatimentoCreditoUtilizadoCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AbatimentoCreditoUtilizadoPayload>
+        }
+        createMany: {
+          args: Prisma.AbatimentoCreditoUtilizadoCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AbatimentoCreditoUtilizadoCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AbatimentoCreditoUtilizadoPayload>[]
+        }
+        delete: {
+          args: Prisma.AbatimentoCreditoUtilizadoDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AbatimentoCreditoUtilizadoPayload>
+        }
+        update: {
+          args: Prisma.AbatimentoCreditoUtilizadoUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AbatimentoCreditoUtilizadoPayload>
+        }
+        deleteMany: {
+          args: Prisma.AbatimentoCreditoUtilizadoDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AbatimentoCreditoUtilizadoUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AbatimentoCreditoUtilizadoUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AbatimentoCreditoUtilizadoPayload>[]
+        }
+        upsert: {
+          args: Prisma.AbatimentoCreditoUtilizadoUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AbatimentoCreditoUtilizadoPayload>
+        }
+        aggregate: {
+          args: Prisma.AbatimentoCreditoUtilizadoAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAbatimentoCreditoUtilizado>
+        }
+        groupBy: {
+          args: Prisma.AbatimentoCreditoUtilizadoGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AbatimentoCreditoUtilizadoGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AbatimentoCreditoUtilizadoCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AbatimentoCreditoUtilizadoCountAggregateOutputType> | number
+        }
+      }
+    }
     AccountRoles: {
       payload: Prisma.$AccountRolesPayload<ExtArgs>
       fields: Prisma.AccountRolesFieldRefs
@@ -1058,6 +1133,24 @@ export const AbatimentoScalarFieldEnum = {
 } as const
 
 export type AbatimentoScalarFieldEnum = (typeof AbatimentoScalarFieldEnum)[keyof typeof AbatimentoScalarFieldEnum]
+
+
+export const AbatimentoCreditoUtilizadoScalarFieldEnum = {
+  id: 'id',
+  abatimento_id: 'abatimento_id',
+  account_id: 'account_id',
+  doc: 'doc',
+  parcela: 'parcela',
+  tipo: 'tipo',
+  blart: 'blart',
+  referencia: 'referencia',
+  valor_original: 'valor_original',
+  valor_utilizado: 'valor_utilizado',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type AbatimentoCreditoUtilizadoScalarFieldEnum = (typeof AbatimentoCreditoUtilizadoScalarFieldEnum)[keyof typeof AbatimentoCreditoUtilizadoScalarFieldEnum]
 
 
 export const AccountRolesScalarFieldEnum = {
@@ -1364,6 +1457,7 @@ export type GlobalOmitConfig = {
   settings?: Prisma.SettingsOmit
   role?: Prisma.RoleOmit
   abatimento?: Prisma.AbatimentoOmit
+  abatimentoCreditoUtilizado?: Prisma.AbatimentoCreditoUtilizadoOmit
   accountRoles?: Prisma.AccountRolesOmit
 }
 

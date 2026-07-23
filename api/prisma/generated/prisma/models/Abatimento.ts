@@ -253,6 +253,7 @@ export type AbatimentoWhereInput = {
   created_at?: Prisma.DateTimeFilter<"Abatimento"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"Abatimento"> | Date | string
   account?: Prisma.XOR<Prisma.AccountScalarRelationFilter, Prisma.AccountWhereInput>
+  creditos_utilizados?: Prisma.AbatimentoCreditoUtilizadoListRelationFilter
 }
 
 export type AbatimentoOrderByWithRelationInput = {
@@ -267,6 +268,7 @@ export type AbatimentoOrderByWithRelationInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   account?: Prisma.AccountOrderByWithRelationInput
+  creditos_utilizados?: Prisma.AbatimentoCreditoUtilizadoOrderByRelationAggregateInput
 }
 
 export type AbatimentoWhereUniqueInput = Prisma.AtLeast<{
@@ -284,6 +286,7 @@ export type AbatimentoWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeFilter<"Abatimento"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"Abatimento"> | Date | string
   account?: Prisma.XOR<Prisma.AccountScalarRelationFilter, Prisma.AccountWhereInput>
+  creditos_utilizados?: Prisma.AbatimentoCreditoUtilizadoListRelationFilter
 }, "id">
 
 export type AbatimentoOrderByWithAggregationInput = {
@@ -330,6 +333,7 @@ export type AbatimentoCreateInput = {
   created_at?: Date | string
   updated_at?: Date | string
   account: Prisma.AccountCreateNestedOneWithoutAbatimentoInput
+  creditos_utilizados?: Prisma.AbatimentoCreditoUtilizadoCreateNestedManyWithoutAbatimentoInput
 }
 
 export type AbatimentoUncheckedCreateInput = {
@@ -343,6 +347,7 @@ export type AbatimentoUncheckedCreateInput = {
   account_id: number
   created_at?: Date | string
   updated_at?: Date | string
+  creditos_utilizados?: Prisma.AbatimentoCreditoUtilizadoUncheckedCreateNestedManyWithoutAbatimentoInput
 }
 
 export type AbatimentoUpdateInput = {
@@ -355,6 +360,7 @@ export type AbatimentoUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   account?: Prisma.AccountUpdateOneRequiredWithoutAbatimentoNestedInput
+  creditos_utilizados?: Prisma.AbatimentoCreditoUtilizadoUpdateManyWithoutAbatimentoNestedInput
 }
 
 export type AbatimentoUncheckedUpdateInput = {
@@ -368,6 +374,7 @@ export type AbatimentoUncheckedUpdateInput = {
   account_id?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  creditos_utilizados?: Prisma.AbatimentoCreditoUtilizadoUncheckedUpdateManyWithoutAbatimentoNestedInput
 }
 
 export type AbatimentoCreateManyInput = {
@@ -462,6 +469,11 @@ export type AbatimentoSumOrderByAggregateInput = {
   account_id?: Prisma.SortOrder
 }
 
+export type AbatimentoScalarRelationFilter = {
+  is?: Prisma.AbatimentoWhereInput
+  isNot?: Prisma.AbatimentoWhereInput
+}
+
 export type AbatimentoCreateNestedManyWithoutAccountInput = {
   create?: Prisma.XOR<Prisma.AbatimentoCreateWithoutAccountInput, Prisma.AbatimentoUncheckedCreateWithoutAccountInput> | Prisma.AbatimentoCreateWithoutAccountInput[] | Prisma.AbatimentoUncheckedCreateWithoutAccountInput[]
   connectOrCreate?: Prisma.AbatimentoCreateOrConnectWithoutAccountInput | Prisma.AbatimentoCreateOrConnectWithoutAccountInput[]
@@ -512,6 +524,20 @@ export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
 }
 
+export type AbatimentoCreateNestedOneWithoutCreditos_utilizadosInput = {
+  create?: Prisma.XOR<Prisma.AbatimentoCreateWithoutCreditos_utilizadosInput, Prisma.AbatimentoUncheckedCreateWithoutCreditos_utilizadosInput>
+  connectOrCreate?: Prisma.AbatimentoCreateOrConnectWithoutCreditos_utilizadosInput
+  connect?: Prisma.AbatimentoWhereUniqueInput
+}
+
+export type AbatimentoUpdateOneRequiredWithoutCreditos_utilizadosNestedInput = {
+  create?: Prisma.XOR<Prisma.AbatimentoCreateWithoutCreditos_utilizadosInput, Prisma.AbatimentoUncheckedCreateWithoutCreditos_utilizadosInput>
+  connectOrCreate?: Prisma.AbatimentoCreateOrConnectWithoutCreditos_utilizadosInput
+  upsert?: Prisma.AbatimentoUpsertWithoutCreditos_utilizadosInput
+  connect?: Prisma.AbatimentoWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AbatimentoUpdateToOneWithWhereWithoutCreditos_utilizadosInput, Prisma.AbatimentoUpdateWithoutCreditos_utilizadosInput>, Prisma.AbatimentoUncheckedUpdateWithoutCreditos_utilizadosInput>
+}
+
 export type AbatimentoCreateWithoutAccountInput = {
   devolucoes: Prisma.JsonNullValueInput | runtime.InputJsonValue
   vendas: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -521,6 +547,7 @@ export type AbatimentoCreateWithoutAccountInput = {
   boleto_uploaded_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
+  creditos_utilizados?: Prisma.AbatimentoCreditoUtilizadoCreateNestedManyWithoutAbatimentoInput
 }
 
 export type AbatimentoUncheckedCreateWithoutAccountInput = {
@@ -533,6 +560,7 @@ export type AbatimentoUncheckedCreateWithoutAccountInput = {
   boleto_uploaded_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
+  creditos_utilizados?: Prisma.AbatimentoCreditoUtilizadoUncheckedCreateNestedManyWithoutAbatimentoInput
 }
 
 export type AbatimentoCreateOrConnectWithoutAccountInput = {
@@ -577,6 +605,72 @@ export type AbatimentoScalarWhereInput = {
   updated_at?: Prisma.DateTimeFilter<"Abatimento"> | Date | string
 }
 
+export type AbatimentoCreateWithoutCreditos_utilizadosInput = {
+  devolucoes: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  vendas: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: $Enums.AbatimentoStatus
+  boleto_path?: string | null
+  boleto_file_name?: string | null
+  boleto_uploaded_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  account: Prisma.AccountCreateNestedOneWithoutAbatimentoInput
+}
+
+export type AbatimentoUncheckedCreateWithoutCreditos_utilizadosInput = {
+  id?: number
+  devolucoes: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  vendas: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: $Enums.AbatimentoStatus
+  boleto_path?: string | null
+  boleto_file_name?: string | null
+  boleto_uploaded_at?: Date | string | null
+  account_id: number
+  created_at?: Date | string
+  updated_at?: Date | string
+}
+
+export type AbatimentoCreateOrConnectWithoutCreditos_utilizadosInput = {
+  where: Prisma.AbatimentoWhereUniqueInput
+  create: Prisma.XOR<Prisma.AbatimentoCreateWithoutCreditos_utilizadosInput, Prisma.AbatimentoUncheckedCreateWithoutCreditos_utilizadosInput>
+}
+
+export type AbatimentoUpsertWithoutCreditos_utilizadosInput = {
+  update: Prisma.XOR<Prisma.AbatimentoUpdateWithoutCreditos_utilizadosInput, Prisma.AbatimentoUncheckedUpdateWithoutCreditos_utilizadosInput>
+  create: Prisma.XOR<Prisma.AbatimentoCreateWithoutCreditos_utilizadosInput, Prisma.AbatimentoUncheckedCreateWithoutCreditos_utilizadosInput>
+  where?: Prisma.AbatimentoWhereInput
+}
+
+export type AbatimentoUpdateToOneWithWhereWithoutCreditos_utilizadosInput = {
+  where?: Prisma.AbatimentoWhereInput
+  data: Prisma.XOR<Prisma.AbatimentoUpdateWithoutCreditos_utilizadosInput, Prisma.AbatimentoUncheckedUpdateWithoutCreditos_utilizadosInput>
+}
+
+export type AbatimentoUpdateWithoutCreditos_utilizadosInput = {
+  devolucoes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  vendas?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumAbatimentoStatusFieldUpdateOperationsInput | $Enums.AbatimentoStatus
+  boleto_path?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  boleto_file_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  boleto_uploaded_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  account?: Prisma.AccountUpdateOneRequiredWithoutAbatimentoNestedInput
+}
+
+export type AbatimentoUncheckedUpdateWithoutCreditos_utilizadosInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  devolucoes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  vendas?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumAbatimentoStatusFieldUpdateOperationsInput | $Enums.AbatimentoStatus
+  boleto_path?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  boleto_file_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  boleto_uploaded_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  account_id?: Prisma.IntFieldUpdateOperationsInput | number
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type AbatimentoCreateManyAccountInput = {
   id?: number
   devolucoes: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -598,6 +692,7 @@ export type AbatimentoUpdateWithoutAccountInput = {
   boleto_uploaded_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  creditos_utilizados?: Prisma.AbatimentoCreditoUtilizadoUpdateManyWithoutAbatimentoNestedInput
 }
 
 export type AbatimentoUncheckedUpdateWithoutAccountInput = {
@@ -610,6 +705,7 @@ export type AbatimentoUncheckedUpdateWithoutAccountInput = {
   boleto_uploaded_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  creditos_utilizados?: Prisma.AbatimentoCreditoUtilizadoUncheckedUpdateManyWithoutAbatimentoNestedInput
 }
 
 export type AbatimentoUncheckedUpdateManyWithoutAccountInput = {
@@ -625,6 +721,35 @@ export type AbatimentoUncheckedUpdateManyWithoutAccountInput = {
 }
 
 
+/**
+ * Count Type AbatimentoCountOutputType
+ */
+
+export type AbatimentoCountOutputType = {
+  creditos_utilizados: number
+}
+
+export type AbatimentoCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  creditos_utilizados?: boolean | AbatimentoCountOutputTypeCountCreditos_utilizadosArgs
+}
+
+/**
+ * AbatimentoCountOutputType without action
+ */
+export type AbatimentoCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AbatimentoCountOutputType
+   */
+  select?: Prisma.AbatimentoCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * AbatimentoCountOutputType without action
+ */
+export type AbatimentoCountOutputTypeCountCreditos_utilizadosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AbatimentoCreditoUtilizadoWhereInput
+}
+
 
 export type AbatimentoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -638,6 +763,8 @@ export type AbatimentoSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   created_at?: boolean
   updated_at?: boolean
   account?: boolean | Prisma.AccountDefaultArgs<ExtArgs>
+  creditos_utilizados?: boolean | Prisma.Abatimento$creditos_utilizadosArgs<ExtArgs>
+  _count?: boolean | Prisma.AbatimentoCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["abatimento"]>
 
 export type AbatimentoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -684,6 +811,8 @@ export type AbatimentoSelectScalar = {
 export type AbatimentoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "devolucoes" | "vendas" | "status" | "boleto_path" | "boleto_file_name" | "boleto_uploaded_at" | "account_id" | "created_at" | "updated_at", ExtArgs["result"]["abatimento"]>
 export type AbatimentoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   account?: boolean | Prisma.AccountDefaultArgs<ExtArgs>
+  creditos_utilizados?: boolean | Prisma.Abatimento$creditos_utilizadosArgs<ExtArgs>
+  _count?: boolean | Prisma.AbatimentoCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AbatimentoIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   account?: boolean | Prisma.AccountDefaultArgs<ExtArgs>
@@ -696,6 +825,7 @@ export type $AbatimentoPayload<ExtArgs extends runtime.Types.Extensions.Internal
   name: "Abatimento"
   objects: {
     account: Prisma.$AccountPayload<ExtArgs>
+    creditos_utilizados: Prisma.$AbatimentoCreditoUtilizadoPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1103,6 +1233,7 @@ readonly fields: AbatimentoFieldRefs;
 export interface Prisma__AbatimentoClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   account<T extends Prisma.AccountDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AccountDefaultArgs<ExtArgs>>): Prisma.Prisma__AccountClient<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  creditos_utilizados<T extends Prisma.Abatimento$creditos_utilizadosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Abatimento$creditos_utilizadosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AbatimentoCreditoUtilizadoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1540,6 +1671,30 @@ export type AbatimentoDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many Abatimentos to delete.
    */
   limit?: number
+}
+
+/**
+ * Abatimento.creditos_utilizados
+ */
+export type Abatimento$creditos_utilizadosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AbatimentoCreditoUtilizado
+   */
+  select?: Prisma.AbatimentoCreditoUtilizadoSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AbatimentoCreditoUtilizado
+   */
+  omit?: Prisma.AbatimentoCreditoUtilizadoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AbatimentoCreditoUtilizadoInclude<ExtArgs> | null
+  where?: Prisma.AbatimentoCreditoUtilizadoWhereInput
+  orderBy?: Prisma.AbatimentoCreditoUtilizadoOrderByWithRelationInput | Prisma.AbatimentoCreditoUtilizadoOrderByWithRelationInput[]
+  cursor?: Prisma.AbatimentoCreditoUtilizadoWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AbatimentoCreditoUtilizadoScalarFieldEnum | Prisma.AbatimentoCreditoUtilizadoScalarFieldEnum[]
 }
 
 /**

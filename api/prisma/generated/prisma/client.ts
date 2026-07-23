@@ -72,6 +72,11 @@ export type Role = Prisma.RoleModel
  */
 export type Abatimento = Prisma.AbatimentoModel
 /**
+ * Model AbatimentoCreditoUtilizado
+ * 
+ */
+export type AbatimentoCreditoUtilizado = Prisma.AbatimentoCreditoUtilizadoModel
+/**
  * Model AccountRoles
  * 
  */

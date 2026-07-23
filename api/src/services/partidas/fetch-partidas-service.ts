@@ -1,6 +1,7 @@
 import { ApiError } from "../../utils/ApiError.js";
 import { SettingsRepository } from "../../repositories/Settings-repository.js";
 import type { SapClientProps } from "../account/ListCNPJS-service.js";
+import { AbatimentoCreditosUtilizadosRepository } from "../../repositories/Abatimento-creditos-utilizados-repository.js";
 
 type Resume = {
   totalAPagar: number,
@@ -27,14 +28,17 @@ type SapApiSuccessResponse = {
 }
 
 export class FetchSapPartidasService {  
+  public account_id: number = 0;
   public kunnr_list: SapClientProps[] = [];
   public doc_type: string[] = [""];
   private readonly basicS4Auth: string = "";
   private readonly settingsRepository: SettingsRepository;
+  private readonly abatimentoCreditosUtilizadosRepository: AbatimentoCreditosUtilizadosRepository;
 
   constructor() {
     this.basicS4Auth = Buffer.from(`${process.env.SAP_USER}:${process.env.SAP_USER_PWD}`).toString('base64');
     this.settingsRepository = new SettingsRepository();
+    this.abatimentoCreditosUtilizadosRepository = new AbatimentoCreditosUtilizadosRepository();
   }
 
   public async execute() {
@@ -61,11 +65,11 @@ export class FetchSapPartidasService {
     const response = await request.json() as SapApiSuccessResponse;
 
     if (this.doc_type.length == 0) {
-      const partidas = response.partidas.filter((partida) => this.matchesBackofficeDateRules(
+      const partidas = await this.removeCreditosUtilizados(response.partidas.filter((partida) => this.matchesBackofficeDateRules(
         partida,
         settings.devolucao_days_back,
         settings.venda_days_forward
-      ));
+      )));
 
       return {
         resumo: this.getResumo(partidas),
@@ -76,13 +80,13 @@ export class FetchSapPartidasService {
       let total_a_receber_sa: number = 0;
       let total_a_receber_rv: number = 0;
       
-      partidas_filtradas = response.partidas
+      partidas_filtradas = await this.removeCreditosUtilizados(response.partidas
         .filter((prev) => this.doc_type.includes(prev.blart))
         .filter((partida) => this.matchesBackofficeDateRules(
           partida,
           settings.devolucao_days_back,
           settings.venda_days_forward
-        ));
+        )));
       
       if (this.doc_type.includes("SA") || this.doc_type.includes("DA")) {
         total_a_receber_sa = partidas_filtradas.reduce((prev, partida) => {
@@ -113,6 +117,49 @@ export class FetchSapPartidasService {
         .filter((partida) => partida.blart == "RV" && partida.valor > 0)
         .reduce((total, partida) => total + partida.valor, 0),
     };
+  }
+
+  private async removeCreditosUtilizados(partidas: SapPartidasProps[]) {
+    this.abatimentoCreditosUtilizadosRepository.account_id = this.account_id;
+
+    const creditosUtilizados = await this.abatimentoCreditosUtilizadosRepository.listByAccountId();
+    const partidasJaUtilizadas = this.getPartidasJaUtilizadas(creditosUtilizados);
+
+    return partidas.filter((partida) => {
+      if (!this.isCredito(partida)) {
+        return true;
+      }
+
+      return !partidasJaUtilizadas.has(this.getPartidaKey(partida));
+    });
+  }
+
+  private getPartidasJaUtilizadas(
+    creditosUtilizados: { doc: string; parcela: number; blart: string; referencia: string; valor_utilizado: number }[]
+  ) {
+    const partidasJaUtilizadas = new Set<string>();
+
+    for (const credito of creditosUtilizados) {
+      partidasJaUtilizadas.add(this.getPartidaKey(credito));
+    }
+
+    return partidasJaUtilizadas;
+  }
+
+  private isCredito(partida: SapPartidasProps) {
+    return (
+      partida.valor > 0 &&
+      ["RV", "SA", "DA"].includes(partida.blart)
+    );
+  }
+
+  private getPartidaKey(partida: { doc?: string; parcela?: number; blart?: string; referencia?: string }) {
+    return [
+      partida.doc ?? "",
+      partida.parcela ?? 0,
+      partida.blart ?? "",
+      partida.referencia ?? "",
+    ].join("|");
   }
 
   private matchesBackofficeDateRules(

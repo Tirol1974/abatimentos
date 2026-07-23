@@ -57,6 +57,7 @@ export const ModelName = {
   Settings: 'Settings',
   Role: 'Role',
   Abatimento: 'Abatimento',
+  AbatimentoCreditoUtilizado: 'AbatimentoCreditoUtilizado',
   AccountRoles: 'AccountRoles'
 } as const
 
@@ -154,6 +155,24 @@ export const AbatimentoScalarFieldEnum = {
 } as const
 
 export type AbatimentoScalarFieldEnum = (typeof AbatimentoScalarFieldEnum)[keyof typeof AbatimentoScalarFieldEnum]
+
+
+export const AbatimentoCreditoUtilizadoScalarFieldEnum = {
+  id: 'id',
+  abatimento_id: 'abatimento_id',
+  account_id: 'account_id',
+  doc: 'doc',
+  parcela: 'parcela',
+  tipo: 'tipo',
+  blart: 'blart',
+  referencia: 'referencia',
+  valor_original: 'valor_original',
+  valor_utilizado: 'valor_utilizado',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type AbatimentoCreditoUtilizadoScalarFieldEnum = (typeof AbatimentoCreditoUtilizadoScalarFieldEnum)[keyof typeof AbatimentoCreditoUtilizadoScalarFieldEnum]
 
 
 export const AccountRolesScalarFieldEnum = {

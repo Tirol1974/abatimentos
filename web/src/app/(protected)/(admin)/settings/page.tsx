@@ -156,7 +156,7 @@ export default function SettingsPage() {
           <Spinner className="size-10" />
         </div>
       ) : (
-        <Card className="max-w-4xl">
+        <Card>
           <CardHeader>
             <CardTitle>Backoffice do portal</CardTitle>
             <CardDescription>

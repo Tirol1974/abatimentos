@@ -29,6 +29,7 @@ model Account {
 
   account_roles AccountRoles[]
   abatimento Abatimento[]
+  abatimento_creditos_utilizados AbatimentoCreditoUtilizado[]
   login_codes LoginCode[]
   password_reset_token PasswordResetToken[]
 
@@ -113,11 +114,37 @@ model Abatimento {
 
   account Account @relation(references: [id], fields: [account_id])
   account_id Int
+  creditos_utilizados AbatimentoCreditoUtilizado[]
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 
   @@map("abatimentos")
+}
+
+model AbatimentoCreditoUtilizado {
+  id Int @id @default(autoincrement())
+
+  abatimento Abatimento @relation(references: [id], fields: [abatimento_id], onDelete: Cascade)
+  abatimento_id Int
+
+  account Account @relation(references: [id], fields: [account_id], onDelete: Cascade)
+  account_id Int
+
+  doc String
+  parcela Int
+  tipo String
+  blart String
+  referencia String
+  valor_original Float
+  valor_utilizado Float
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@index([account_id])
+  @@index([account_id, doc, parcela, blart])
+  @@map("abatimento_creditos_utilizados")
 }
 
 model AccountRoles {

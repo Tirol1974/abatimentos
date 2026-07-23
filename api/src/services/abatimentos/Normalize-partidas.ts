@@ -1,5 +1,14 @@
-type PartidaAbatimento = {
+export type PartidaAbatimento = {
+  id?: string;
+  tipo?: string;
+  blart?: string;
+  doc?: string;
+  parcela?: number;
+  dataDocumento?: string;
+  dataVencimento?: string;
   valor: number;
+  referencia?: string;
+  descricao?: string;
 }
 
 export function normalizePartidas(data: unknown): PartidaAbatimento[] {

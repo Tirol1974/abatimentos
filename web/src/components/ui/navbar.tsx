@@ -1,9 +1,11 @@
 'use client';
 
 import {
+  Info,
   Home,
   MenuIcon,
   ReceiptText,
+  Settings,
   Users
 } from 'lucide-react';
 import {
@@ -13,7 +15,7 @@ import {
 } from "./drawer";
 import { Button } from "./button";
 import { SignedAccount, useSignedAccount } from '../../../store/signedAccount';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ApiErrorData } from '../forms/SignIn';
 import { useRouter } from 'next/navigation';
 import { Separator } from './separator';
@@ -30,6 +32,8 @@ export const Navbar = ({
 }: NavbarProps) => {
   const [loading, setLoading] = useState(false);
   const [hasLoggedOut, setHasLoggedOut] = useState(false);
+  const [currentAccount, setCurrentAccount] = useState<SignedAccount | null>(initialAccount);
+  const logoutRequested = useRef(false);
   const [apiError, setApiError] = useState<ApiErrorData>({
     message: "",
     status: ""
@@ -44,12 +48,26 @@ export const Navbar = ({
   const router = useRouter();
 
   useEffect(() => {
-    if (!account && initialAccount) {
+    if (!hasLoggedOut && !account && initialAccount) {
       setSignedAccount(initialAccount);
+      setCurrentAccount(initialAccount);
     }
-  }, [ account, initialAccount, setSignedAccount ]);
+  }, [ account, hasLoggedOut, initialAccount, setSignedAccount ]);
 
-  const signedAccount = hasLoggedOut ? null : account ?? initialAccount;
+  useEffect(() => {
+    if (account && !logoutRequested.current) {
+      setHasLoggedOut(false);
+      setCurrentAccount(account);
+    }
+  }, [ account ]);
+
+  useEffect(() => {
+    if (!account && hasLoggedOut) {
+      logoutRequested.current = false;
+    }
+  }, [ account, hasLoggedOut ]);
+
+  const signedAccount = hasLoggedOut ? null : currentAccount;
 
   const onLogout = async () => {
       setLoading(true);
@@ -74,8 +92,10 @@ export const Navbar = ({
           return;
         }
 
-        logout();
+        logoutRequested.current = true;
+        setCurrentAccount(null);
         setHasLoggedOut(true);
+        logout();
 
         setLoading(false);
         
@@ -133,10 +153,20 @@ export const Navbar = ({
                     Contas
                   </Link>
                   {signedAccount.role == "admin" && (
-                    <Link href="/abatimentos" className="flex gap-2 items-center border-l-0 border-r-0 border-t-0 border w-full justify-center pb-5">
-                      <ReceiptText />
-                      Abatimentos
-                    </Link>
+                    <>
+                      <Link href="/abatimentos" className="flex gap-2 items-center border-l-0 border-r-0 border-t-0 border w-full justify-center pb-5">
+                        <ReceiptText />
+                        Abatimentos
+                      </Link>
+                      <Link href="/settings" className="flex gap-2 items-center border-l-0 border-r-0 border-t-0 border w-full justify-center pb-5">
+                        <Settings />
+                        Configurações
+                      </Link>
+                      <Link href="/sobre" className="flex gap-2 items-center border-l-0 border-r-0 border-t-0 border w-full justify-center pb-5">
+                        <Info />
+                        Sobre
+                      </Link>
+                    </>
                   )}
                 </div>
               </DrawerContent>
@@ -157,6 +187,34 @@ export const Navbar = ({
             <>
               {signedAccount && (
                 <>
+                  {signedAccount.role == "admin" && (
+                    <nav className="flex items-center gap-1 border-r pr-4">
+                      <Button variant="ghost" size="sm" asChild>
+                        <Link href="/accounts">
+                          <Users />
+                          Contas
+                        </Link>
+                      </Button>
+                      <Button variant="ghost" size="sm" asChild>
+                        <Link href="/abatimentos">
+                          <ReceiptText />
+                          Abatimentos
+                        </Link>
+                      </Button>
+                      <Button variant="ghost" size="sm" asChild>
+                        <Link href="/settings">
+                          <Settings />
+                          Configurações
+                        </Link>
+                      </Button>
+                      <Button variant="ghost" size="sm" asChild>
+                        <Link href="/sobre">
+                          <Info />
+                          Sobre
+                        </Link>
+                      </Button>
+                    </nav>
+                  )}
                   <div className="flex min-w-0 flex-col items-end gap-0.5 border-r pr-4">
                     <span className='max-w-72 truncate text-sm font-medium'>{signedAccount?.name}</span>
                     {signedAccount?.cnpj_root && (
