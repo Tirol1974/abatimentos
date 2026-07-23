@@ -51,7 +51,8 @@ export const ChangePasswordForm = () => {
   });
 
   const {
-    account
+    account,
+    setSignedAccount
   } = useSignedAccount();
 
   const router = useRouter();
@@ -74,6 +75,11 @@ export const ChangePasswordForm = () => {
 
   const onSubmit = async (data: ChangePasswordFormData) => {
     setIsSubmitting(true);
+    setApiError({
+      message: "",
+      status: ""
+    });
+
     try {
       const request = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/change-password`, {
@@ -89,11 +95,22 @@ export const ChangePasswordForm = () => {
         const data = await request.json() as ApiErrorData;
 
         setApiError(data);
+
+        return;
+      }
+
+      if (account) {
+        setSignedAccount({
+          ...account,
+          first_login: false,
+        });
       }
 
       return router.replace("/");
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
@@ -190,9 +207,6 @@ export const ChangePasswordForm = () => {
             />
           </FieldGroup>
         </form>
-        <div>
-          {apiError.message}
-        </div>
       </CardContent>
       <CardFooter className="flex-col gap-2">
         {form.formState.isSubmitting ? (
