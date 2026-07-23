@@ -29,8 +29,8 @@ services:
     restart: always
     ports:
       - "3333"
-    env_file:
-      - ./api/.prod.env
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/run/secrets/recaptcha-auth.json
     volumes:
       - /opt/abatimentos/uploads:/usr/src/app/uploads
       - /opt/abatimentos/google/recaptcha-auth.json:/run/secrets/recaptcha-auth.json:ro
