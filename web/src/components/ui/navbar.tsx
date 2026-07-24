@@ -17,7 +17,7 @@ import { Button } from "./button";
 import { SignedAccount, useSignedAccount } from '../../../store/signedAccount';
 import { useEffect, useRef, useState } from 'react';
 import { ApiErrorData } from '../forms/SignIn';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Separator } from './separator';
 import Link from 'next/link';
 import { maskCNPJ } from '@/lib/utils';
@@ -46,6 +46,7 @@ export const Navbar = ({
   } = useSignedAccount();
 
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     if (!hasLoggedOut && !account && initialAccount) {
@@ -69,6 +70,71 @@ export const Navbar = ({
 
   const signedAccount = hasLoggedOut ? null : currentAccount;
 
+  useEffect(() => {
+    if (!currentAccount || hasLoggedOut) {
+      return;
+    }
+
+    let isMounted = true;
+
+    const clearExpiredSession = () => {
+      logoutRequested.current = true;
+      setCurrentAccount(null);
+      setHasLoggedOut(true);
+      logout();
+
+      if (pathname != "/sign-in") {
+        router.replace("/sign-in");
+      }
+    }
+
+    const validateSession = async () => {
+      try {
+        const request = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/auth/me`,
+          {
+            method: "GET",
+            credentials: "include",
+            cache: "no-store",
+          }
+        );
+
+        if (!isMounted) {
+          return;
+        }
+
+        if (!request.ok) {
+          clearExpiredSession();
+          return;
+        }
+
+        const data = await request.json() as { account: SignedAccount };
+
+        setCurrentAccount(data.account);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    const validateSessionWhenVisible = () => {
+      if (document.visibilityState == "visible") {
+        validateSession();
+      }
+    }
+
+    validateSession();
+
+    document.addEventListener("visibilitychange", validateSessionWhenVisible);
+
+    const interval = window.setInterval(validateSession, 300000);
+
+    return () => {
+      isMounted = false;
+      document.removeEventListener("visibilitychange", validateSessionWhenVisible);
+      window.clearInterval(interval);
+    }
+  }, [ currentAccount?.id, hasLoggedOut, logout, pathname, router ]);
+
   const onLogout = async () => {
       setLoading(true);
       try {
@@ -81,12 +147,12 @@ export const Navbar = ({
           credentials: 'include',
           body: JSON.stringify({}),
         });
-  
+
         if (!request.ok) {
           const data = await request.json() as ApiErrorData;
 
           setLoading(false);
-  
+
           setApiError(data);
 
           return;
@@ -98,13 +164,13 @@ export const Navbar = ({
         logout();
 
         setLoading(false);
-        
+
         return router.replace("/sign-in");
       } catch (error) {
         console.log(error);
       }
     }
-  
+
   return (
     <header className="flex items-center justify-center border border-l-0 border-r-0 border-t-0">
       <div className="container flex items-center justify-between px-4 py-3 md:px-6">
@@ -118,7 +184,7 @@ export const Navbar = ({
             />
           </Link>
         </div>
-        
+
         <div className='block md:hidden'>
           {signedAccount && (
             <Drawer direction='right'>
